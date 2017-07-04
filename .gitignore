@@ -36,5 +36,8 @@ Makefile*
 # QtCtreator CMake
 CMakeLists.txt.user
 
+# dia backups
+*.dia~
+
 # doc export
 doc/html/*
