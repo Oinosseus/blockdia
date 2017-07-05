@@ -117,8 +117,8 @@ void BDGraphicItemBlock::paint(QPainter *painter, const QStyleOptionGraphicsItem
         QString s = cnstrnt->name() + " = " + cnstrnt->strValue();
         int w = fmDefault.width(s);
         int nextHeight = overallHeight + 5 + fmDefault.ascent() + fmDefault.descent() + 5;
-        painter->fillRect(QRectF(overallLeft, overallHeight, overallWidth, nextHeight), QBrush(this->backgroundConstraint));
-        painter->drawRect(overallLeft, overallHeight, overallWidth, nextHeight);
+        painter->fillRect(QRectF(overallLeft, overallHeight, overallWidth, nextHeight - overallHeight), QBrush(this->backgroundConstraint));
+        painter->drawRect(overallLeft, overallHeight, overallWidth, nextHeight - overallHeight);
         painter->drawText(-w/2, overallHeight + 5 + fmDefault.ascent(), s);
         overallHeight = nextHeight;
     }
