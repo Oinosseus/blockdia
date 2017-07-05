@@ -22,15 +22,9 @@ public:
     QRectF boundingRect() const;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
 
-public slots:
-    void updateBlockInfos();
-
 private:
     BDBlock *block;
-    QString instanceName;
-    QString typeName;
-    QString tiId;
-    QRectF  currentBoundingRect;
+    QRectF currentBoundingRect;
 };
 
 #endif // BDGRAPHICSITEMBLOCK_H

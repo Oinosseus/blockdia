@@ -7,24 +7,19 @@
 BDGraphicItemBlock::BDGraphicItemBlock(BDBlock *block) : QGraphicsItem(NULL)
 {
     this->block = block;
-    this->typeName = "";
-    this->instanceName = "";
-    this->tiId = "";
-
-    currentBoundingRect = QRectF();
-
-    // repaint
-    this->updateBlockInfos();
+    this->currentBoundingRect = QRectF();
 }
 
 QRectF BDGraphicItemBlock::boundingRect() const
 {
-    return currentBoundingRect;
+    return this->currentBoundingRect;
 }
 
 
 void BDGraphicItemBlock::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
+    Q_UNUSED(option);
+    Q_UNUSED(widget);
 
     ///////////////
     // Setup Fonts
@@ -37,7 +32,7 @@ void BDGraphicItemBlock::paint(QPainter *painter, const QStyleOptionGraphicsItem
     fontInstanceName.setBold(true);
     fontInstanceName.setItalic(false);
     QFontMetrics fmInstanceName = QFontMetrics(fontInstanceName);
-    int widthInstanceName   = fmInstanceName.width(this->instanceName);
+    int widthInstanceName   = fmInstanceName.width(this->block->instanceName());
     int ascentInstanceName  = fmInstanceName.ascent();
     int descentInstanceName = fmInstanceName.descent();
 
@@ -46,7 +41,7 @@ void BDGraphicItemBlock::paint(QPainter *painter, const QStyleOptionGraphicsItem
     fontTypeName.setBold(false);
     fontTypeName.setItalic(false);
     QFontMetrics fmTypeName = QFontMetrics(fontTypeName);
-    int widthTypeName   = fmTypeName.width(this->typeName);
+    int widthTypeName   = fmTypeName.width(this->block->typeName());
     int ascentTypeName  = fmTypeName.ascent();
     int descentTypeName = fmTypeName.descent();
 
@@ -56,9 +51,9 @@ void BDGraphicItemBlock::paint(QPainter *painter, const QStyleOptionGraphicsItem
     fontId.setBold(false);
     fontId.setItalic(true);
     QFontMetrics fmId = QFontMetrics(fontId);
-    int widthId   = fmId.width(this->tiId);
-    int ascentId  = fmId.ascent();
-    int descentId = fmId.descent();
+    int widthId   = fmId.width(this->block->typeId() + this->block->instanceId());
+//    int ascentId  = fmId.ascent();
+//    int descentId = fmId.descent();
 
 
     ///////////////////////
@@ -83,28 +78,13 @@ void BDGraphicItemBlock::paint(QPainter *painter, const QStyleOptionGraphicsItem
     painter->fillRect(QRectF(-10 - widthOverall/2, 0, 20 + widthOverall, yBlockHeader), QBrush(this->block->color()));
     painter->drawRect(-10 - widthOverall/2, 0, 20 + widthOverall, yBlockHeader);
     painter->setFont(fontInstanceName);
-    painter->drawText(-widthInstanceName/2, yBaselineInstanceName, this->instanceName);
+    painter->drawText(-widthInstanceName/2, yBaselineInstanceName, this->block->instanceName());
     painter->setFont(fontTypeName);
-    painter->drawText(-widthHeader2nLine/2, yBaselineTypeName, this->typeName);
+    painter->drawText(-widthHeader2nLine/2, yBaselineTypeName, this->block->typeName());
     painter->setFont(fontId);
-    painter->drawText(widthHeader2nLine/2 - widthId, yBaselineTypeName, this->tiId);
+    painter->drawText(widthHeader2nLine/2 - widthId, yBaselineTypeName, this->block->typeId() + this->block->instanceId());
 
     //////////////////////////
     // Remember Bounding Rect
     this->currentBoundingRect = QRectF(-10 - widthOverall/2, 0, 20 + widthOverall, yBlockHeader);
 }
-
-void BDGraphicItemBlock::updateBlockInfos()
-{
-    // prepare graphics change
-    this->prepareGeometryChange();
-
-    // update data from block
-    this->typeName = this->block->typeName();
-    this->instanceName = this->block->instanceName();
-    this->tiId = this->block->typeId() + this->block->instanceId();
-
-    // call painter to update
-    this->update();
-}
-
