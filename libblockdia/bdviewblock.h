@@ -1,11 +1,14 @@
 #ifndef BDVIEWBLOCK_H
 #define BDVIEWBLOCK_H
 
-#include <QObject>
-#include <QWidget>
 #include "libblockdia_global.h"
 
-class LIBBLOCKDIASHARED_EXPORT BDViewBlock : public QWidget
+#include <QObject>
+#include <QGraphicsView>
+
+#include <bdblock.h>
+
+class LIBBLOCKDIASHARED_EXPORT BDViewBlock : public QGraphicsView
 {
     Q_OBJECT
 public:
