@@ -80,6 +80,11 @@ void BDBlock::addConstraint(BDConstraint *cnstrnt)
     this->constraintsList.append(cnstrnt);
 }
 
+QList<BDConstraint *> BDBlock::getConstraints()
+{
+    return this->constraintsList;
+}
+
 BDConstraint *BDBlock::getConstraint(const QString name)
 {
     BDConstraint *ret = NULL;

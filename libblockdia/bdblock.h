@@ -115,6 +115,12 @@ public:
     void addConstraint(BDConstraint *cnstrnt);
 
     /**
+     * @brief Retrieving a list of current constraints.
+     * @return The current list of constraints.
+     */
+    QList<BDConstraint *> getConstraints();
+
+    /**
      * @brief BDBlock::getConstraint
      * @param name The name of the constraint.
      * @return Returns a pointer to BDConstraint or NULL if no constraint could be found.
