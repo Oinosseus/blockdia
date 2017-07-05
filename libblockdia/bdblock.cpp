@@ -1,4 +1,5 @@
 #include "bdblock.h"
+#include <QDebug>
 
 BDBlock::BDBlock(QObject *parent) : QObject(parent)
 {
@@ -91,7 +92,7 @@ BDConstraint *BDBlock::getConstraint(const QString name)
 
     // find constraint by name
     for (int i = 0; i < this->constraintsList.size(); ++i) {
-        if (this->constraintsList.at(i)->Name == name) {
+        if (this->constraintsList.at(i)->name() == name) {
             ret = this->constraintsList.at(i);
             break;
         }

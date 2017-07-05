@@ -21,6 +21,7 @@ public:
     explicit BDGraphicItemBlock(BDBlock *block);
     QRectF boundingRect() const;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
+    QColor backgroundConstraint = QColor("#ffd");
 
 private:
     BDBlock *block;
