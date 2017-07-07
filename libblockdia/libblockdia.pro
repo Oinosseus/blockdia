@@ -30,7 +30,8 @@ SOURCES += libblockdia.cpp \
     viewblock.cpp \
     parameter.cpp \
     parameterint.cpp \
-    input.cpp
+    input.cpp \
+    output.cpp
 
 HEADERS += libblockdia.h\
     block.h \
@@ -38,7 +39,8 @@ HEADERS += libblockdia.h\
     viewblock.h \
     parameter.h \
     parameterint.h \
-    input.h
+    input.h \
+    output.h
 
 unix {
     target.path = /usr/lib

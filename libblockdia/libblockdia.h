@@ -14,8 +14,9 @@ namespace bd {
 
 // forward declarations for contained classes
 class Block;
-class Input;
 class Parameter;
+class Input;
+class Output;
 
 } // namespace bd
 

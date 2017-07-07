@@ -17,8 +17,9 @@ namespace bd {
  */
 class LIBBLOCKDIASHARED_EXPORT Block : public QObject
 {
-    friend class Input;
     friend class Parameter;
+    friend class Input;
+    friend class Output;
 
     Q_OBJECT
 public:
@@ -146,6 +147,7 @@ private:
     QColor  _Color;
     QList<Parameter *> parametersList;
     QList<Input *> inputsList;
+    QList<Output *> outputsList;
 };
 
 } // namespace bd
