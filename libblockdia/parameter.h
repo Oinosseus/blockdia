@@ -9,7 +9,7 @@
 namespace bd {
 
 /**
- * @brief Interface for paramerters.
+ * @brief Common base class (interface) for paramerters.
  */
 class LIBBLOCKDIASHARED_EXPORT Parameter : public QObject
 {
