@@ -26,18 +26,18 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += libblockdia.cpp \
     block.cpp \
-    constraint.cpp \
-    constraintint.cpp \
     graphicitemblock.cpp \
-    viewblock.cpp
+    viewblock.cpp \
+    parameter.cpp \
+    parameterint.cpp
 
 HEADERS += libblockdia.h\
         libblockdia_global.h \
     block.h \
-    constraint.h \
-    constraintint.h \
     graphicitemblock.h \
-    viewblock.h
+    viewblock.h \
+    parameter.h \
+    parameterint.h
 
 unix {
     target.path = /usr/lib

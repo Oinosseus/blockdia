@@ -5,7 +5,7 @@
 #include <QString>
 #include <QList>
 #include <QColor>
-#include <constraint.h>
+#include <parameter.h>
 
 #include "libblockdia_global.h"
 
@@ -114,20 +114,20 @@ public:
      * @brief BDBlock::addConstraint
      * @param cnstrnt The constraint that shall be added to this block.
      */
-    void addConstraint(Constraint *cnstrnt);
+    void addConstraint(Parameter *cnstrnt);
 
     /**
      * @brief Retrieving a list of current constraints.
      * @return The current list of constraints.
      */
-    QList<Constraint *> getConstraints();
+    QList<Parameter *> getConstraints();
 
     /**
      * @brief BDBlock::getConstraint
      * @param name The name of the constraint.
      * @return Returns a pointer to BDConstraint or NULL if no constraint could be found.
      */
-    Constraint *getConstraint(const QString name);
+    Parameter *getConstraint(const QString name);
 
 
 
@@ -146,7 +146,7 @@ private:
     QString _InstanceId;
     QString _InstanceName;
     QColor  _Color;
-    QList<Constraint *> constraintsList;
+    QList<Parameter *> constraintsList;
 };
 
 } // namespace bd

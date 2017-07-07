@@ -1,7 +1,7 @@
 #include "viewblock.h"
 #include <QGraphicsScene>
 #include <graphicitemblock.h>
-#include <constraintint.h>
+#include <parameterint.h>
 #include <QDebug>
 
 bd::ViewBlock::ViewBlock(QWidget *parent) : QGraphicsView(parent)
@@ -16,15 +16,18 @@ bd::ViewBlock::ViewBlock(QWidget *parent) : QGraphicsView(parent)
     myBlock->setColor(QColor("#00aa00"));
 
     // add constraints
-    Constraint *cnstrnt;
-    cnstrnt = new ConstraintInt();
+    ParameterInt *cnstrnt;
+    cnstrnt = new ParameterInt();
     cnstrnt->setName("Constraint1");
+    cnstrnt->setValue(-27);
     myBlock->addConstraint(cnstrnt);
-    cnstrnt = new ConstraintInt();
+    cnstrnt = new ParameterInt();
     cnstrnt->setName("Constraint2");
+    cnstrnt->setValue(32768);
     myBlock->addConstraint(cnstrnt);
-    cnstrnt = new ConstraintInt();
+    cnstrnt = new ParameterInt();
     cnstrnt->setName("Constraint3");
+    cnstrnt->setValue("123");
     myBlock->addConstraint(cnstrnt);
 
     GraphicItemBlock *myBlockGItem = new GraphicItemBlock(myBlock);

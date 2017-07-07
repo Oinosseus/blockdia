@@ -76,19 +76,19 @@ void bd::Block::setColor(QColor color)
     this->_Color = color;
 }
 
-void bd::Block::addConstraint(Constraint *cnstrnt)
+void bd::Block::addConstraint(Parameter *cnstrnt)
 {
     this->constraintsList.append(cnstrnt);
 }
 
-QList<bd::Constraint *> bd::Block::getConstraints()
+QList<bd::Parameter *> bd::Block::getConstraints()
 {
     return this->constraintsList;
 }
 
-bd::Constraint *bd::Block::getConstraint(const QString name)
+bd::Parameter *bd::Block::getConstraint(const QString name)
 {
-    Constraint *ret = NULL;
+    Parameter *ret = NULL;
 
     // find constraint by name
     for (int i = 0; i < this->constraintsList.size(); ++i) {
