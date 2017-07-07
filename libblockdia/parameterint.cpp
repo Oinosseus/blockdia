@@ -1,7 +1,7 @@
 #include "parameterint.h"
 #include <limits.h>
 
-bd::ParameterInt::ParameterInt(QObject *parent)
+bd::ParameterInt::ParameterInt(Block *parent) : Parameter(parent)
 {
     this->_minimum = INT_MIN;
     this->_maximum = INT_MAX;

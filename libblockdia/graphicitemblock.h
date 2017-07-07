@@ -1,7 +1,7 @@
 #ifndef BDGRAPHICSITEMBLOCK_H
 #define BDGRAPHICSITEMBLOCK_H
 
-#include "libblockdia_global.h"
+#include "libblockdia.h"
 
 #include <QObject>
 #include <QGraphicsItem>

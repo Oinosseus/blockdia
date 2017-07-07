@@ -1,7 +1,7 @@
 #ifndef BDVIEWBLOCK_H
 #define BDVIEWBLOCK_H
 
-#include "libblockdia_global.h"
+#include "libblockdia.h"
 
 #include <QObject>
 #include <QGraphicsView>

@@ -1,9 +1,9 @@
 #ifndef BDPARAMETERINT_H
 #define BDPARAMETERINT_H
 
-#include <parameter.h>
+#include "libblockdia.h"
 
-#include "libblockdia_global.h"
+#include <parameter.h>
 
 namespace bd {
 
@@ -15,7 +15,7 @@ class LIBBLOCKDIASHARED_EXPORT ParameterInt : public Parameter
 {
 public:
 
-    ParameterInt(QObject *parent = 0);
+    ParameterInt(Block *parent = 0);
 
     /**
      * @brief The minimum allowed parameter value

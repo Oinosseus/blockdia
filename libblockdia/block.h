@@ -6,8 +6,9 @@
 #include <QList>
 #include <QColor>
 #include <parameter.h>
+#include <input.h>
 
-#include "libblockdia_global.h"
+#include "libblockdia.h"
 
 namespace bd {
 
@@ -16,6 +17,9 @@ namespace bd {
  */
 class LIBBLOCKDIASHARED_EXPORT Block : public QObject
 {
+    friend class Input;
+    friend class Parameter;
+
     Q_OBJECT
 public:
 
@@ -111,23 +115,17 @@ public:
     // ------------------------------------------------------------------------
 
     /**
-     * @brief BDBlock::addConstraint
-     * @param cnstrnt The constraint that shall be added to this block.
+     * @brief Retrieving a list of current parameters.
+     * @return The current list of parameters.
      */
-    void addConstraint(Parameter *cnstrnt);
+    QList<Parameter *> getParameters();
 
     /**
-     * @brief Retrieving a list of current constraints.
-     * @return The current list of constraints.
+     * @brief Get a certain parameter
+     * @param name The name of the parameter.
+     * @return Returns a pointer to the parameter or NULL if no the parameter could be found.
      */
-    QList<Parameter *> getConstraints();
-
-    /**
-     * @brief BDBlock::getConstraint
-     * @param name The name of the constraint.
-     * @return Returns a pointer to BDConstraint or NULL if no constraint could be found.
-     */
-    Parameter *getConstraint(const QString name);
+    Parameter *getParameter(const QString name);
 
 
 
@@ -146,7 +144,8 @@ private:
     QString _InstanceId;
     QString _InstanceName;
     QColor  _Color;
-    QList<Parameter *> constraintsList;
+    QList<Parameter *> parametersList;
+    QList<Input *> inputsList;
 };
 
 } // namespace bd

@@ -1,10 +1,12 @@
 #ifndef BDPARAMETER_H
 #define BDPARAMETER_H
 
+#include "libblockdia.h"
+
 #include <QObject>
 #include <QString>
 
-#include "libblockdia_global.h"
+#include <block.h>
 
 namespace bd {
 
@@ -20,7 +22,7 @@ public:
      * @brief Constructing a parameter
      * @param parent
      */
-    explicit Parameter(QObject *parent = 0);
+    explicit Parameter(Block *parent);
 
     /**
      * @brief The name of the parameter
@@ -78,6 +80,7 @@ signals:
     void somethingHasChanged();
 
 private:
+    Block *parent;
     QString _name;
     bool _isPublic;
 };

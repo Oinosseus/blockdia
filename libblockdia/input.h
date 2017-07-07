@@ -1,6 +1,8 @@
 #ifndef INPUT_H
 #define INPUT_H
 
+#include "libblockdia.h"
+
 #include <QObject>
 #include <block.h>
 
@@ -11,7 +13,7 @@ namespace  bd {
  * Input objects represent inputs for Blocks.
  * Input objects can be connected to exactely one output.
  */
-class Input : public QObject
+class LIBBLOCKDIASHARED_EXPORT Input : public QObject
 {
     Q_OBJECT
 public:

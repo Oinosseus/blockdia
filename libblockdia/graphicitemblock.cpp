@@ -74,8 +74,8 @@ void bd::GraphicItemBlock::paint(QPainter *painter, const QStyleOptionGraphicsIt
 
     // block constraints
     int widthConstraints = 0;
-    for (int i=0; i < this->block->getConstraints().size(); ++i) {
-        Parameter *cnstrnt = this->block->getConstraints().at(i);
+    for (int i=0; i < this->block->getParameters().size(); ++i) {
+        Parameter *cnstrnt = this->block->getParameters().at(i);
         QString s = cnstrnt->name() + " = " + cnstrnt->strValue();
         int w = fmDefault.width(s);
         if (w > widthConstraints) widthConstraints = w;
@@ -112,8 +112,8 @@ void bd::GraphicItemBlock::paint(QPainter *painter, const QStyleOptionGraphicsIt
 
     // draw constraints
     painter->setFont(fontDefault);
-    for (int i=0; i < this->block->getConstraints().size(); ++i) {
-        Parameter *cnstrnt = this->block->getConstraints().at(i);
+    for (int i=0; i < this->block->getParameters().size(); ++i) {
+        Parameter *cnstrnt = this->block->getParameters().at(i);
         QString s = cnstrnt->name() + " = " + cnstrnt->strValue();
         int w = fmDefault.width(s);
         int nextHeight = overallHeight + 5 + fmDefault.ascent() + fmDefault.descent() + 5;

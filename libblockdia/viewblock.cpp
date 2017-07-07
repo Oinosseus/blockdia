@@ -17,18 +17,15 @@ bd::ViewBlock::ViewBlock(QWidget *parent) : QGraphicsView(parent)
 
     // add constraints
     ParameterInt *cnstrnt;
-    cnstrnt = new ParameterInt();
+    cnstrnt = new ParameterInt(myBlock);
     cnstrnt->setName("Constraint1");
     cnstrnt->setValue(-27);
-    myBlock->addConstraint(cnstrnt);
-    cnstrnt = new ParameterInt();
+    cnstrnt = new ParameterInt(myBlock);
     cnstrnt->setName("Constraint2");
     cnstrnt->setValue(32768);
-    myBlock->addConstraint(cnstrnt);
-    cnstrnt = new ParameterInt();
+    cnstrnt = new ParameterInt(myBlock);
     cnstrnt->setName("Constraint3");
     cnstrnt->setValue("123");
-    myBlock->addConstraint(cnstrnt);
 
     GraphicItemBlock *myBlockGItem = new GraphicItemBlock(myBlock);
 

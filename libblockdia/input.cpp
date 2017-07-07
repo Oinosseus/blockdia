@@ -4,6 +4,9 @@ bd::Input::Input(Block *block) : QObject(block)
 {
     this->parent = block;
     this->_name = "";
+
+    // add this input to the inputs list of the block
+    this->parent->inputsList.append(this);
 }
 
 QString bd::Input::name()

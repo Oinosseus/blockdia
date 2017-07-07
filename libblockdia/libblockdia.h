@@ -1,14 +1,23 @@
 #ifndef LIBBLOCKDIA_H
 #define LIBBLOCKDIA_H
 
-#include <QObject>
-#include "libblockdia_global.h"
+#include <QtCore/qglobal.h>
 
-class LIBBLOCKDIASHARED_EXPORT Libblockdia
-{
+#if defined(LIBBLOCKDIA_LIBRARY)
+#  define LIBBLOCKDIASHARED_EXPORT Q_DECL_EXPORT
+#else
+#  define LIBBLOCKDIASHARED_EXPORT Q_DECL_IMPORT
+#endif
 
-public:
-    Libblockdia();
-};
+
+namespace bd {
+
+// forward declarations for contained classes
+class Block;
+class Input;
+class Parameter;
+
+} // namespace bd
+
 
 #endif // LIBBLOCKDIA_H

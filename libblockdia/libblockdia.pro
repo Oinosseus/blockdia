@@ -33,7 +33,6 @@ SOURCES += libblockdia.cpp \
     input.cpp
 
 HEADERS += libblockdia.h\
-        libblockdia_global.h \
     block.h \
     graphicitemblock.h \
     viewblock.h \
