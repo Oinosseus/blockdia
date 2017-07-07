@@ -1,7 +1,7 @@
-#include "bdblock.h"
+#include "block.h"
 #include <QDebug>
 
-BDBlock::BDBlock(QObject *parent) : QObject(parent)
+bd::Block::Block(QObject *parent) : QObject(parent)
 {
     // set default params
     this->_TypeId       = "";
@@ -13,12 +13,12 @@ BDBlock::BDBlock(QObject *parent) : QObject(parent)
 
 
 
-QString BDBlock::typeId()
+QString bd::Block::typeId()
 {
     return this->_TypeId;
 }
 
-void BDBlock::setTypeId(const QString &id)
+void bd::Block::setTypeId(const QString &id)
 {
     if (id != this->_TypeId) {
         this->_TypeId = id;
@@ -26,12 +26,12 @@ void BDBlock::setTypeId(const QString &id)
     }
 }
 
-QString BDBlock::typeName()
+QString bd::Block::typeName()
 {
     return this->_TypeName;
 }
 
-void BDBlock::setTypeName(const QString &name)
+void bd::Block::setTypeName(const QString &name)
 {
     if (name != this->_TypeName) {
         this->_TypeName = name;
@@ -40,12 +40,12 @@ void BDBlock::setTypeName(const QString &name)
 }
 
 
-QString BDBlock::instanceId()
+QString bd::Block::instanceId()
 {
     return this->_InstanceId;
 }
 
-void BDBlock::setInstanceId(const QString &id)
+void bd::Block::setInstanceId(const QString &id)
 {
     if (id != this->_InstanceId) {
         this->_InstanceId = id;
@@ -53,12 +53,12 @@ void BDBlock::setInstanceId(const QString &id)
     }
 }
 
-QString BDBlock::instanceName()
+QString bd::Block::instanceName()
 {
     return this->_InstanceName;
 }
 
-void BDBlock::setInstanceName(const QString &name)
+void bd::Block::setInstanceName(const QString &name)
 {
     if (name != this->_InstanceName) {
         this->_InstanceName = name;
@@ -66,29 +66,29 @@ void BDBlock::setInstanceName(const QString &name)
     }
 }
 
-QColor BDBlock::color()
+QColor bd::Block::color()
 {
     return this->_Color;
 }
 
-void BDBlock::setColor(QColor color)
+void bd::Block::setColor(QColor color)
 {
     this->_Color = color;
 }
 
-void BDBlock::addConstraint(BDConstraint *cnstrnt)
+void bd::Block::addConstraint(Constraint *cnstrnt)
 {
     this->constraintsList.append(cnstrnt);
 }
 
-QList<BDConstraint *> BDBlock::getConstraints()
+QList<bd::Constraint *> bd::Block::getConstraints()
 {
     return this->constraintsList;
 }
 
-BDConstraint *BDBlock::getConstraint(const QString name)
+bd::Constraint *bd::Block::getConstraint(const QString name)
 {
-    BDConstraint *ret = NULL;
+    Constraint *ret = NULL;
 
     // find constraint by name
     for (int i = 0; i < this->constraintsList.size(); ++i) {

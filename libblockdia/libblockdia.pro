@@ -25,19 +25,19 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += libblockdia.cpp \
-    bdviewblock.cpp \
-    bdgraphicitemblock.cpp \
-    bdconstraintint.cpp \
-    bdconstraint.cpp \
-    bdblock.cpp
+    block.cpp \
+    constraint.cpp \
+    constraintint.cpp \
+    graphicitemblock.cpp \
+    viewblock.cpp
 
 HEADERS += libblockdia.h\
         libblockdia_global.h \
-    bdviewblock.h \
-    bdgraphicitemblock.h \
-    bdconstraintint.h \
-    bdconstraint.h \
-    bdblock.h
+    block.h \
+    constraint.h \
+    constraintint.h \
+    graphicitemblock.h \
+    viewblock.h
 
 unix {
     target.path = /usr/lib

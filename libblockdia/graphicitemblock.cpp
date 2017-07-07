@@ -1,22 +1,22 @@
-#include "bdgraphicitemblock.h"
+#include "graphicitemblock.h"
 #include <QBrush>
 #include <QColor>
 #include <QFontMetrics>
 
 
-BDGraphicItemBlock::BDGraphicItemBlock(BDBlock *block) : QGraphicsItem(NULL)
+bd::GraphicItemBlock::GraphicItemBlock(Block *block) : QGraphicsItem(NULL)
 {
     this->block = block;
     this->currentBoundingRect = QRectF();
 }
 
-QRectF BDGraphicItemBlock::boundingRect() const
+QRectF bd::GraphicItemBlock::boundingRect() const
 {
     return this->currentBoundingRect;
 }
 
 
-void BDGraphicItemBlock::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
+void bd::GraphicItemBlock::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
     Q_UNUSED(option);
     Q_UNUSED(widget);
@@ -75,7 +75,7 @@ void BDGraphicItemBlock::paint(QPainter *painter, const QStyleOptionGraphicsItem
     // block constraints
     int widthConstraints = 0;
     for (int i=0; i < this->block->getConstraints().size(); ++i) {
-        BDConstraint *cnstrnt = this->block->getConstraints().at(i);
+        Constraint *cnstrnt = this->block->getConstraints().at(i);
         QString s = cnstrnt->name() + " = " + cnstrnt->strValue();
         int w = fmDefault.width(s);
         if (w > widthConstraints) widthConstraints = w;
@@ -113,7 +113,7 @@ void BDGraphicItemBlock::paint(QPainter *painter, const QStyleOptionGraphicsItem
     // draw constraints
     painter->setFont(fontDefault);
     for (int i=0; i < this->block->getConstraints().size(); ++i) {
-        BDConstraint *cnstrnt = this->block->getConstraints().at(i);
+        Constraint *cnstrnt = this->block->getConstraints().at(i);
         QString s = cnstrnt->name() + " = " + cnstrnt->strValue();
         int w = fmDefault.width(s);
         int nextHeight = overallHeight + 5 + fmDefault.ascent() + fmDefault.descent() + 5;

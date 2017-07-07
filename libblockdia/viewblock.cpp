@@ -1,14 +1,14 @@
-#include "bdviewblock.h"
+#include "viewblock.h"
 #include <QGraphicsScene>
-#include <bdgraphicitemblock.h>
-#include <bdconstraintint.h>
+#include <graphicitemblock.h>
+#include <constraintint.h>
 #include <QDebug>
 
-BDViewBlock::BDViewBlock(QWidget *parent) : QGraphicsView(parent)
+bd::ViewBlock::ViewBlock(QWidget *parent) : QGraphicsView(parent)
 {
 
     // create a test block
-    BDBlock *myBlock = new BDBlock();
+    Block *myBlock = new Block();
     myBlock->setTypeName("Compensated Calibration");
     myBlock->setTypeId("Cal1");
     myBlock->setInstanceName("Pressure Temp. Compensation");
@@ -16,18 +16,18 @@ BDViewBlock::BDViewBlock(QWidget *parent) : QGraphicsView(parent)
     myBlock->setColor(QColor("#00aa00"));
 
     // add constraints
-    BDConstraint *cnstrnt;
-    cnstrnt = new BDConstraint();
+    Constraint *cnstrnt;
+    cnstrnt = new ConstraintInt();
     cnstrnt->setName("Constraint1");
     myBlock->addConstraint(cnstrnt);
-    cnstrnt = new BDConstraint();
+    cnstrnt = new ConstraintInt();
     cnstrnt->setName("Constraint2");
     myBlock->addConstraint(cnstrnt);
-    cnstrnt = new BDConstraint();
+    cnstrnt = new ConstraintInt();
     cnstrnt->setName("Constraint3");
     myBlock->addConstraint(cnstrnt);
 
-    BDGraphicItemBlock *myBlockGItem = new BDGraphicItemBlock(myBlock);
+    GraphicItemBlock *myBlockGItem = new GraphicItemBlock(myBlock);
 
     QGraphicsScene *scene = new QGraphicsScene(this);
     scene->setBackgroundBrush(QBrush(QColor("#fffcfc")));

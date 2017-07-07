@@ -1,6 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include "bdviewblock.h"
+#include "viewblock.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -8,7 +8,7 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    BDViewBlock *view = new BDViewBlock();
+    bd::ViewBlock *view = new bd::ViewBlock();
     this->setCentralWidget(view);
 }
 

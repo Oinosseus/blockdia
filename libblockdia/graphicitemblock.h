@@ -13,19 +13,23 @@
 #include <QGraphicsRectItem>
 #include <QList>
 #include <QString>
-#include <bdblock.h>
+#include <block.h>
 
-class LIBBLOCKDIASHARED_EXPORT BDGraphicItemBlock : public QGraphicsItem
+namespace bd {
+
+class LIBBLOCKDIASHARED_EXPORT GraphicItemBlock : public QGraphicsItem
 {
 public:
-    explicit BDGraphicItemBlock(BDBlock *block);
+    explicit GraphicItemBlock(Block *block);
     QRectF boundingRect() const;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
     QColor backgroundConstraint = QColor("#ffd");
 
 private:
-    BDBlock *block;
+    Block *block;
     QRectF currentBoundingRect;
 };
+
+} // namespace bd
 
 #endif // BDGRAPHICSITEMBLOCK_H

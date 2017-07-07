@@ -6,17 +6,21 @@
 #include <QObject>
 #include <QGraphicsView>
 
-#include <bdblock.h>
+#include <block.h>
 
-class LIBBLOCKDIASHARED_EXPORT BDViewBlock : public QGraphicsView
+namespace bd {
+
+class LIBBLOCKDIASHARED_EXPORT ViewBlock : public QGraphicsView
 {
     Q_OBJECT
 public:
-    explicit BDViewBlock(QWidget *parent = 0);
+    explicit ViewBlock(QWidget *parent = 0);
 
 signals:
 
 public slots:
 };
+
+} // namespace bd
 
 #endif // BDVIEWBLOCK_H

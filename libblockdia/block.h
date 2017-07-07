@@ -5,14 +5,16 @@
 #include <QString>
 #include <QList>
 #include <QColor>
-#include <bdconstraint.h>
+#include <constraint.h>
 
 #include "libblockdia_global.h"
+
+namespace bd {
 
 /**
  * @brief Data storage class for a block representation.
  */
-class LIBBLOCKDIASHARED_EXPORT BDBlock : public QObject
+class LIBBLOCKDIASHARED_EXPORT Block : public QObject
 {
     Q_OBJECT
 public:
@@ -21,7 +23,7 @@ public:
      * @brief Construct a BDBlock
      * @param parent The Qt parent pointer.
      */
-    explicit BDBlock(QObject *parent = 0);
+    explicit Block(QObject *parent = 0);
 
     // ------------------------------------------------------------------------
     //                                Properties
@@ -112,20 +114,20 @@ public:
      * @brief BDBlock::addConstraint
      * @param cnstrnt The constraint that shall be added to this block.
      */
-    void addConstraint(BDConstraint *cnstrnt);
+    void addConstraint(Constraint *cnstrnt);
 
     /**
      * @brief Retrieving a list of current constraints.
      * @return The current list of constraints.
      */
-    QList<BDConstraint *> getConstraints();
+    QList<Constraint *> getConstraints();
 
     /**
      * @brief BDBlock::getConstraint
      * @param name The name of the constraint.
      * @return Returns a pointer to BDConstraint or NULL if no constraint could be found.
      */
-    BDConstraint *getConstraint(const QString name);
+    Constraint *getConstraint(const QString name);
 
 
 
@@ -144,7 +146,9 @@ private:
     QString _InstanceId;
     QString _InstanceName;
     QColor  _Color;
-    QList<BDConstraint *> constraintsList;
+    QList<Constraint *> constraintsList;
 };
+
+} // namespace bd
 
 #endif // BDBLOCK_H
