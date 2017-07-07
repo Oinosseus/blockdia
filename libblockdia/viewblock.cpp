@@ -1,8 +1,12 @@
 #include "viewblock.h"
+
 #include <QGraphicsScene>
+#include <QDebug>
+
 #include <graphicitemblock.h>
 #include <parameterint.h>
-#include <QDebug>
+#include <input.h>
+#include <output.h>
 
 bd::ViewBlock::ViewBlock(QWidget *parent) : QGraphicsView(parent)
 {
@@ -15,14 +19,25 @@ bd::ViewBlock::ViewBlock(QWidget *parent) : QGraphicsView(parent)
     myBlock->setInstanceId("I1");
     myBlock->setColor(QColor("#00aa00"));
 
-    // add constraints
-    ParameterInt *cnstrnt;
-    cnstrnt = new ParameterInt(myBlock, "Constraint1");
-    cnstrnt->setValue(-27);
-    cnstrnt = new ParameterInt(myBlock, "Constraint2");
-    cnstrnt->setValue(32768);
-    cnstrnt = new ParameterInt(myBlock, "Constraint3");
-    cnstrnt->setValue("123");
+    // add parameters
+    ParameterInt *param;
+    param = new ParameterInt(myBlock, "Parameter1");
+    param->setValue(-27);
+    param = new ParameterInt(myBlock, "Parameter2");
+    param->setValue(32768);
+    param = new ParameterInt(myBlock, "Parameter3");
+    param->setValue("123");
+
+    // add inputs
+    Input *inp;
+    inp = new Input(myBlock, "Input1");
+    inp = new Input(myBlock, "Input2");
+    inp = new Input(myBlock, "Input3");
+
+    // add outputs
+    Output *outp;
+    outp = new Output(myBlock, "Out1");
+    outp = new Output(myBlock, "Out2");
 
     GraphicItemBlock *myBlockGItem = new GraphicItemBlock(myBlock);
 
