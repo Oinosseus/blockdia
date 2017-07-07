@@ -1,14 +1,16 @@
 #ifndef BDBLOCK_H
 #define BDBLOCK_H
 
+#include "libblockdia.h"
+
 #include <QObject>
 #include <QString>
 #include <QList>
 #include <QColor>
+
 #include <parameter.h>
 #include <input.h>
-
-#include "libblockdia.h"
+#include <output.h>
 
 namespace bd {
 
@@ -109,15 +111,9 @@ public:
      */
     void setColor(QColor color);
 
-
-
-    // ------------------------------------------------------------------------
-    //                                   Methods
-    // ------------------------------------------------------------------------
-
     /**
-     * @brief Retrieving a list of current parameters.
-     * @return The current list of parameters.
+     * @brief Retrieving a list of all parameters.
+     * @return The list of parameters.
      */
     QList<Parameter *> getParameters();
 
@@ -127,6 +123,32 @@ public:
      * @return Returns a pointer to the parameter or NULL if no the parameter could be found.
      */
     Parameter *getParameter(const QString name);
+
+    /**
+     * @brief Retrieving a list of all inputs.
+     * @return The list of inputs.
+     */
+    QList<Input *> getInputs();
+
+    /**
+     * @brief Get a certain input
+     * @param name The name of the input.
+     * @return Returns a pointer to the input or NULL if the input could not be found.
+     */
+    Input *getInput(const QString name);
+
+    /**
+     * @brief Retrieving a list of all outputs.
+     * @return The list of outputs.
+     */
+    QList<Output *> getOutputs();
+
+    /**
+     * @brief Get a certain output
+     * @param name The name of the output.
+     * @return Returns a pointer to the output or NULL if the output could not be found.
+     */
+    Output *getOutput(const QString name);
 
 
 

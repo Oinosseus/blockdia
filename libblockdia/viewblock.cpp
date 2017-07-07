@@ -23,10 +23,13 @@ bd::ViewBlock::ViewBlock(QWidget *parent) : QGraphicsView(parent)
     ParameterInt *param;
     param = new ParameterInt(myBlock, "Parameter1");
     param->setValue(-27);
+    param->setPublic(false);
     param = new ParameterInt(myBlock, "Parameter2");
     param->setValue(32768);
+    param->setPublic(true);
     param = new ParameterInt(myBlock, "Parameter3");
     param->setValue("123");
+    param->setPublic(true);
 
     // add inputs
     Input *inp;
@@ -37,7 +40,6 @@ bd::ViewBlock::ViewBlock(QWidget *parent) : QGraphicsView(parent)
     // add outputs
     Output *outp;
     outp = new Output(myBlock, "Out1");
-    outp = new Output(myBlock, "Out2");
 
     GraphicItemBlock *myBlockGItem = new GraphicItemBlock(myBlock);
 

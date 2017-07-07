@@ -85,7 +85,7 @@ bd::Parameter *bd::Block::getParameter(const QString name)
 {
     Parameter *ret = NULL;
 
-    // find constraint by name
+    // find parameter by name
     for (int i = 0; i < this->parametersList.size(); ++i) {
         if (this->parametersList.at(i)->name() == name) {
             ret = this->parametersList.at(i);
@@ -95,3 +95,44 @@ bd::Parameter *bd::Block::getParameter(const QString name)
 
     return ret;
 }
+
+QList<bd::Input *> bd::Block::getInputs()
+{
+    return this->inputsList;
+}
+
+bd::Input *bd::Block::getInput(const QString name)
+{
+    Input *ret = NULL;
+
+    // find input by name
+    for (int i = 0; i < this->inputsList.size(); ++i) {
+        if (this->inputsList.at(i)->name() == name) {
+            ret = this->inputsList.at(i);
+            break;
+        }
+    }
+
+    return ret;
+}
+
+QList<bd::Output *> bd::Block::getOutputs()
+{
+    return this->outputsList;
+}
+
+bd::Output *bd::Block::getOutput(const QString name)
+{
+    Output *ret = NULL;
+
+    // find input by name
+    for (int i = 0; i < this->outputsList.size(); ++i) {
+        if (this->outputsList.at(i)->name() == name) {
+            ret = this->outputsList.at(i);
+            break;
+        }
+    }
+
+    return ret;
+}
+

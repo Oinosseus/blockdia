@@ -13,6 +13,7 @@
 #include <QGraphicsRectItem>
 #include <QList>
 #include <QString>
+
 #include <block.h>
 
 namespace bd {
@@ -24,6 +25,8 @@ public:
     QRectF boundingRect() const;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
     QColor backgroundConstraint = QColor("#ffd");
+    QColor backgroundInputs     = QColor("#fdd");
+    QColor backgroundOutputs    = QColor("#ddf");
 
 private:
     Block *block;

@@ -20,6 +20,7 @@ void bd::GraphicItemBlock::paint(QPainter *painter, const QStyleOptionGraphicsIt
 {
     Q_UNUSED(option);
     Q_UNUSED(widget);
+    int padding = 5;
 
 
 
@@ -67,27 +68,46 @@ void bd::GraphicItemBlock::paint(QPainter *painter, const QStyleOptionGraphicsIt
     // ------------------------------------------------------------------------
 
     // for block header
-    int yBaselineInstanceName = 5 + ascentInstanceName;
+    int yBaselineInstanceName = padding + ascentInstanceName;
     int yBaselineTypeName     = yBaselineInstanceName + descentInstanceName + ascentTypeName;
-    int yBlockHeader          = yBaselineTypeName + descentTypeName + 5;
-    int widthHeader2nLine = widthTypeName + 10 + widthId;
+    int yBlockHeader          = yBaselineTypeName + descentTypeName + padding;
+    int widthHeader2nLine = widthTypeName + 2*padding + widthId;
 
-    // block constraints
-    int widthConstraints = 0;
+    // block parameters
+    int widthParameters = 0;
     for (int i=0; i < this->block->getParameters().size(); ++i) {
-        Parameter *cnstrnt = this->block->getParameters().at(i);
-        QString s = cnstrnt->name() + " = " + cnstrnt->strValue();
+        Parameter *param = this->block->getParameters().at(i);
+        QString s = param->name() + " = " + param->strValue();
         int w = fmDefault.width(s);
-        if (w > widthConstraints) widthConstraints = w;
+        if (w > widthParameters) widthParameters = w;
     }
+
+    // block inputs
+    int widthInputs = 0;
+    for (int i=0; i < this->block->getInputs().size(); ++i) {
+        Input *inp = this->block->getInputs().at(i);
+        int w = fmDefault.width(inp->name());
+        if (w > widthInputs) widthInputs = w;
+    }
+
+    // block outputs
+    int widthOutputs = 0;
+    for (int i=0; i < this->block->getOutputs().size(); ++i) {
+        Output *outp = this->block->getOutputs().at(i);
+        int w = fmDefault.width(outp->name());
+        if (w > widthOutputs) widthOutputs = w;
+    }
+
 
     // overall block width
     int overallWidth = 0;
     if (widthInstanceName > overallWidth) overallWidth = widthInstanceName;
     if (widthHeader2nLine > overallWidth) overallWidth = widthHeader2nLine;
-    if (widthConstraints  > overallWidth) overallWidth = widthConstraints;
-    int overallLeft   = -10 - overallWidth / 2;
-    overallWidth += 20;
+    if (widthParameters   > overallWidth) overallWidth = widthParameters;
+    if (widthInputs       > overallWidth) overallWidth = widthInputs;
+    if (widthOutputs      > overallWidth) overallWidth = widthOutputs;
+    int overallLeft   = -padding - overallWidth / 2;
+    overallWidth += 2*padding;
 
 
 
@@ -110,19 +130,76 @@ void bd::GraphicItemBlock::paint(QPainter *painter, const QStyleOptionGraphicsIt
     painter->drawText(widthHeader2nLine/2 - widthId, yBaselineTypeName, this->block->typeId() + this->block->instanceId());
     overallHeight = yBlockHeader;
 
-    // draw constraints
+    // draw non-public parameters
     painter->setFont(fontDefault);
     for (int i=0; i < this->block->getParameters().size(); ++i) {
-        Parameter *cnstrnt = this->block->getParameters().at(i);
-        QString s = cnstrnt->name() + " = " + cnstrnt->strValue();
-        int w = fmDefault.width(s);
-        int nextHeight = overallHeight + 5 + fmDefault.ascent() + fmDefault.descent() + 5;
-        painter->fillRect(QRectF(overallLeft, overallHeight, overallWidth, nextHeight - overallHeight), QBrush(this->backgroundConstraint));
-        painter->drawRect(overallLeft, overallHeight, overallWidth, nextHeight - overallHeight);
-        painter->drawText(-w/2, overallHeight + 5 + fmDefault.ascent(), s);
-        overallHeight = nextHeight;
+        Parameter *param = this->block->getParameters().at(i);
+        if (!param->isPublic()) {
+            QString s = param->name() + " = " + param->strValue();
+            int w = fmDefault.width(s);
+            int nextHeight = overallHeight + padding + fmDefault.ascent() + fmDefault.descent() + padding;
+            painter->fillRect(QRectF(overallLeft, overallHeight, overallWidth, nextHeight - overallHeight), QBrush(this->backgroundConstraint));
+            painter->drawRect(overallLeft, overallHeight, overallWidth, nextHeight - overallHeight);
+            painter->drawText(-w/2, overallHeight + padding + fmDefault.ascent(), s);
+            overallHeight = nextHeight;
+        }
     }
 
+    // draw Inputs
+    int currentInputHeight = overallHeight;
+    painter->setFont(fontDefault);
+    for (int i=0; i < this->block->getInputs().size(); ++i) {
+        Input *inp = this->block->getInputs().at(i);
+        int w = fmDefault.width(inp->name());
+        int nextInputHeight = currentInputHeight + padding + fmDefault.ascent() + fmDefault.descent() + padding;
+        painter->fillRect(QRectF(overallLeft, currentInputHeight, -overallLeft, nextInputHeight - currentInputHeight), QBrush(this->backgroundInputs));
+        painter->drawRect(overallLeft, currentInputHeight, -overallLeft, nextInputHeight - currentInputHeight);
+        painter->drawText(overallLeft + padding, currentInputHeight + padding + fmDefault.ascent(), inp->name());
+        currentInputHeight = nextInputHeight;
+    }
+
+    // draw Outputs
+    int currentOutputHeight = overallHeight;
+    painter->setFont(fontDefault);
+    for (int i=0; i < this->block->getOutputs().size(); ++i) {
+        Output *outp = this->block->getOutputs().at(i);
+        int w = fmDefault.width(outp->name());
+        int nextOutputHeight = currentOutputHeight + padding + fmDefault.ascent() + fmDefault.descent() + padding;
+        painter->fillRect(QRectF(0, currentOutputHeight, overallWidth + overallLeft, nextOutputHeight - currentOutputHeight), QBrush(this->backgroundOutputs));
+        painter->drawRect(0, currentOutputHeight, overallWidth + overallLeft, nextOutputHeight - currentOutputHeight);
+        painter->drawText(overallLeft + overallWidth - w - padding, currentOutputHeight + padding + fmDefault.ascent(), outp->name());
+        currentOutputHeight = nextOutputHeight;
+    }
+
+    // set new overall height
+    overallHeight = (currentInputHeight > currentOutputHeight) ? currentInputHeight : currentOutputHeight;
+
+    // draw empty inputs
+    if (currentInputHeight < overallHeight) {
+        painter->fillRect(QRectF(overallLeft, currentInputHeight, -overallLeft, overallHeight - currentInputHeight), QBrush(this->backgroundInputs));
+        painter->drawRect(overallLeft, currentInputHeight, -overallLeft, overallHeight - currentInputHeight);
+    }
+
+    // draw empty outputs
+    if (currentOutputHeight < overallHeight) {
+        painter->fillRect(QRectF(0, currentOutputHeight, overallWidth + overallLeft, overallHeight - currentOutputHeight), QBrush(this->backgroundOutputs));
+        painter->drawRect(0, currentOutputHeight, overallWidth + overallLeft, overallHeight - currentOutputHeight);
+    }
+
+    // draw public parameters
+    painter->setFont(fontDefault);
+    for (int i=0; i < this->block->getParameters().size(); ++i) {
+        Parameter *param = this->block->getParameters().at(i);
+        if (param->isPublic()) {
+            QString s = param->name() + " = " + param->strValue();
+            int w = fmDefault.width(s);
+            int nextHeight = overallHeight + padding + fmDefault.ascent() + fmDefault.descent() + padding;
+            painter->fillRect(QRectF(overallLeft, overallHeight, overallWidth, nextHeight - overallHeight), QBrush(this->backgroundConstraint));
+            painter->drawRect(overallLeft, overallHeight, overallWidth, nextHeight - overallHeight);
+            painter->drawText(-w/2, overallHeight + padding + fmDefault.ascent(), s);
+            overallHeight = nextHeight;
+        }
+    }
 
     // Remember Bounding Rect
     this->currentBoundingRect = QRectF(overallLeft, 0, overallWidth, overallHeight);

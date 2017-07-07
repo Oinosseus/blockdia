@@ -4,6 +4,7 @@
 #include "libblockdia.h"
 
 #include <QObject>
+
 #include <block.h>
 
 namespace  bd {
