@@ -21,8 +21,9 @@ public:
     /**
      * @brief Constructing an Output
      * @param block The parent block, this output belongs to.
+     * @param name The name for the output
      */
-    explicit Output(Block *block);
+    explicit Output(Block *block, const QString &name);
 
     /**
      * @brief The name of the output

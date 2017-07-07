@@ -1,9 +1,9 @@
 #include "parameter.h"
 
-bd::Parameter::Parameter(Block *parent) : QObject(parent)
+bd::Parameter::Parameter(Block *parent, const QString &name) : QObject(parent)
 {
     this->parent = parent;
-    this->_name = "";
+    this->_name = name;
     this->_isPublic = false;
 
     // add parameter to block

@@ -1,9 +1,9 @@
 #include "output.h"
 
-bd::Output::Output(Block *block) : QObject(block)
+bd::Output::Output(Block *block, const QString &name) : QObject(block)
 {
     this->parent = block;
-    this->_name = "";
+    this->_name = name;
 
     // add this output to the outputs list of the block
     this->parent->outputsList.append(this);

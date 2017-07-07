@@ -1,9 +1,9 @@
 #include "input.h"
 
-bd::Input::Input(Block *block) : QObject(block)
+bd::Input::Input(Block *block, const QString &name) : QObject(block)
 {
     this->parent = block;
-    this->_name = "";
+    this->_name = name;
 
     // add this input to the inputs list of the block
     this->parent->inputsList.append(this);

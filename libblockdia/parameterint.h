@@ -15,7 +15,12 @@ class LIBBLOCKDIASHARED_EXPORT ParameterInt : public Parameter
 {
 public:
 
-    ParameterInt(Block *parent = 0);
+    /**
+     * @brief Constructing a parameter
+     * @param parent The block this parameter belogns to.
+     * @param name The name for the parameter
+     */
+    ParameterInt(Block *parent, const QString &name);
 
     /**
      * @brief The minimum allowed parameter value

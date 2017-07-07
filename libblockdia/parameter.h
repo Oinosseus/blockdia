@@ -21,8 +21,9 @@ public:
     /**
      * @brief Constructing a parameter
      * @param parent
+     * @param name The name for the parameter
      */
-    explicit Parameter(Block *parent);
+    explicit Parameter(Block *parent, const QString &name);
 
     /**
      * @brief The name of the parameter

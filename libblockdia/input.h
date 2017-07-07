@@ -21,8 +21,9 @@ public:
     /**
      * @brief Constructing an Input
      * @param block The parent block, this input belongs to.
+     * @param name The name for the input
      */
-    explicit Input(Block *block);
+    explicit Input(Block *block, const QString &name);
 
     /**
      * @brief The name of the input
