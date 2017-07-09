@@ -10,6 +10,7 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = test_bdviewblock
 TEMPLATE = app
+DESTDIR = ../../bin
 
 # The following define makes your compiler emit warnings if you use
 # any feature of Qt which as been marked as deprecated (the exact warnings
@@ -30,9 +31,12 @@ HEADERS  += mainwindow.h
 
 FORMS    += mainwindow.ui
 
-win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../_build-libblockdia-Desktop/ -llibblockdia
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../_build-libblockdia-Desktop/ -llibblockdia
-else:unix: LIBS += -L$$PWD/../_build-libblockdia-Desktop/ -llibblockdia
+CONFIG(release, debug|release){
+    LIBS += -L$$PWD/../../bin/ -llibblockdia
+}
+CONFIG(debug, debug|release) {
+    LIBS += -L$$PWD/../../bin/ -llibblockdia_d
+}
 
-INCLUDEPATH += $$PWD/../libblockdia
-DEPENDPATH += $$PWD/../_build-libblockdia-Desktop-Debug
+INCLUDEPATH += ../../include/
+DEPENDPATH += $$PWD/../../build
