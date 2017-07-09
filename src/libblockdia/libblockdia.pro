@@ -4,11 +4,20 @@
 #
 #-------------------------------------------------
 
-QT       += widgets
+VERSION = "0.1devel"
 
+QT       += widgets
 QT       -= gui
 
-TARGET = libblockdia
+CONFIG(debug, debug|release) {
+    TARGET = libblockdia_d
+}
+CONFIG (release, debug|release) {
+    TARGET = libblockdia
+}
+
+DESTDIR = ../../bin
+
 TEMPLATE = lib
 
 DEFINES += LIBBLOCKDIA_LIBRARY
@@ -24,6 +33,8 @@ DEFINES += QT_DEPRECATED_WARNINGS
 # You can also select to disable deprecated APIs only up to a certain version of Qt.
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
+INCLUDEPATH = ../../include/
+
 SOURCES += libblockdia.cpp \
     block.cpp \
     graphicitemblock.cpp \
@@ -33,14 +44,14 @@ SOURCES += libblockdia.cpp \
     input.cpp \
     output.cpp
 
-HEADERS += libblockdia.h\
-    block.h \
-    graphicitemblock.h \
-    viewblock.h \
-    parameter.h \
-    parameterint.h \
-    input.h \
-    output.h
+HEADERS += ../../include/libblockdia.h\
+    ../../include/block.h \
+    ../../include/graphicitemblock.h \
+    ../../include/viewblock.h \
+    ../../include/parameter.h \
+    ../../include/parameterint.h \
+    ../../include/input.h \
+    ../../include/output.h
 
 unix {
     target.path = /usr/lib

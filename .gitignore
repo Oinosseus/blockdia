@@ -39,5 +39,7 @@ CMakeLists.txt.user
 # dia backups
 *.dia~
 
-# doc export
+# build directories
 doc/html/*
+build/*
+bin/*

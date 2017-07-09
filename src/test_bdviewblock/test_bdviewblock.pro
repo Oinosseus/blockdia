@@ -30,9 +30,9 @@ HEADERS  += mainwindow.h
 
 FORMS    += mainwindow.ui
 
-win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../_build-libblockdia-Desktop-Release/ -llibblockdia
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../_build-libblockdia-Desktop-Debug/ -llibblockdia
-else:unix: LIBS += -L$$PWD/../_build-libblockdia-Desktop-Debug/ -llibblockdia
+win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../_build-libblockdia-Desktop/ -llibblockdia
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../_build-libblockdia-Desktop/ -llibblockdia
+else:unix: LIBS += -L$$PWD/../_build-libblockdia-Desktop/ -llibblockdia
 
 INCLUDEPATH += $$PWD/../libblockdia
 DEPENDPATH += $$PWD/../_build-libblockdia-Desktop-Debug
