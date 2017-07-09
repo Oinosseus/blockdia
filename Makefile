@@ -21,7 +21,7 @@ all: debug release doc
 	echo "done"
 
 
-clean: FORCE
+clean:
 	@rm -Rf build/*
 
 
