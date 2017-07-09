@@ -1,6 +1,7 @@
 QMAKE = qmake-qt5
 BUILD_DIR = build
-PROJECTS = libblockdia
+PROJECTS = libblockdia test_bdviewblock
+
 
 .PHONY: help all clean
 
@@ -21,20 +22,30 @@ clean: FORCE
 	@rm -Rf build/*
 
 
-debug:
-	mkdir -p ${BUILD_DIR}/${PROJECTS}/
-	${QMAKE} -o ${BUILD_DIR}/${PROJECTS}/Makefile src/${PROJECTS}/${PROJECTS}.pro CONFIG+=debug
-	make -C ${BUILD_DIR}/${PROJECTS}
+debug: $(PROJECTS:%=debug_%)
+	# calls debug_<project> targets
 
+
+release: $(PROJECTS:%=release_%)
+	# calls debug_<project> targets
+
+
+debug_%: builddir_%
+	${QMAKE} -o ${BUILD_DIR}/$*/Makefile src/$*/$*.pro CONFIG+=debug
+	make -C ${BUILD_DIR}/$*
+
+
+release_%: builddir_%
+	${QMAKE} -o ${BUILD_DIR}/$*/Makefile src/$*/$*.pro CONFIG+=release
+	make -C ${BUILD_DIR}/$*
+
+
+builddir_%:
+	mkdir -p ${BUILD_DIR}/$*/
 
 doc: FORCE
 	doxygen doxyconf
 
-
-release:
-	mkdir -p ${BUILD_DIR}/${PROJECTS}/
-	${QMAKE} -o ${BUILD_DIR}/${PROJECTS}/Makefile src/${PROJECTS}/${PROJECTS}.pro
-	make -C ${BUILD_DIR}/${PROJECTS}
 
 FORCE:
 
