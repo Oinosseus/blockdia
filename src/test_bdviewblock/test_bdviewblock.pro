@@ -1,16 +1,26 @@
-#-------------------------------------------------
-#
-# Project created by QtCreator 2017-03-19T13:01:24
-#
-#-------------------------------------------------
+TEMPLATE = app
 
+# VERSION = Major . Minor . Patch
+VERSION = 0.0.0
+
+# defining Qt modules
 QT       += core gui
-
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
+# specify the target filename
 TARGET = test_bdviewblock
-TEMPLATE = app
-DESTDIR = ../../bin
+
+# define output directories
+DESTDIR = $$PWD/../../bin
+CONFIG(debug, debug|release) {
+    MOC_DIR     = $$PWD/../../build/$${TARGET}_debug/
+    OBJECTS_DIR = $$PWD/../../build/$${TARGET}_debug/
+    RCC_DIR     = $$PWD/../../build/$${TARGET}_debug/
+} else {
+    MOC_DIR     = $$PWD/../../build/$${TARGET}_debug/
+    OBJECTS_DIR = $$PWD/../../build/$${TARGET}_debug/
+    RCC_DIR     = $$PWD/../../build/$${TARGET}_debug/
+}
 
 # The following define makes your compiler emit warnings if you use
 # any feature of Qt which as been marked as deprecated (the exact warnings
@@ -24,19 +34,18 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 
-SOURCES += main.cpp\
-        mainwindow.cpp
+SOURCES +=   main.cpp\
+             mainwindow.cpp
 
-HEADERS  += mainwindow.h
+HEADERS  +=  mainwindow.h
 
-FORMS    += mainwindow.ui
+FORMS    +=  mainwindow.ui
 
-CONFIG(release, debug|release){
-    LIBS += -L$$PWD/../../bin/ -llibblockdia
-}
+# include library
 CONFIG(debug, debug|release) {
     LIBS += -L$$PWD/../../bin/ -llibblockdia_d
+} else {
+    LIBS += -L$$PWD/../../bin/ -llibblockdia
 }
-
 INCLUDEPATH += ../../include/
 DEPENDPATH += $$PWD/../../build

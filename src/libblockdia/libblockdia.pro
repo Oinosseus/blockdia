@@ -1,24 +1,32 @@
-#-------------------------------------------------
-#
-# Project created by QtCreator 2017-03-19T12:28:12
-#
-#-------------------------------------------------
+TEMPLATE = lib
 
-VERSION = "0.1devel"
+# VERSION = Major . Minor . Patch
+VERSION = 0.0.0
 
-QT       += widgets
-QT       -= gui
+# defining Qt modules
+QT += widgets
+QT -= gui
 
+# specify the target filename
+# for debug version a "_d" is appended
 CONFIG(debug, debug|release) {
     TARGET = libblockdia_d
-}
-CONFIG (release, debug|release) {
+} else {
     TARGET = libblockdia
 }
 
+# define output directories
 DESTDIR = ../../bin
+CONFIG(debug, debug|release) {
+    MOC_DIR     = $$PWD/../../build/$${TARGET}_debug/
+    OBJECTS_DIR = $$PWD/../../build/$${TARGET}_debug/
+    RCC_DIR     = $$PWD/../../build/$${TARGET}_debug/
+} else {
+    MOC_DIR     = $$PWD/../../build/$${TARGET}_debug/
+    OBJECTS_DIR = $$PWD/../../build/$${TARGET}_debug/
+    RCC_DIR     = $$PWD/../../build/$${TARGET}_debug/
+}
 
-TEMPLATE = lib
 
 DEFINES += LIBBLOCKDIA_LIBRARY
 
@@ -33,25 +41,27 @@ DEFINES += QT_DEPRECATED_WARNINGS
 # You can also select to disable deprecated APIs only up to a certain version of Qt.
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
+# the header files are put into separate directory
+# for easier deployment of the library
 INCLUDEPATH += ../../include/
 
-SOURCES += libblockdia.cpp \
-    block.cpp \
-    graphicitemblock.cpp \
-    viewblock.cpp \
-    parameter.cpp \
-    parameterint.cpp \
-    input.cpp \
-    output.cpp
+SOURCES +=  libblockdia.cpp \
+            block.cpp \
+            graphicitemblock.cpp \
+            viewblock.cpp \
+            parameter.cpp \
+            parameterint.cpp \
+            input.cpp \
+            output.cpp
 
-HEADERS += ../../include/libblockdia.h\
-    ../../include/block.h \
-    ../../include/graphicitemblock.h \
-    ../../include/viewblock.h \
-    ../../include/parameter.h \
-    ../../include/parameterint.h \
-    ../../include/input.h \
-    ../../include/output.h
+HEADERS +=  ../../include/libblockdia.h\
+            ../../include/block.h \
+            ../../include/graphicitemblock.h \
+            ../../include/viewblock.h \
+            ../../include/parameter.h \
+            ../../include/parameterint.h \
+            ../../include/input.h \
+            ../../include/output.h
 
 unix {
     target.path = /usr/lib
