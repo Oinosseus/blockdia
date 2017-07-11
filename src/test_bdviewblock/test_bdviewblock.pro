@@ -13,15 +13,15 @@ TARGET = test_bdviewblock
 # define output directories0
 DESTDIR = $$PWD/../../bin
 CONFIG(debug, debug|release) {
-    MOC_DIR     = $$PWD/../../build/$${TARGET}_debug
-    OBJECTS_DIR = $$PWD/../../build/$${TARGET}_debug
-    RCC_DIR     = $$PWD/../../build/$${TARGET}_debug
-    UI_DIR      = $$PWD/../../build/$${TARGET}_debug
+    MOC_DIR     = $$PWD/../../build/$${TARGET}_debug/
+    OBJECTS_DIR = $$PWD/../../build/$${TARGET}_debug/
+    RCC_DIR     = $$PWD/../../build/$${TARGET}_debug/
+    UI_DIR      = $$PWD/../../build/$${TARGET}_debug/
 } else {
-    MOC_DIR     = $$PWD/../../build/$${TARGET}_release
-    OBJECTS_DIR = $$PWD/../../build/$${TARGET}_release
-    RCC_DIR     = $$PWD/../../build/$${TARGET}_release
-    UI_DIR      = $$PWD/../../build/$${TARGET}_release
+    MOC_DIR     = $$PWD/../../build/$${TARGET}_release/
+    OBJECTS_DIR = $$PWD/../../build/$${TARGET}_release/
+    RCC_DIR     = $$PWD/../../build/$${TARGET}_release/
+    UI_DIR      = $$PWD/../../build/$${TARGET}_release/
 }
 
 # The following define makes your compiler emit warnings if you use
