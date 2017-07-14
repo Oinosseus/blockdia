@@ -3,6 +3,7 @@
 #include <QGraphicsScene>
 #include <QDebug>
 
+#include <graphicitemblockheader.h>
 #include <graphicitemblock.h>
 #include <parameterint.h>
 #include <input.h>
@@ -41,11 +42,12 @@ bd::ViewBlock::ViewBlock(QWidget *parent) : QGraphicsView(parent)
     Output *outp;
     outp = new Output(myBlock, "Out1");
 
-    GraphicItemBlock *myBlockGItem = new GraphicItemBlock(myBlock);
+    GraphicItemBlockHeader *myGitemTst= new GraphicItemBlockHeader(myBlock);
+    myGitemTst->minWidth = 400;
 
     QGraphicsScene *scene = new QGraphicsScene(this);
     scene->setBackgroundBrush(QBrush(QColor("#fffcfc")));
-    scene->addItem(myBlockGItem);
+    scene->addItem(myGitemTst);
 
     this->setScene(scene);
     this->show();

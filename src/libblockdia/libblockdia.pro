@@ -55,7 +55,8 @@ SOURCES +=  libblockdia.cpp \
             parameter.cpp \
             parameterint.cpp \
             input.cpp \
-            output.cpp
+            output.cpp \
+            graphicitemblockheader.cpp
 
 HEADERS +=  ../../include/libblockdia.h\
             ../../include/block.h \
@@ -64,7 +65,8 @@ HEADERS +=  ../../include/libblockdia.h\
             ../../include/parameter.h \
             ../../include/parameterint.h \
             ../../include/input.h \
-            ../../include/output.h
+            ../../include/output.h \
+            ../../include/graphicitemblockheader.h
 
 unix {
     target.path = /usr/lib

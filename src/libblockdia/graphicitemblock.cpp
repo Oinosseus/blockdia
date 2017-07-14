@@ -4,7 +4,7 @@
 #include <QFontMetrics>
 
 
-bd::GraphicItemBlock::GraphicItemBlock(Block *block) : QGraphicsItem(NULL)
+bd::GraphicItemBlock::GraphicItemBlock(Block *block, QGraphicsItem *parent) : QGraphicsItem(parent)
 {
     this->block = block;
     this->currentBoundingRect = QRectF();

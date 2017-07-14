@@ -21,7 +21,7 @@ namespace bd {
 class LIBBLOCKDIASHARED_EXPORT GraphicItemBlock : public QGraphicsItem
 {
 public:
-    explicit GraphicItemBlock(Block *block);
+    explicit GraphicItemBlock(Block *block, QGraphicsItem *parent=Q_NULLPTR);
     QRectF boundingRect() const;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
     QColor backgroundConstraint = QColor("#ffd");
