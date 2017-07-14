@@ -81,9 +81,9 @@ void bd::GraphicItemBlockHeader::paint(QPainter *painter, const QStyleOptionGrap
     painter->setPen(Qt::black);
 
     // draw box
-    QRectF boxrect = QRectF( - overallWidth/2 - padding, - overallHeight/2 - padding, overallWidth + 2*padding, overallHeight + 2*padding);
-    painter->fillRect(boxrect, QBrush(this->block->color()));
-    painter->drawRect(boxrect);
+    this->currentBoundingRect = QRectF( - overallWidth/2 - padding, - overallHeight/2 - padding, overallWidth + 2*padding, overallHeight + 2*padding);
+    painter->fillRect(this->currentBoundingRect, QBrush(this->block->color()));
+    painter->drawRect(this->currentBoundingRect);
 
     // draw instance name
     painter->setFont(fontInstanceName);
@@ -97,6 +97,4 @@ void bd::GraphicItemBlockHeader::paint(QPainter *painter, const QStyleOptionGrap
     painter->setFont(fontId);
     painter->drawText(widthHeader2nLine/2 - widthId, fmInstanceName.height() + padding + fmId.height() - overallHeight/2, this->block->typeId() + this->block->instanceId());
 
-    // Remember Bounding Rect
-//    this->currentBoundingRect = QRectF(overallLeft, 0, overallWidth, overallHeight);
 }
