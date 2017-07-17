@@ -36,7 +36,7 @@ void bd::GraphicItemBlock::paint(QPainter *painter, const QStyleOptionGraphicsIt
 void bd::GraphicItemBlock::updateBlockData()
 {
     int widthMaximum = 0;
-    int heightCounter = 0;
+    int heightMaximum = 0;
     GraphicItemTextBox *gitb;
 
     // ------------------------------------------------------------------------
@@ -48,7 +48,9 @@ void bd::GraphicItemBlock::updateBlockData()
         delete this->giBlockHead;
     }
     this->giBlockHead = new GraphicItemBlockHeader(this->block, this);
-    heightCounter += this->giBlockHead->getUsedHeight();
+    if (this->giBlockHead->getUsedWidth() > widthMaximum) widthMaximum = this->giBlockHead->getUsedWidth();
+    heightMaximum += this->giBlockHead->getUsedHeight();
+    this->giBlockHead->setY(this->giBlockHead->getUsedHeight()/2);
 
     // create public parameters
     while (this->giParamsPublic.size() > 0) { // clear current list
@@ -57,11 +59,14 @@ void bd::GraphicItemBlock::updateBlockData()
     }
     for (int i=0; i < this->block->getParameters().size(); ++i) { // create new list
         Parameter *param = this->block->getParameters().at(i);
-            if (param->isPublic()) {
+        if (param->isPublic()) {
             gitb = new GraphicItemTextBox(param->name(), this);
             this->giParamsPublic.append(gitb);
-            gitb->setY(heightCounter);
-            heightCounter += gitb->getUsedHeight();
+
+            // update height
+            gitb->setY(gitb->y() + gitb->getUsedHeight()/2);
+            gitb->setY(gitb->y() + heightMaximum);
+            heightMaximum += gitb->getUsedHeight();
 
             // update maximum width
             if (gitb->getUsedWidth() > widthMaximum) widthMaximum = gitb->getUsedWidth();
@@ -72,13 +77,13 @@ void bd::GraphicItemBlock::updateBlockData()
     //                             Update Positon
     // ------------------------------------------------------------------------
 
-//    // update header
-//    this->giBlockHead->setY(this->giBlockHead->y() - heightCounter/2);
+    // update header
+    this->giBlockHead->setY(this->giBlockHead->y() - heightMaximum/2);
 
-//    // update public parameters
-//    for (int i=0; i < this->giParamsPublic.size(); ++i) {
-//        gitb = this->giParamsPublic.at(i);
-//        gitb->minWidth = widthMaximum;
-//        gitb->setY(gitb->y() - heightCounter/2);
-//    }
+    // update public parameters
+    for (int i=0; i < this->giParamsPublic.size(); ++i) {
+        gitb = this->giParamsPublic.at(i);
+        gitb->minWidth = widthMaximum;
+        gitb->setY(gitb->y() - heightMaximum/2);
+    }
 }

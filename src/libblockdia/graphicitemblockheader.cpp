@@ -9,7 +9,7 @@ bd::GraphicItemBlockHeader::GraphicItemBlockHeader(Block *block, QGraphicsItem *
 {
     this->block = block;
     this->minWidth = 0;
-    this->padding = 15;
+    this->padding = 10;
 
 
     // font instance name
@@ -99,7 +99,7 @@ int bd::GraphicItemBlockHeader::getUsedHeight()
 
     int height = 0;
     height += fmInstanceName.height();
-    height += padding;
+    height += this->padding;
     height += (fmId.height() > fmTypeName.height()) ? fmId.height() : fmTypeName.height();
 
     return height + 2 * this->padding;
