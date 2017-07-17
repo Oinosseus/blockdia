@@ -9,6 +9,8 @@ bd::Block::Block(QObject *parent) : QObject(parent)
     this->_InstanceId   = "";
     this->_InstanceName = "";
     this->_Color        = QColor("#fff");
+    this->giBlock       = new GraphicItemBlock(this);
+    connect(this, SIGNAL(signalSomethingChanged()), this, SLOT(slotSomethingChanged()));
 }
 
 
@@ -134,5 +136,15 @@ bd::Output *bd::Block::getOutput(const QString name)
     }
 
     return ret;
+}
+
+QGraphicsItem *bd::Block::getGraphicsItem()
+{
+    return this->giBlock;
+}
+
+void bd::Block::slotSomethingChanged()
+{
+    this->giBlock->updateBlockData();
 }
 

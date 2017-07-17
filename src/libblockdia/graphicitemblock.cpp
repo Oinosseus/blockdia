@@ -26,15 +26,7 @@ void bd::GraphicItemBlock::paint(QPainter *painter, const QStyleOptionGraphicsIt
 {
     Q_UNUSED(option);
     Q_UNUSED(widget);
-    int padding = 5;
-
-    // block headder
-    GraphicItemBlockHeader *header = new GraphicItemBlockHeader(this->block, this);
-
-
-
-    // Remember Bounding Rect
-    //    this->currentBoundingRect = QRectF(overallLeft, 0, overallWidth, overallHeight);
+    Q_UNUSED(painter);
 }
 
 void bd::GraphicItemBlock::updateBlockData()

@@ -8,6 +8,7 @@ bd::Parameter::Parameter(Block *parent, const QString &name) : QObject(parent)
 
     // add parameter to block
     this->parent->parametersList.append(this);
+    emit this->parent->signalSomethingChanged();
 }
 
 QString bd::Parameter::name()

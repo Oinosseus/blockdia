@@ -7,10 +7,12 @@
 #include <QString>
 #include <QList>
 #include <QColor>
+#include <QGraphicsItem>
 
 #include <parameter.h>
 #include <input.h>
 #include <output.h>
+#include <graphicitemblock.h>
 
 namespace bd {
 
@@ -150,6 +152,12 @@ public:
      */
     Output *getOutput(const QString name);
 
+    /**
+     * @brief Get the corresponding QGraphicsItem object
+     * @return The corresponding QGraphicsItem object
+     */
+    QGraphicsItem *getGraphicsItem();
+
 
 
 signals:
@@ -170,6 +178,10 @@ private:
     QList<Parameter *> parametersList;
     QList<Input *> inputsList;
     QList<Output *> outputsList;
+    GraphicItemBlock *giBlock;
+
+private slots:
+    void slotSomethingChanged();
 };
 
 } // namespace bd

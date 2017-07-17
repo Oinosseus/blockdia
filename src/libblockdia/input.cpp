@@ -7,6 +7,7 @@ bd::Input::Input(Block *block, const QString &name) : QObject(block)
 
     // add this input to the inputs list of the block
     this->parent->inputsList.append(this);
+    emit this->parent->signalSomethingChanged();
 }
 
 QString bd::Input::name()

@@ -3,7 +3,6 @@
 #include <QGraphicsScene>
 #include <QDebug>
 
-#include <graphicitemblock.h>
 #include <parameterint.h>
 #include <input.h>
 #include <output.h>
@@ -41,11 +40,9 @@ bd::ViewBlock::ViewBlock(QWidget *parent) : QGraphicsView(parent)
     Output *outp;
     outp = new Output(myBlock, "Out1");
 
-    GraphicItemBlock *myGitemTst= new GraphicItemBlock(myBlock);
-
     QGraphicsScene *scene = new QGraphicsScene(this);
     scene->setBackgroundBrush(QBrush(QColor("#fffcfc")));
-    scene->addItem(myGitemTst);
+    scene->addItem(myBlock->getGraphicsItem());
 
     this->setScene(scene);
     this->show();

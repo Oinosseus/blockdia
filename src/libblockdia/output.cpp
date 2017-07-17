@@ -7,6 +7,7 @@ bd::Output::Output(Block *block, const QString &name) : QObject(block)
 
     // add this output to the outputs list of the block
     this->parent->outputsList.append(this);
+    emit this->parent->signalSomethingChanged();
 }
 
 QString bd::Output::name()

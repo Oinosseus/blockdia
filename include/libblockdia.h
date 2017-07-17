@@ -18,6 +18,10 @@ class Parameter;
 class Input;
 class Output;
 
+class GraphicItemBlock;
+class GraphicItemBlockHeader;
+class GraphicItemTextBox;
+
 } // namespace bd
 
 
