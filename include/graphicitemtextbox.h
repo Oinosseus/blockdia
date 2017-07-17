@@ -17,13 +17,16 @@ namespace bd {
 class LIBBLOCKDIASHARED_EXPORT GraphicItemTextBox : public QGraphicsItem
 {
 public:
-    GraphicItemTextBox(QString text, QGraphicsItem *parent=0);
+    enum struct Align {Center, Left, Right};
+
+    GraphicItemTextBox(QGraphicsItem *parent=0);
     QRectF boundingRect() const;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
-    void setText(const QString &text);
+    void setText(const QString &text, Align align);
     int getUsedWidth();
     int getUsedHeight();
     int minWidth;
+
 
 
 private:
@@ -32,6 +35,7 @@ private:
     QFont font;
     QColor bgColor;
     int padding;
+    Align algn;
 };
 
 } // namespace bd

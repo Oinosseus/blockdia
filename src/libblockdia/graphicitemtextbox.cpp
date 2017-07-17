@@ -3,13 +3,14 @@
 #include <QColor>
 #include <QBrush>
 
-bd::GraphicItemTextBox::GraphicItemTextBox(QString text, QGraphicsItem *parent) : QGraphicsItem(parent)
+bd::GraphicItemTextBox::GraphicItemTextBox(QGraphicsItem *parent) : QGraphicsItem(parent)
 {
-    this->text = text;
+    this->text = "";
     this->minWidth = 0;
     this->font = QFont();
-    this->padding = 10;
+    this->padding = 5;
     this->bgColor = QColor("#fdd");
+    this->algn = Align::Center;
 }
 
 QRectF bd::GraphicItemTextBox::boundingRect() const
@@ -41,12 +42,19 @@ void bd::GraphicItemTextBox::paint(QPainter *painter, const QStyleOptionGraphics
     painter->drawRect(this->currentBoundingRect);
 
     // draw text
-    painter->drawText(-boxWidth/2 + this->padding, fm.ascent() - boxHeight/2 + this->padding, this->text);
+    if (this->algn == Align::Left) {
+        painter->drawText(-boxWidth/2 + this->padding, fm.ascent() - boxHeight/2 + this->padding, this->text);
+    } else if (this->algn == Align::Center) {
+        painter->drawText(-fm.width(this->text)/2, fm.ascent() - boxHeight/2 + this->padding, this->text);
+    } else if (this->algn == Align::Right) {
+        painter->drawText(boxWidth/2 - fm.width(this->text) - this->padding, fm.ascent() - boxHeight/2 + this->padding, this->text);
+    }
 }
 
-void bd::GraphicItemTextBox::setText(const QString &text)
+void bd::GraphicItemTextBox::setText(const QString &text, Align align)
 {
     this->text = text;
+    this->algn = align;
 }
 
 int bd::GraphicItemTextBox::getUsedWidth()

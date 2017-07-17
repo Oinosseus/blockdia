@@ -60,8 +60,11 @@ void bd::GraphicItemBlock::updateBlockData()
     for (int i=0; i < this->block->getParameters().size(); ++i) { // create new list
         Parameter *param = this->block->getParameters().at(i);
         if (param->isPublic()) {
-            gitb = new GraphicItemTextBox(param->name(), this);
+            gitb = new GraphicItemTextBox(this);
             this->giParamsPublic.append(gitb);
+
+            // update
+            gitb->setText(param->name(), GraphicItemTextBox::Align::Center);
 
             // update height
             gitb->setY(gitb->y() + gitb->getUsedHeight()/2);
