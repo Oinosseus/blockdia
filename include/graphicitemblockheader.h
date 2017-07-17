@@ -6,6 +6,7 @@
 #include <QGraphicsItem>
 #include <QRectF>
 #include <QPainter>
+#include <QFont>
 
 #include <block.h>
 
@@ -21,10 +22,14 @@ public:
     int getUsedWidth();
     int getUsedHeight();
     int minWidth;
+    int padding;
 
 private:
     Block *block;
     QRectF currentBoundingRect;
+    QFont fontInstanceName;
+    QFont fontTypeName;
+    QFont fontId;
 };
 
 } // namespace bd

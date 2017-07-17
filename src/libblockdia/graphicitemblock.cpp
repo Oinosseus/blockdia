@@ -27,28 +27,35 @@ void bd::GraphicItemBlock::paint(QPainter *painter, const QStyleOptionGraphicsIt
     Q_UNUSED(option);
     Q_UNUSED(widget);
     Q_UNUSED(painter);
+
+    painter->setPen(Qt::red);
+    painter->drawLine(-200, 0, 200, 0);
+    painter->drawLine(0, -200, 0, 200);
 }
 
 void bd::GraphicItemBlock::updateBlockData()
 {
     int widthMaximum = 0;
-    int heightCounter = 50;
+    int heightCounter = 0;
     GraphicItemTextBox *gitb;
+
+    // ------------------------------------------------------------------------
+    //                           Create Sub GraphicIterms
+    // ------------------------------------------------------------------------
 
     // creeate new header
     if (this->giBlockHead != Q_NULLPTR) {
         delete this->giBlockHead;
     }
     this->giBlockHead = new GraphicItemBlockHeader(this->block, this);
+    heightCounter += this->giBlockHead->getUsedHeight();
 
-    // clear list
-    while (this->giParamsPublic.size() > 0) {
+    // create public parameters
+    while (this->giParamsPublic.size() > 0) { // clear current list
         GraphicItemTextBox *tb = this->giParamsPublic.takeLast();
         delete tb;
     }
-
-    // public parameters
-    for (int i=0; i < this->block->getParameters().size(); ++i) {
+    for (int i=0; i < this->block->getParameters().size(); ++i) { // create new list
         Parameter *param = this->block->getParameters().at(i);
             if (param->isPublic()) {
             gitb = new GraphicItemTextBox(param->name(), this);
@@ -61,10 +68,17 @@ void bd::GraphicItemBlock::updateBlockData()
         }
     }
 
-    // apply minimum width to public parameters
-    for (int i=0; i < this->giParamsPublic.size(); ++i) {
-        gitb = this->giParamsPublic.at(i);
-        gitb->minWidth = widthMaximum;
-        gitb->setY(gitb->y() - heightCounter/2);
-    }
+    // ------------------------------------------------------------------------
+    //                             Update Positon
+    // ------------------------------------------------------------------------
+
+//    // update header
+//    this->giBlockHead->setY(this->giBlockHead->y() - heightCounter/2);
+
+//    // update public parameters
+//    for (int i=0; i < this->giParamsPublic.size(); ++i) {
+//        gitb = this->giParamsPublic.at(i);
+//        gitb->minWidth = widthMaximum;
+//        gitb->setY(gitb->y() - heightCounter/2);
+//    }
 }

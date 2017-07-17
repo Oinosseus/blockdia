@@ -8,7 +8,7 @@ bd::GraphicItemTextBox::GraphicItemTextBox(QString text, QGraphicsItem *parent) 
     this->text = text;
     this->minWidth = 0;
     this->font = QFont();
-    this->padding = 5;
+    this->padding = 15;
     this->bgColor = QColor("#fdd");
 }
 
