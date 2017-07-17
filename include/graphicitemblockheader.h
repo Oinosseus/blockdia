@@ -15,9 +15,11 @@ namespace bd {
 class LIBBLOCKDIASHARED_EXPORT GraphicItemBlockHeader : public QGraphicsItem
 {
 public:
-    GraphicItemBlockHeader(Block *block);
+    GraphicItemBlockHeader(Block *block, QGraphicsItem *parent=0);
     QRectF boundingRect() const;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
+    int getUsedWidth();
+    int getUsedHeight();
     int minWidth;
 
 private:

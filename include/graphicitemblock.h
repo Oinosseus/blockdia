@@ -15,6 +15,8 @@
 #include <QString>
 
 #include <block.h>
+#include <graphicitemblockheader.h>
+#include <graphicitemtextbox.h>
 
 namespace bd {
 
@@ -27,10 +29,13 @@ public:
     QColor backgroundConstraint = QColor("#ffd");
     QColor backgroundInputs     = QColor("#fdd");
     QColor backgroundOutputs    = QColor("#ddf");
+    void updateBlockData();
 
 private:
     Block *block;
     QRectF currentBoundingRect;
+    GraphicItemBlockHeader *giBlockHead;
+    QList<GraphicItemTextBox *> giParamsPublic;
 };
 
 } // namespace bd

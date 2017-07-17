@@ -3,7 +3,6 @@
 #include <QGraphicsScene>
 #include <QDebug>
 
-#include <graphicitemblockheader.h>
 #include <graphicitemblock.h>
 #include <parameterint.h>
 #include <input.h>
@@ -22,10 +21,10 @@ bd::ViewBlock::ViewBlock(QWidget *parent) : QGraphicsView(parent)
 
     // add parameters
     ParameterInt *param;
-    param = new ParameterInt(myBlock, "Parameter1");
+    param = new ParameterInt(myBlock, "Parameter 1");
     param->setValue(-27);
     param->setPublic(false);
-    param = new ParameterInt(myBlock, "Parameter2");
+    param = new ParameterInt(myBlock, "Parameter two");
     param->setValue(32768);
     param->setPublic(true);
     param = new ParameterInt(myBlock, "Parameter3");
@@ -42,8 +41,7 @@ bd::ViewBlock::ViewBlock(QWidget *parent) : QGraphicsView(parent)
     Output *outp;
     outp = new Output(myBlock, "Out1");
 
-    GraphicItemBlockHeader *myGitemTst= new GraphicItemBlockHeader(myBlock);
-    myGitemTst->minWidth = 400;
+    GraphicItemBlock *myGitemTst= new GraphicItemBlock(myBlock);
 
     QGraphicsScene *scene = new QGraphicsScene(this);
     scene->setBackgroundBrush(QBrush(QColor("#fffcfc")));

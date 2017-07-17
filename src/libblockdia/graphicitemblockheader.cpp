@@ -5,7 +5,7 @@
 #include <QColor>
 #include <QBrush>
 
-bd::GraphicItemBlockHeader::GraphicItemBlockHeader(Block *block)
+bd::GraphicItemBlockHeader::GraphicItemBlockHeader(Block *block, QGraphicsItem *parent) : QGraphicsItem(parent)
 {
     this->block = block;
     this->minWidth = 0;
@@ -74,6 +74,7 @@ void bd::GraphicItemBlockHeader::paint(QPainter *painter, const QStyleOptionGrap
     if (this->minWidth    > overallWidth) overallWidth = this->minWidth;
 
 
+
     // ------------------------------------------------------------------------
     //                                 Drawing
     // ------------------------------------------------------------------------
@@ -96,5 +97,15 @@ void bd::GraphicItemBlockHeader::paint(QPainter *painter, const QStyleOptionGrap
     // draw typeId + instacneId
     painter->setFont(fontId);
     painter->drawText(widthHeader2nLine/2 - widthId, fmInstanceName.height() + padding + fmId.height() - overallHeight/2, this->block->typeId() + this->block->instanceId());
+
+}
+
+int bd::GraphicItemBlockHeader::getUsedWidth()
+{
+
+}
+
+int bd::GraphicItemBlockHeader::getUsedHeight()
+{
 
 }
