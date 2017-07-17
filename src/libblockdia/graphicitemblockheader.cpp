@@ -9,7 +9,8 @@ bd::GraphicItemBlockHeader::GraphicItemBlockHeader(Block *block, QGraphicsItem *
 {
     this->block = block;
     this->minWidth = 0;
-    this->padding = 10;
+    this->paddingH = 10;
+    this->paddingV = 5;
 
 
     // font instance name
@@ -44,7 +45,7 @@ void bd::GraphicItemBlockHeader::paint(QPainter *painter, const QStyleOptionGrap
     int widthInstanceName = fmInstanceName.width(this->block->instanceName());
     int widthTypeName   = fmTypeName.width(this->block->typeName());
     int widthId   = fmId.width(this->block->typeId() + this->block->instanceId());
-    int widthTypeId = widthTypeName + this->padding + widthId;
+    int widthTypeId = widthTypeName + this->paddingH + widthId;
     int width = (widthInstanceName > widthTypeId) ? widthInstanceName : widthTypeId;
 
     // determine width of the textbox
@@ -64,15 +65,15 @@ void bd::GraphicItemBlockHeader::paint(QPainter *painter, const QStyleOptionGrap
 
     // draw instance name
     painter->setFont(fontInstanceName);
-    painter->drawText(-widthInstanceName/2, fmInstanceName.ascent() - boxHeight/2 + this->padding, this->block->instanceName());
+    painter->drawText(-widthInstanceName/2, fmInstanceName.ascent() - boxHeight/2 + this->paddingV, this->block->instanceName());
 
     // draw type name
     painter->setFont(fontTypeName);
-    painter->drawText(-widthTypeId/2, fmInstanceName.height() + this->padding + fmTypeName.ascent() - boxHeight/2 + padding, this->block->typeName());
+    painter->drawText(-widthTypeId/2, fmInstanceName.height() + this->paddingV + fmTypeName.ascent() - boxHeight/2 + this->paddingV, this->block->typeName());
 
     // draw typeId + instacneId
     painter->setFont(fontId);
-    painter->drawText(widthTypeId/2 - widthId, fmInstanceName.height() + this->padding + fmId.height() - boxHeight/2 + this->padding, this->block->typeId() + this->block->instanceId());
+    painter->drawText(widthTypeId/2 - widthId, fmInstanceName.height() + this->paddingV + fmId.height() - boxHeight/2 + this->paddingV, this->block->typeId() + this->block->instanceId());
 
 }
 
@@ -85,10 +86,10 @@ int bd::GraphicItemBlockHeader::getUsedWidth()
     int widthInstanceName = fmInstanceName.width(this->block->instanceName());
     int widthTypeName   = fmTypeName.width(this->block->typeName());
     int widthId   = fmId.width(this->block->typeId() + this->block->instanceId());
-    int widthTypeId = widthTypeName + this->padding + widthId;
+    int widthTypeId = widthTypeName + this->paddingH + widthId;
     int width = (widthInstanceName > widthTypeId) ? widthInstanceName : widthTypeId;
 
-    return width + 2 * this->padding;
+    return width + 2 * this->paddingH;
 }
 
 int bd::GraphicItemBlockHeader::getUsedHeight()
@@ -99,8 +100,8 @@ int bd::GraphicItemBlockHeader::getUsedHeight()
 
     int height = 0;
     height += fmInstanceName.height();
-    height += this->padding;
+    height += this->paddingV;
     height += (fmId.height() > fmTypeName.height()) ? fmId.height() : fmTypeName.height();
 
-    return height + 2 * this->padding;
+    return height + 2 * this->paddingV;
 }

@@ -22,7 +22,8 @@ public:
     int getUsedWidth();
     int getUsedHeight();
     int minWidth;
-    int padding;
+    int paddingH;
+    int paddingV;
 
 private:
     Block *block;
