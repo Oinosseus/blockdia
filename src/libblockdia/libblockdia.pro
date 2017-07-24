@@ -16,7 +16,7 @@ CONFIG(debug, debug|release) {
 }
 
 # define output directories
-DESTDIR = ../../bin
+DESTDIR = $$PWD/../../bin
 CONFIG(debug, debug|release) {
     MOC_DIR     = $$PWD/../../build/$${TARGET}_debug/
     OBJECTS_DIR = $$PWD/../../build/$${TARGET}_debug/
