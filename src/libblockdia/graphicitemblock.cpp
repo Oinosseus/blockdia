@@ -40,10 +40,10 @@ void bd::GraphicItemBlock::updateBlockData()
     GraphicItemTextBox *gitb;
 
     // ------------------------------------------------------------------------
-    //                           Create Sub GraphicIterms
+    //                           Create Sub GraphicItems
     // ------------------------------------------------------------------------
 
-    // creeate new header
+    // create new header
     if (this->giBlockHead != Q_NULLPTR) {
         delete this->giBlockHead;
     }
