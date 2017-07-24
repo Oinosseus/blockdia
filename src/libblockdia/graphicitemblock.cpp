@@ -54,16 +54,17 @@ void bd::GraphicItemBlock::updateBlockData()
     heightMaximum += this->giBlockHead->getUsedHeight();
     this->giBlockHead->setY(this->giBlockHead->getUsedHeight()/2);
 
-    // clear public parameters
-    while (this->giParamsPublic.size() > 0) delete this->giParamsPublic.takeLast();
+
+    // clear private parameters
+    while (this->giParamsPrivate.size() > 0) delete this->giParamsPrivate.takeLast();
 
     // create public parameters
     for (int i=0; i < this->block->getParameters().size(); ++i) { // create new list
         Parameter *param = this->block->getParameters().at(i);
-        if (param->isPublic()) {
+        if (!param->isPublic()) {
             gitb = new GraphicItemTextBox(this);
             gitb->bgColor = this->backgroundParameter;
-            this->giParamsPublic.append(gitb);
+            this->giParamsPrivate.append(gitb);
 
             // update
             gitb->setText(param->name(), GraphicItemTextBox::Align::Center);
@@ -77,6 +78,7 @@ void bd::GraphicItemBlock::updateBlockData()
             if (gitb->getUsedWidth() > widthMaximum) widthMaximum = gitb->getUsedWidth();
         }
     }
+
 
     // clear inputs and outputs
     while (this->giInputs.size() > 0) delete this->giInputs.takeLast();
@@ -135,6 +137,32 @@ void bd::GraphicItemBlock::updateBlockData()
     }
 
 
+    // clear public parameters
+    while (this->giParamsPublic.size() > 0) delete this->giParamsPublic.takeLast();
+
+    // create public parameters
+    for (int i=0; i < this->block->getParameters().size(); ++i) { // create new list
+        Parameter *param = this->block->getParameters().at(i);
+        if (param->isPublic()) {
+            gitb = new GraphicItemTextBox(this);
+            gitb->bgColor = this->backgroundParameter;
+            this->giParamsPublic.append(gitb);
+
+            // update
+            gitb->setText(param->name(), GraphicItemTextBox::Align::Center);
+
+            // update height
+            gitb->setY(gitb->y() + gitb->getUsedHeight()/2);
+            gitb->setY(gitb->y() + heightMaximum);
+            heightMaximum += gitb->getUsedHeight();
+
+            // update maximum width
+            if (gitb->getUsedWidth() > widthMaximum) widthMaximum = gitb->getUsedWidth();
+        }
+    }
+
+
+
 
     // ------------------------------------------------------------------------
     //                             Update Positon
@@ -142,10 +170,11 @@ void bd::GraphicItemBlock::updateBlockData()
 
     // update header
     this->giBlockHead->setY(this->giBlockHead->y() - heightMaximum/2);
+    this->giBlockHead->minWidth = widthMaximum;
 
-    // update public parameters
-    for (int i=0; i < this->giParamsPublic.size(); ++i) {
-        gitb = this->giParamsPublic.at(i);
+    // update private parameters
+    for (int i=0; i < this->giParamsPrivate.size(); ++i) {
+        gitb = this->giParamsPrivate.at(i);
         gitb->minWidth = widthMaximum;
         gitb->setY(gitb->y() - heightMaximum/2);
     }
@@ -172,4 +201,12 @@ void bd::GraphicItemBlock::updateBlockData()
         gitb->setY(gitb->y() - heightMaximum/2);
         gitb->setX((widthMaximum - widthOutputs) / 2);
     }
+
+    // update public parameters
+    for (int i=0; i < this->giParamsPublic.size(); ++i) {
+        gitb = this->giParamsPublic.at(i);
+        gitb->minWidth = widthMaximum;
+        gitb->setY(gitb->y() - heightMaximum/2);
+    }
+
 }
