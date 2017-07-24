@@ -26,7 +26,7 @@ public:
     explicit GraphicItemBlock(Block *block, QGraphicsItem *parent=Q_NULLPTR);
     QRectF boundingRect() const;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
-    QColor backgroundConstraint = QColor("#ffd");
+    QColor backgroundParameter = QColor("#ffd");
     QColor backgroundInputs     = QColor("#fdd");
     QColor backgroundOutputs    = QColor("#ddf");
     void updateBlockData();
@@ -36,6 +36,8 @@ private:
     QRectF currentBoundingRect;
     GraphicItemBlockHeader *giBlockHead;
     QList<GraphicItemTextBox *> giParamsPublic;
+    QList<GraphicItemTextBox *> giInputs;
+    QList<GraphicItemTextBox *> giOutputs;
 };
 
 } // namespace bd

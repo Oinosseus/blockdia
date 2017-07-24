@@ -36,6 +36,8 @@ void bd::GraphicItemBlock::paint(QPainter *painter, const QStyleOptionGraphicsIt
 void bd::GraphicItemBlock::updateBlockData()
 {
     int widthMaximum = 0;
+    int widthInputs = 0;
+    int widthOutputs = 0;
     int heightMaximum = 0;
     GraphicItemTextBox *gitb;
 
@@ -52,15 +54,15 @@ void bd::GraphicItemBlock::updateBlockData()
     heightMaximum += this->giBlockHead->getUsedHeight();
     this->giBlockHead->setY(this->giBlockHead->getUsedHeight()/2);
 
+    // clear public parameters
+    while (this->giParamsPublic.size() > 0) delete this->giParamsPublic.takeLast();
+
     // create public parameters
-    while (this->giParamsPublic.size() > 0) { // clear current list
-        GraphicItemTextBox *tb = this->giParamsPublic.takeLast();
-        delete tb;
-    }
     for (int i=0; i < this->block->getParameters().size(); ++i) { // create new list
         Parameter *param = this->block->getParameters().at(i);
         if (param->isPublic()) {
             gitb = new GraphicItemTextBox(this);
+            gitb->bgColor = this->backgroundParameter;
             this->giParamsPublic.append(gitb);
 
             // update
@@ -76,6 +78,64 @@ void bd::GraphicItemBlock::updateBlockData()
         }
     }
 
+    // clear inputs and outputs
+    while (this->giInputs.size() > 0) delete this->giInputs.takeLast();
+    while (this->giOutputs.size() > 0) delete this->giOutputs.takeLast();
+    for (int i = 0; i < this->block->getInputs().size() || i < this->block->getOutputs().size(); ++i) {
+
+        Input *inp = Q_NULLPTR;
+        Output *outp = Q_NULLPTR;
+        GraphicItemTextBox *giInp = Q_NULLPTR;
+        GraphicItemTextBox *giOutp = Q_NULLPTR;
+
+        // inputs
+        if (i < this->block->getInputs().size()) {
+            inp = this->block->getInputs().at(i);
+            giInp = new GraphicItemTextBox(this);
+            giInp->bgColor = this->backgroundInputs;
+            this->giInputs.append(giInp);
+
+            // update
+            giInp->setText(inp->name(), GraphicItemTextBox::Align::Left);
+
+            // update height
+            giInp->setY(giInp->y() + giInp->getUsedHeight()/2);
+            giInp->setY(giInp->y() + heightMaximum);
+
+            // update width
+            if (giInp->getUsedWidth() > widthInputs) widthInputs = giInp->getUsedWidth();
+        }
+
+        // outputs
+        if (i < this->block->getOutputs().size()) {
+            outp = this->block->getOutputs().at(i);
+            giOutp = new GraphicItemTextBox(this);
+            giOutp->bgColor = this->backgroundOutputs;
+            this->giOutputs.append(giOutp);
+
+            // update
+            giOutp->setText(outp->name(), GraphicItemTextBox::Align::Right);
+
+            // update height
+            giOutp->setY(giOutp->y() + giOutp->getUsedHeight()/2);
+            giOutp->setY(giOutp->y() + heightMaximum);
+
+            // update width
+            if (giOutp->getUsedWidth() > widthOutputs) widthOutputs = giOutp->getUsedWidth();
+        }
+
+        // set new height
+        int h = 0;
+        if (giOutp != Q_NULLPTR && giOutp->getUsedHeight() > h) h = giOutp->getUsedHeight();
+        if (giInp != Q_NULLPTR  && giInp->getUsedHeight() > h)  h = giInp->getUsedHeight();
+        heightMaximum += h;
+
+        // set new width
+        if ((widthInputs + widthOutputs) > widthMaximum) widthMaximum = widthInputs + widthOutputs;
+    }
+
+
+
     // ------------------------------------------------------------------------
     //                             Update Positon
     // ------------------------------------------------------------------------
@@ -88,5 +148,28 @@ void bd::GraphicItemBlock::updateBlockData()
         gitb = this->giParamsPublic.at(i);
         gitb->minWidth = widthMaximum;
         gitb->setY(gitb->y() - heightMaximum/2);
+    }
+
+    // stretch i/o width
+    if ((widthInputs + widthOutputs) < widthMaximum) {
+        int w = widthMaximum - widthInputs - widthOutputs;
+        widthInputs += w/2;
+        widthOutputs += w/2;
+    }
+
+    // update inputs
+    for (int i=0; i < this->giInputs.size(); ++i) {
+        gitb = this->giInputs.at(i);
+        gitb->minWidth = widthInputs;
+        gitb->setY(gitb->y() - heightMaximum/2);
+        gitb->setX((widthInputs - widthMaximum) / 2);
+    }
+
+    // update outputs
+    for (int i=0; i < this->giOutputs.size(); ++i) {
+        gitb = this->giOutputs.at(i);
+        gitb->minWidth = widthOutputs;
+        gitb->setY(gitb->y() - heightMaximum/2);
+        gitb->setX((widthMaximum - widthOutputs) / 2);
     }
 }

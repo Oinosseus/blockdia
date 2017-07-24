@@ -26,6 +26,7 @@ public:
     int getUsedWidth();
     int getUsedHeight();
     int minWidth;
+    QColor bgColor;
 
 
 
@@ -33,7 +34,6 @@ private:
     QRectF currentBoundingRect;
     QString text;
     QFont font;
-    QColor bgColor;
     int padding;
     Align algn;
 };

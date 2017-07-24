@@ -31,14 +31,13 @@ bd::ViewBlock::ViewBlock(QWidget *parent) : QGraphicsView(parent)
     param->setPublic(true);
 
     // add inputs
-    Input *inp;
-    inp = new Input(myBlock, "Input1");
-    inp = new Input(myBlock, "Input2");
-    inp = new Input(myBlock, "Input3");
+    new Input(myBlock, "Input1");
+    new Input(myBlock, "Input Two");
+    new Input(myBlock, "Input 3");
 
     // add outputs
-    Output *outp;
-    outp = new Output(myBlock, "Out1");
+    new Output(myBlock, "Out1");
+    new Output(myBlock, "Out 2");
 
     QGraphicsScene *scene = new QGraphicsScene(this);
     scene->setBackgroundBrush(QBrush(QColor("#fffcfc")));
