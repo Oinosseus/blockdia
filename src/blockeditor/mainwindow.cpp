@@ -57,7 +57,8 @@ MainWindow::~MainWindow()
 
 void MainWindow::slotActionNewBlock()
 {
-
+    QTabWidget *tw = (QTabWidget *) this->centralWidget();
+    tw->addTab(new QLabel("Hello World"), "*");
 }
 
 void MainWindow::slotActionQuit()
