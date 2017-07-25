@@ -90,46 +90,42 @@ void bd::GraphicItemBlock::updateBlockData()
         GraphicItemTextBox *giInp = Q_NULLPTR;
         GraphicItemTextBox *giOutp = Q_NULLPTR;
 
-        // inputs
+        // input - create new textbox
+        giInp = new GraphicItemTextBox(this);
+        giInp->bgColor = this->backgroundInputs;
+        this->giInputs.append(giInp);
+
+        // input - write text into textbox
         if (i < this->block->getInputs().size()) {
             inp = this->block->getInputs().at(i);
-            giInp = new GraphicItemTextBox(this);
-            giInp->bgColor = this->backgroundInputs;
-            this->giInputs.append(giInp);
-
-            // update
             giInp->setText(inp->name(), GraphicItemTextBox::Align::Left);
-
-            // update height
-            giInp->setY(giInp->y() + giInp->getUsedHeight()/2.0);
-            giInp->setY(giInp->y() + heightMaximum);
-
-            // update width
-            if (giInp->getUsedWidth() > widthInputs) widthInputs = giInp->getUsedWidth();
         }
 
-        // outputs
+        // input update height, width
+        giInp->setY(giInp->y() + giInp->getUsedHeight()/2.0);
+        giInp->setY(giInp->y() + heightMaximum);
+        if (giInp->getUsedWidth() > widthInputs) widthInputs = giInp->getUsedWidth();
+
+        // output - create new textbox
+        giOutp = new GraphicItemTextBox(this);
+        giOutp->bgColor = this->backgroundOutputs;
+        this->giOutputs.append(giOutp);
+
+        // output - write text into textbox
         if (i < this->block->getOutputs().size()) {
             outp = this->block->getOutputs().at(i);
-            giOutp = new GraphicItemTextBox(this);
-            giOutp->bgColor = this->backgroundOutputs;
-            this->giOutputs.append(giOutp);
-
-            // update
             giOutp->setText(outp->name(), GraphicItemTextBox::Align::Right);
-
-            // update height
-            giOutp->setY(giOutp->y() + giOutp->getUsedHeight()/2.0);
-            giOutp->setY(giOutp->y() + heightMaximum);
-
-            // update width
-            if (giOutp->getUsedWidth() > widthOutputs) widthOutputs = giOutp->getUsedWidth();
         }
+
+        // output - update height, width
+        giOutp->setY(giOutp->y() + giOutp->getUsedHeight()/2.0);
+        giOutp->setY(giOutp->y() + heightMaximum);
+        if (giOutp->getUsedWidth() > widthOutputs) widthOutputs = giOutp->getUsedWidth();
 
         // set new height
         int h = 0;
-        if (giOutp != Q_NULLPTR && giOutp->getUsedHeight() > h) h = giOutp->getUsedHeight();
-        if (giInp != Q_NULLPTR  && giInp->getUsedHeight() > h)  h = giInp->getUsedHeight();
+        if (giOutp->getUsedHeight() > h) h = giOutp->getUsedHeight();
+        if (giInp->getUsedHeight() > h)  h = giInp->getUsedHeight();
         heightMaximum += h;
 
         // set new width
