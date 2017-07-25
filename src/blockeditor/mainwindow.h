@@ -14,6 +14,9 @@ public:
 
 private:
     QTabWidget *widgetMain;
+
+private slots:
+    void slotActionQuit();
 };
 
 #endif // MAINWINDOW_H
