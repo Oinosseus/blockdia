@@ -24,7 +24,6 @@ MainWindow::MainWindow(QWidget *parent)
     QSettings s;
     this->restoreState(s.value("Mainwindow/State").toByteArray());
     this->restoreGeometry(s.value("MainWindow/Geometry").toByteArray());
-
 }
 
 MainWindow::~MainWindow()
