@@ -2,6 +2,9 @@
 #define BLOCKBROWSER_H
 
 #include <QWidget>
+#include <QVBoxLayout>
+#include <QFileSystemModel>
+#include <QTreeView>
 
 class BlockBrowser : public QWidget
 {
@@ -12,6 +15,13 @@ public:
 signals:
 
 public slots:
+
+private slots:
+    void slotDirBrowse(void);
+
+private:
+    QTreeView *viewFsTree;
+    QFileSystemModel *modelFs;
 };
 
 #endif // BLOCKBROWSER_H

@@ -4,6 +4,8 @@
 #include <QDockWidget>
 #include <QSettings>
 
+#include <blockbrowser.h>
+
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
 {
@@ -15,7 +17,7 @@ MainWindow::MainWindow(QWidget *parent)
     QDockWidget *dock = new QDockWidget("Block Browser", this);
     dock->setObjectName("BlockBrowser");
     dock->setAllowedAreas(Qt::LeftDockWidgetArea);
-    dock->setWidget(new QLabel("Hello World"));
+    dock->setWidget(new BlockBrowser(this));
     dock->setFloating(false);
     dock->setFeatures(QDockWidget::NoDockWidgetFeatures);
     this->addDockWidget(Qt::LeftDockWidgetArea, dock);
