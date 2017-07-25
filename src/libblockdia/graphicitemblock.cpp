@@ -28,9 +28,10 @@ void bd::GraphicItemBlock::paint(QPainter *painter, const QStyleOptionGraphicsIt
     Q_UNUSED(widget);
     Q_UNUSED(painter);
 
-    painter->setPen(Qt::red);
-    painter->drawLine(-200, 0, 200, 0);
-    painter->drawLine(0, -200, 0, 200);
+//    // background 0-cross
+//    painter->setPen(Qt::red);
+//    painter->drawLine(-200, 0, 200, 0);
+//    painter->drawLine(0, -200, 0, 200);
 }
 
 void bd::GraphicItemBlock::updateBlockData()
@@ -156,7 +157,6 @@ void bd::GraphicItemBlock::updateBlockData()
             if (gitb->getUsedWidth() > widthMaximum) widthMaximum = gitb->getUsedWidth();
         }
     }
-
 
 
 
