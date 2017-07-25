@@ -23,9 +23,9 @@ public:
     QRectF boundingRect() const;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
     void setText(const QString &text, Align align);
-    int getUsedWidth();
-    int getUsedHeight();
-    int minWidth;
+    qreal getUsedWidth();
+    qreal getUsedHeight();
+    qreal minWidth;
     QColor bgColor;
 
 

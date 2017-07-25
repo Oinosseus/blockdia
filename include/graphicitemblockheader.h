@@ -19,11 +19,11 @@ public:
     GraphicItemBlockHeader(Block *block, QGraphicsItem *parent=0);
     QRectF boundingRect() const;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
-    int getUsedWidth();
-    int getUsedHeight();
-    int minWidth;
-    int paddingH;
-    int paddingV;
+    qreal getUsedWidth();
+    qreal getUsedHeight();
+    qreal minWidth;
+    qreal paddingH;
+    qreal paddingV;
 
 private:
     Block *block;

@@ -42,11 +42,11 @@ void bd::GraphicItemBlockHeader::paint(QPainter *painter, const QStyleOptionGrap
     QFontMetrics fmTypeName = QFontMetrics(this->fontTypeName);
     QFontMetrics fmId = QFontMetrics(this->fontId);
 
-    int widthInstanceName = fmInstanceName.width(this->block->instanceName());
-    int widthTypeName   = fmTypeName.width(this->block->typeName());
-    int widthId   = fmId.width(this->block->typeId() + this->block->instanceId());
-    int widthTypeId = widthTypeName + this->paddingH + widthId;
-    int width = (widthInstanceName > widthTypeId) ? widthInstanceName : widthTypeId;
+    qreal widthInstanceName = fmInstanceName.width(this->block->instanceName());
+    qreal widthTypeName   = fmTypeName.width(this->block->typeName());
+    qreal widthId   = fmId.width(this->block->typeId() + this->block->instanceId());
+    qreal widthTypeId = widthTypeName + this->paddingH + widthId;
+    qreal width = (widthInstanceName > widthTypeId) ? widthInstanceName : widthTypeId;
 
     // determine width of the textbox
     int boxHeight = this->getUsedHeight();
@@ -54,7 +54,7 @@ void bd::GraphicItemBlockHeader::paint(QPainter *painter, const QStyleOptionGrap
     if (this->minWidth > boxWidth) boxWidth = this->minWidth;
 
     // set new bounding rect
-    this->currentBoundingRect = QRectF ( - boxWidth/2, - boxHeight/2, boxWidth, boxHeight);
+    this->currentBoundingRect = QRectF ( - boxWidth/2.0, - boxHeight/2.0, boxWidth, boxHeight);
 
     // setup painter
     painter->setPen(Qt::black);
@@ -65,43 +65,43 @@ void bd::GraphicItemBlockHeader::paint(QPainter *painter, const QStyleOptionGrap
 
     // draw instance name
     painter->setFont(fontInstanceName);
-    painter->drawText(-widthInstanceName/2, fmInstanceName.ascent() - boxHeight/2 + this->paddingV, this->block->instanceName());
+    painter->drawText(-widthInstanceName/2.0, fmInstanceName.ascent() - boxHeight/2.0 + this->paddingV, this->block->instanceName());
 
     // draw type name
     painter->setFont(fontTypeName);
-    painter->drawText(-widthTypeId/2, fmInstanceName.height() + this->paddingV + fmTypeName.ascent() - boxHeight/2 + this->paddingV, this->block->typeName());
+    painter->drawText(-widthTypeId/2.0, fmInstanceName.height() + this->paddingV + fmTypeName.ascent() - boxHeight/2.0 + this->paddingV, this->block->typeName());
 
     // draw typeId + instacneId
     painter->setFont(fontId);
-    painter->drawText(widthTypeId/2 - widthId, fmInstanceName.height() + this->paddingV + fmId.height() - boxHeight/2 + this->paddingV, this->block->typeId() + this->block->instanceId());
+    painter->drawText(widthTypeId/2.0 - widthId, fmInstanceName.height() + this->paddingV + fmId.height() - boxHeight/2.0 + this->paddingV, this->block->typeId() + this->block->instanceId());
 
 }
 
-int bd::GraphicItemBlockHeader::getUsedWidth()
+qreal bd::GraphicItemBlockHeader::getUsedWidth()
 {
     QFontMetrics fmInstanceName = QFontMetrics(this->fontInstanceName);
     QFontMetrics fmTypeName = QFontMetrics(this->fontTypeName);
     QFontMetrics fmId = QFontMetrics(this->fontId);
 
-    int widthInstanceName = fmInstanceName.width(this->block->instanceName());
-    int widthTypeName   = fmTypeName.width(this->block->typeName());
-    int widthId   = fmId.width(this->block->typeId() + this->block->instanceId());
-    int widthTypeId = widthTypeName + this->paddingH + widthId;
-    int width = (widthInstanceName > widthTypeId) ? widthInstanceName : widthTypeId;
+    qreal widthInstanceName = fmInstanceName.width(this->block->instanceName());
+    qreal widthTypeName   = fmTypeName.width(this->block->typeName());
+    qreal widthId   = fmId.width(this->block->typeId() + this->block->instanceId());
+    qreal widthTypeId = widthTypeName + this->paddingH + widthId;
+    qreal width = (widthInstanceName > widthTypeId) ? widthInstanceName : widthTypeId;
 
-    return width + 2 * this->paddingH;
+    return width + 2.0 * this->paddingH;
 }
 
-int bd::GraphicItemBlockHeader::getUsedHeight()
+qreal bd::GraphicItemBlockHeader::getUsedHeight()
 {
     QFontMetrics fmInstanceName = QFontMetrics(this->fontInstanceName);
     QFontMetrics fmTypeName = QFontMetrics(this->fontTypeName);
     QFontMetrics fmId = QFontMetrics(this->fontId);
 
-    int height = 0;
+    qreal height = 0;
     height += fmInstanceName.height();
     height += this->paddingV;
     height += (fmId.height() > fmTypeName.height()) ? fmId.height() : fmTypeName.height();
 
-    return height + 2 * this->paddingV;
+    return height + 2.0 * this->paddingV;
 }

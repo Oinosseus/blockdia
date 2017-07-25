@@ -26,12 +26,12 @@ void bd::GraphicItemTextBox::paint(QPainter *painter, const QStyleOptionGraphics
     QFontMetrics fm = QFontMetrics(this->font);
 
     // determine width of the textbox
-    int boxHeight = this->getUsedHeight();
-    int boxWidth = this->getUsedWidth();
+    qreal boxHeight = this->getUsedHeight();
+    qreal boxWidth = this->getUsedWidth();
     if (this->minWidth > boxWidth) boxWidth = this->minWidth;
 
     // set new bounding rect
-    this->currentBoundingRect = QRectF ( - boxWidth/2, - boxHeight/2, boxWidth, boxHeight);
+    this->currentBoundingRect = QRectF ( - boxWidth/2.0, - boxHeight/2.0, boxWidth, boxHeight);
 
     // setup painter
     painter->setPen(Qt::black);
@@ -57,14 +57,14 @@ void bd::GraphicItemTextBox::setText(const QString &text, Align align)
     this->algn = align;
 }
 
-int bd::GraphicItemTextBox::getUsedWidth()
+qreal bd::GraphicItemTextBox::getUsedWidth()
 {
     QFontMetrics fm = QFontMetrics(this->font);
-    return 2 * this->padding + fm.width(this->text);
+    return 2.0 * this->padding + fm.width(this->text);
 }
 
-int bd::GraphicItemTextBox::getUsedHeight()
+qreal bd::GraphicItemTextBox::getUsedHeight()
 {
     QFontMetrics fm = QFontMetrics(this->font);
-    return 2 * this->padding + fm.height();
+    return 2.0 * this->padding + fm.height();
 }

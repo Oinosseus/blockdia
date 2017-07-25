@@ -35,10 +35,10 @@ void bd::GraphicItemBlock::paint(QPainter *painter, const QStyleOptionGraphicsIt
 
 void bd::GraphicItemBlock::updateBlockData()
 {
-    int widthMaximum = 0;
-    int widthInputs = 0;
-    int widthOutputs = 0;
-    int heightMaximum = 0;
+    qreal widthMaximum = 0;
+    qreal widthInputs = 0;
+    qreal widthOutputs = 0;
+    qreal heightMaximum = 0;
     GraphicItemTextBox *gitb;
 
     // ------------------------------------------------------------------------
@@ -52,7 +52,7 @@ void bd::GraphicItemBlock::updateBlockData()
     this->giBlockHead = new GraphicItemBlockHeader(this->block, this);
     if (this->giBlockHead->getUsedWidth() > widthMaximum) widthMaximum = this->giBlockHead->getUsedWidth();
     heightMaximum += this->giBlockHead->getUsedHeight();
-    this->giBlockHead->setY(this->giBlockHead->getUsedHeight()/2);
+    this->giBlockHead->setY(this->giBlockHead->getUsedHeight()/2.0);
 
 
     // clear private parameters
@@ -70,7 +70,7 @@ void bd::GraphicItemBlock::updateBlockData()
             gitb->setText(param->name(), GraphicItemTextBox::Align::Center);
 
             // update height
-            gitb->setY(gitb->y() + gitb->getUsedHeight()/2);
+            gitb->setY(gitb->y() + gitb->getUsedHeight()/2.0);
             gitb->setY(gitb->y() + heightMaximum);
             heightMaximum += gitb->getUsedHeight();
 
@@ -101,7 +101,7 @@ void bd::GraphicItemBlock::updateBlockData()
             giInp->setText(inp->name(), GraphicItemTextBox::Align::Left);
 
             // update height
-            giInp->setY(giInp->y() + giInp->getUsedHeight()/2);
+            giInp->setY(giInp->y() + giInp->getUsedHeight()/2.0);
             giInp->setY(giInp->y() + heightMaximum);
 
             // update width
@@ -119,7 +119,7 @@ void bd::GraphicItemBlock::updateBlockData()
             giOutp->setText(outp->name(), GraphicItemTextBox::Align::Right);
 
             // update height
-            giOutp->setY(giOutp->y() + giOutp->getUsedHeight()/2);
+            giOutp->setY(giOutp->y() + giOutp->getUsedHeight()/2.0);
             giOutp->setY(giOutp->y() + heightMaximum);
 
             // update width
@@ -152,7 +152,7 @@ void bd::GraphicItemBlock::updateBlockData()
             gitb->setText(param->name(), GraphicItemTextBox::Align::Center);
 
             // update height
-            gitb->setY(gitb->y() + gitb->getUsedHeight()/2);
+            gitb->setY(gitb->y() + gitb->getUsedHeight()/2.0);
             gitb->setY(gitb->y() + heightMaximum);
             heightMaximum += gitb->getUsedHeight();
 
@@ -169,44 +169,44 @@ void bd::GraphicItemBlock::updateBlockData()
     // ------------------------------------------------------------------------
 
     // update header
-    this->giBlockHead->setY(this->giBlockHead->y() - heightMaximum/2);
+    this->giBlockHead->setY(this->giBlockHead->y() - heightMaximum/2.0);
     this->giBlockHead->minWidth = widthMaximum;
 
     // update private parameters
     for (int i=0; i < this->giParamsPrivate.size(); ++i) {
         gitb = this->giParamsPrivate.at(i);
         gitb->minWidth = widthMaximum;
-        gitb->setY(gitb->y() - heightMaximum/2);
+        gitb->setY(gitb->y() - heightMaximum/2.0);
     }
 
     // stretch i/o width
     if ((widthInputs + widthOutputs) < widthMaximum) {
         int w = widthMaximum - widthInputs - widthOutputs;
-        widthInputs += w/2;
-        widthOutputs += w/2;
+        widthInputs += w/2.0;
+        widthOutputs += w/2.0;
     }
 
     // update inputs
     for (int i=0; i < this->giInputs.size(); ++i) {
         gitb = this->giInputs.at(i);
         gitb->minWidth = widthInputs;
-        gitb->setY(gitb->y() - heightMaximum/2);
-        gitb->setX((widthInputs - widthMaximum) / 2);
+        gitb->setY(gitb->y() - heightMaximum/2.0);
+        gitb->setX((widthInputs - widthMaximum) / 2.0);
     }
 
     // update outputs
     for (int i=0; i < this->giOutputs.size(); ++i) {
         gitb = this->giOutputs.at(i);
         gitb->minWidth = widthOutputs;
-        gitb->setY(gitb->y() - heightMaximum/2);
-        gitb->setX((widthMaximum - widthOutputs) / 2);
+        gitb->setY(gitb->y() - heightMaximum/2.0);
+        gitb->setX((widthMaximum - widthOutputs) / 2.0);
     }
 
     // update public parameters
     for (int i=0; i < this->giParamsPublic.size(); ++i) {
         gitb = this->giParamsPublic.at(i);
         gitb->minWidth = widthMaximum;
-        gitb->setY(gitb->y() - heightMaximum/2);
+        gitb->setY(gitb->y() - heightMaximum/2.0);
     }
 
 }
