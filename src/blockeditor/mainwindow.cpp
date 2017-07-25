@@ -16,6 +16,12 @@ MainWindow::MainWindow(QWidget *parent)
     QMenu *menuFile = new QMenu("File", this);
     this->menuBar()->addMenu(menuFile);
 
+    // action - new block
+    QAction *actNewBlock = new QAction("new block", this);
+    menuFile->addAction(actNewBlock);
+    actNewBlock->setShortcut(Qt::Key_N | Qt::CTRL);
+    connect(actNewBlock, SIGNAL(triggered(bool)), this, SLOT(slotActionNewBlock()));
+
     // action - quit
     QAction *actQuit = new QAction("quit", this);
     menuFile->addAction(actQuit);
@@ -47,6 +53,11 @@ MainWindow::~MainWindow()
     QSettings s;
     s.setValue("MainWindow/State", this->saveState());
     s.setValue("MainWindow/Geometry", this->saveGeometry());
+}
+
+void MainWindow::slotActionNewBlock()
+{
+
 }
 
 void MainWindow::slotActionQuit()

@@ -16,6 +16,7 @@ private:
     QTabWidget *widgetMain;
 
 private slots:
+    void slotActionNewBlock();
     void slotActionQuit();
 };
 
