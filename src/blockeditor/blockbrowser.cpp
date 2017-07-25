@@ -24,6 +24,7 @@ BlockBrowser::BlockBrowser(QWidget *parent) : QWidget(parent)
     this->modelFs->setRootPath(QDir::currentPath());
     this->viewFsTree->setModel(this->modelFs);
     vbl->addWidget(this->viewFsTree, 1);
+    connect(this->viewFsTree, SIGNAL(clicked(QModelIndex)), this, SLOT(slotItemClicked(QModelIndex)));
 
     // layout treeview
     this->viewFsTree->setHeaderHidden(true);
@@ -34,7 +35,13 @@ BlockBrowser::BlockBrowser(QWidget *parent) : QWidget(parent)
     // load base path
     QSettings s;
     this->viewFsTree->setRootIndex(this->modelFs->index(s.value("BlockBrowser/BasePath").toString()));
+}
 
+QString BlockBrowser::currentRootPath()
+{
+    QModelIndex idx = this->viewFsTree->rootIndex();
+    QString path = this->modelFs->filePath(idx);
+    return path;
 }
 
 void BlockBrowser::slotDirBrowse()
@@ -51,4 +58,12 @@ void BlockBrowser::slotDirBrowse()
     // save path
     QSettings s;
     s.setValue("BlockBrowser/BasePath", dirPath);
+}
+
+void BlockBrowser::slotItemClicked(QModelIndex idx)
+{
+    if (!this->modelFs->isDir(idx)) {
+        QString path = this->modelFs->filePath(idx);
+        emit signalFileOpen(path);
+    }
 }
