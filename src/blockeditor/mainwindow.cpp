@@ -7,7 +7,12 @@
 #include <QMenuBar>
 #include <QMenu>
 
+#include <block.h>
+#include <parameterint.h>
+#include <viewblockeditor.h>
+
 #include <blockbrowser.h>
+
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -57,8 +62,17 @@ MainWindow::~MainWindow()
 
 void MainWindow::slotActionNewBlock()
 {
+    // create new block editor
+    bd::Block *block = new bd::Block(this);
+    block->setInstanceName("InstanceName");
+    block->setTypeName("TypeName");
+    block->setInstanceId("InstanceId");
+    block->setTypeId("TypeId");
+    bd::ParameterInt(block, "Parameter1");
+    bd::ViewBlockEditor *bEditor = new bd::ViewBlockEditor(block);
+
     QTabWidget *tw = (QTabWidget *) this->centralWidget();
-    tw->addTab(new QLabel("Hello World"), "*");
+    tw->addTab(bEditor, "*");
 }
 
 void MainWindow::slotActionQuit()

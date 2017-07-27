@@ -52,23 +52,25 @@ SOURCES +=  libblockdia.cpp \
             block.cpp \
             graphicitemblock.cpp \
             viewblock.cpp \
+            viewblockeditor.cpp \
             parameter.cpp \
             parameterint.cpp \
             input.cpp \
             output.cpp \
             graphicitemblockheader.cpp \
-    graphicitemtextbox.cpp
+            graphicitemtextbox.cpp
 
 HEADERS +=  ../../include/libblockdia.h\
             ../../include/block.h \
             ../../include/graphicitemblock.h \
             ../../include/viewblock.h \
+            ../../include/viewblockeditor.h \
             ../../include/parameter.h \
             ../../include/parameterint.h \
             ../../include/input.h \
             ../../include/output.h \
             ../../include/graphicitemblockheader.h \
-    ../../include/graphicitemtextbox.h
+            ../../include/graphicitemtextbox.h
 
 unix {
     target.path = /usr/lib
