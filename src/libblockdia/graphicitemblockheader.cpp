@@ -58,8 +58,8 @@ void libblockdia::GraphicItemBlockHeader::paint(QPainter *painter, const QStyleO
     qreal width = (widthInstanceName > widthTypeId) ? widthInstanceName : widthTypeId;
 
     // determine width of the textbox
-    int boxHeight = this->getUsedHeight();
-    int boxWidth = this->getUsedWidth();
+    qreal boxHeight = this->getUsedHeight();
+    qreal boxWidth = this->getUsedWidth();
     if (this->minWidth > boxWidth) boxWidth = this->minWidth;
 
     // set new bounding rect

@@ -9,7 +9,6 @@
 libblockdia::GraphicItemBlock::GraphicItemBlock(Block *block, QGraphicsItem *parent) : QGraphicsItem(parent)
 {
     this->block = block;
-    this->currentBoundingRect = QRectF();
 
     this->giBlockHead = Q_NULLPTR;
     this->giParamsPublic = QList<GraphicItemTextBox *>();
@@ -18,6 +17,7 @@ libblockdia::GraphicItemBlock::GraphicItemBlock(Block *block, QGraphicsItem *par
 
 QRectF libblockdia::GraphicItemBlock::boundingRect() const
 {
+    QRectF r = this->childrenBoundingRect();
     return this->currentBoundingRect;
 }
 
@@ -29,13 +29,22 @@ void libblockdia::GraphicItemBlock::paint(QPainter *painter, const QStyleOptionG
     Q_UNUSED(painter);
 
 //    // background 0-cross
+//    QRectF r = this->childrenBoundingRect();
+//    r.setX(r.x() - 50);
+//    r.setY(r.y() - 50);
+//    r.setWidth(r.width() + 100);
+//    r.setHeight(r.height() + 100);
+
 //    painter->setPen(Qt::red);
+//    painter->drawRect(r);
 //    painter->drawLine(-200, 0, 200, 0);
 //    painter->drawLine(0, -200, 0, 200);
 }
 
 void libblockdia::GraphicItemBlock::updateBlockData()
 {
+    this->prepareGeometryChange();
+
     qreal widthMaximum = 0;
     qreal widthInputs = 0;
     qreal widthOutputs = 0;
@@ -205,4 +214,8 @@ void libblockdia::GraphicItemBlock::updateBlockData()
         gitb->setY(gitb->y() - heightMaximum/2.0);
     }
 
+    this->currentBoundingRect.setWidth(widthMaximum);
+    this->currentBoundingRect.setHeight(heightMaximum);
+    this->currentBoundingRect.setY(this->giBlockHead->y());
+    this->currentBoundingRect.setX(this->giBlockHead->x());
 }

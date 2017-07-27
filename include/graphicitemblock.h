@@ -36,12 +36,12 @@ public:
 
 private:
     Block *block;
-    QRectF currentBoundingRect;
     GraphicItemBlockHeader *giBlockHead;
     QList<GraphicItemTextBox *> giParamsPrivate;
     QList<GraphicItemTextBox *> giInputs;
     QList<GraphicItemTextBox *> giOutputs;
     QList<GraphicItemTextBox *> giParamsPublic;
+    QRectF currentBoundingRect;
 };
 
 } // namespace bd
