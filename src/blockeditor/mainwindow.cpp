@@ -62,15 +62,13 @@ void MainWindow::slotActionNewBlock()
 {
     // create new block editor
     libblockdia::Block *block = new libblockdia::Block(this);
-    block->setInstanceName("InstanceName");
-    block->setTypeName("TypeName");
-    block->setInstanceId("InstanceId");
-    block->setTypeId("TypeId");
-    libblockdia::ParameterInt(block, "Parameter1");
+    block->setTypeName("New Block Type *");
+    block->setTypeId("NBT");
     libblockdia::ViewBlockEditor *bEditor = new libblockdia::ViewBlockEditor(block);
 
+    // add block editor to central widget
     QTabWidget *tw = (QTabWidget *) this->centralWidget();
-    tw->addTab(bEditor, "*");
+    tw->addTab(bEditor, block->typeId() + "*");
 }
 
 void MainWindow::slotActionQuit()
