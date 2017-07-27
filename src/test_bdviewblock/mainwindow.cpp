@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include "viewblock.h"
+
+#include <libblockdia.h>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -8,7 +9,7 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    bd::ViewBlock *view = new bd::ViewBlock();
+    libblockdia::ViewBlock *view = new libblockdia::ViewBlock();
     this->setCentralWidget(view);
 }
 

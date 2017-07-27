@@ -3,7 +3,7 @@
 #include <QColor>
 #include <QBrush>
 
-bd::GraphicItemTextBox::GraphicItemTextBox(QGraphicsItem *parent) : QGraphicsItem(parent)
+libblockdia::GraphicItemTextBox::GraphicItemTextBox(QGraphicsItem *parent) : QGraphicsItem(parent)
 {
     this->text = "";
     this->minWidth = 0;
@@ -13,12 +13,12 @@ bd::GraphicItemTextBox::GraphicItemTextBox(QGraphicsItem *parent) : QGraphicsIte
     this->algn = Align::Center;
 }
 
-QRectF bd::GraphicItemTextBox::boundingRect() const
+QRectF libblockdia::GraphicItemTextBox::boundingRect() const
 {
     return this->currentBoundingRect;
 }
 
-void bd::GraphicItemTextBox::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
+void libblockdia::GraphicItemTextBox::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
     Q_UNUSED(option);
     Q_UNUSED(widget);
@@ -51,19 +51,19 @@ void bd::GraphicItemTextBox::paint(QPainter *painter, const QStyleOptionGraphics
     }
 }
 
-void bd::GraphicItemTextBox::setText(const QString &text, Align align)
+void libblockdia::GraphicItemTextBox::setText(const QString &text, Align align)
 {
     this->text = text;
     this->algn = align;
 }
 
-qreal bd::GraphicItemTextBox::getUsedWidth()
+qreal libblockdia::GraphicItemTextBox::getUsedWidth()
 {
     QFontMetrics fm = QFontMetrics(this->font);
     return 2.0 * this->padding + fm.width(this->text);
 }
 
-qreal bd::GraphicItemTextBox::getUsedHeight()
+qreal libblockdia::GraphicItemTextBox::getUsedHeight()
 {
     QFontMetrics fm = QFontMetrics(this->font);
     return 2.0 * this->padding + fm.height();

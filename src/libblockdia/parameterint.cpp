@@ -1,18 +1,18 @@
 #include "parameterint.h"
 #include <limits.h>
 
-bd::ParameterInt::ParameterInt(Block *parent, const QString &name) : Parameter(parent, name)
+libblockdia::ParameterInt::ParameterInt(Block *parent, const QString &name) : Parameter(parent, name)
 {
     this->_minimum = INT_MIN;
     this->_maximum = INT_MAX;
 }
 
-int bd::ParameterInt::minimum()
+int libblockdia::ParameterInt::minimum()
 {
     return this->_minimum;
 }
 
-void bd::ParameterInt::setMinimum(int min)
+void libblockdia::ParameterInt::setMinimum(int min)
 {
     if (this->_minimum != min) {
         this->_minimum = min;
@@ -20,17 +20,17 @@ void bd::ParameterInt::setMinimum(int min)
     }
 }
 
-int bd::ParameterInt::maximum()
+int libblockdia::ParameterInt::maximum()
 {
     return this->_maximum;
 }
 
-int bd::ParameterInt::value()
+int libblockdia::ParameterInt::value()
 {
     return this->_value;
 }
 
-bool bd::ParameterInt::setValue(int value)
+bool libblockdia::ParameterInt::setValue(int value)
 {
     bool ret = true;
 
@@ -55,7 +55,7 @@ bool bd::ParameterInt::setValue(int value)
     return ret;
 }
 
-bool bd::ParameterInt::setValue(QString value)
+bool libblockdia::ParameterInt::setValue(QString value)
 {
     bool ret = true;
     int intval = value.toInt(&ret);
@@ -63,17 +63,17 @@ bool bd::ParameterInt::setValue(QString value)
     return ret;
 }
 
-QString bd::ParameterInt::strValue()
+QString libblockdia::ParameterInt::strValue()
 {
     return QString::number(this->_value);
 }
 
-QString bd::ParameterInt::allowedValues()
+QString libblockdia::ParameterInt::allowedValues()
 {
     return QString::number(this->_minimum) + " .. " + QString::number(this->_maximum);
 }
 
-void bd::ParameterInt::setMaximum(int max)
+void libblockdia::ParameterInt::setMaximum(int max)
 {
     if (this->_maximum != max) {
         this->_maximum = max;

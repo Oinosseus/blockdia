@@ -1,7 +1,7 @@
 #include "block.h"
 #include <QDebug>
 
-bd::Block::Block(QObject *parent) : QObject(parent)
+libblockdia::Block::Block(QObject *parent) : QObject(parent)
 {
     // set default params
     this->_TypeId       = "";
@@ -15,12 +15,12 @@ bd::Block::Block(QObject *parent) : QObject(parent)
 
 
 
-QString bd::Block::typeId()
+QString libblockdia::Block::typeId()
 {
     return this->_TypeId;
 }
 
-void bd::Block::setTypeId(const QString &id)
+void libblockdia::Block::setTypeId(const QString &id)
 {
     if (id != this->_TypeId) {
         this->_TypeId = id;
@@ -28,12 +28,12 @@ void bd::Block::setTypeId(const QString &id)
     }
 }
 
-QString bd::Block::typeName()
+QString libblockdia::Block::typeName()
 {
     return this->_TypeName;
 }
 
-void bd::Block::setTypeName(const QString &name)
+void libblockdia::Block::setTypeName(const QString &name)
 {
     if (name != this->_TypeName) {
         this->_TypeName = name;
@@ -42,12 +42,12 @@ void bd::Block::setTypeName(const QString &name)
 }
 
 
-QString bd::Block::instanceId()
+QString libblockdia::Block::instanceId()
 {
     return this->_InstanceId;
 }
 
-void bd::Block::setInstanceId(const QString &id)
+void libblockdia::Block::setInstanceId(const QString &id)
 {
     if (id != this->_InstanceId) {
         this->_InstanceId = id;
@@ -55,12 +55,12 @@ void bd::Block::setInstanceId(const QString &id)
     }
 }
 
-QString bd::Block::instanceName()
+QString libblockdia::Block::instanceName()
 {
     return this->_InstanceName;
 }
 
-void bd::Block::setInstanceName(const QString &name)
+void libblockdia::Block::setInstanceName(const QString &name)
 {
     if (name != this->_InstanceName) {
         this->_InstanceName = name;
@@ -68,22 +68,22 @@ void bd::Block::setInstanceName(const QString &name)
     }
 }
 
-QColor bd::Block::color()
+QColor libblockdia::Block::color()
 {
     return this->_Color;
 }
 
-void bd::Block::setColor(QColor color)
+void libblockdia::Block::setColor(QColor color)
 {
     this->_Color = color;
 }
 
-QList<bd::Parameter *> bd::Block::getParameters()
+QList<libblockdia::Parameter *> libblockdia::Block::getParameters()
 {
     return this->parametersList;
 }
 
-bd::Parameter *bd::Block::getParameter(const QString name)
+libblockdia::Parameter *libblockdia::Block::getParameter(const QString name)
 {
     Parameter *ret = NULL;
 
@@ -98,12 +98,12 @@ bd::Parameter *bd::Block::getParameter(const QString name)
     return ret;
 }
 
-QList<bd::Input *> bd::Block::getInputs()
+QList<libblockdia::Input *> libblockdia::Block::getInputs()
 {
     return this->inputsList;
 }
 
-bd::Input *bd::Block::getInput(const QString name)
+libblockdia::Input *libblockdia::Block::getInput(const QString name)
 {
     Input *ret = NULL;
 
@@ -118,12 +118,12 @@ bd::Input *bd::Block::getInput(const QString name)
     return ret;
 }
 
-QList<bd::Output *> bd::Block::getOutputs()
+QList<libblockdia::Output *> libblockdia::Block::getOutputs()
 {
     return this->outputsList;
 }
 
-bd::Output *bd::Block::getOutput(const QString name)
+libblockdia::Output *libblockdia::Block::getOutput(const QString name)
 {
     Output *ret = NULL;
 
@@ -138,12 +138,12 @@ bd::Output *bd::Block::getOutput(const QString name)
     return ret;
 }
 
-QGraphicsItem *bd::Block::getGraphicsItem()
+QGraphicsItem *libblockdia::Block::getGraphicsItem()
 {
     return this->giBlock;
 }
 
-void bd::Block::slotSomethingChanged()
+void libblockdia::Block::slotSomethingChanged()
 {
     this->giBlock->updateBlockData();
 }

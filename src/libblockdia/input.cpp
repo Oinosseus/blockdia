@@ -1,6 +1,6 @@
 #include "input.h"
 
-bd::Input::Input(Block *block, const QString &name) : QObject(block)
+libblockdia::Input::Input(Block *block, const QString &name) : QObject(block)
 {
     this->parent = block;
     this->_name = name;
@@ -10,12 +10,12 @@ bd::Input::Input(Block *block, const QString &name) : QObject(block)
     emit this->parent->signalSomethingChanged();
 }
 
-QString bd::Input::name()
+QString libblockdia::Input::name()
 {
     return this->_name;
 }
 
-void bd::Input::setName(QString name)
+void libblockdia::Input::setName(QString name)
 {
     if (this->_name != name) {
         this->_name = name;

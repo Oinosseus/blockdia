@@ -1,11 +1,11 @@
 #ifndef BDPARAMETERINT_H
 #define BDPARAMETERINT_H
 
-#include "libblockdia.h"
+#include "libglobals.h"
 
 #include <parameter.h>
 
-namespace bd {
+namespace libblockdia {
 
 /**
  * @brief An integer parameter.

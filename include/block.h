@@ -1,7 +1,7 @@
 #ifndef BDBLOCK_H
 #define BDBLOCK_H
 
-#include "libblockdia.h"
+#include "libglobals.h"
 
 #include <QObject>
 #include <QString>
@@ -14,7 +14,13 @@
 #include <output.h>
 #include <graphicitemblock.h>
 
-namespace bd {
+namespace libblockdia {
+
+// forward declarations
+class GraphicItemBlock;
+class Parameter;
+class Input;
+class Output;
 
 /**
  * @brief Data storage class for a block representation.

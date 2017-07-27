@@ -1,13 +1,13 @@
 #ifndef BDVIEWBLOCKEDITOR_H
 #define BDVIEWBLOCKEDITOR_H
 
-#include "libblockdia.h"
+#include "libglobals.h"
 #include "block.h"
 
 #include <QObject>
 #include <QGraphicsView>
 
-namespace bd {
+namespace libblockdia {
 
 class LIBBLOCKDIASHARED_EXPORT ViewBlockEditor : public QGraphicsView
 {

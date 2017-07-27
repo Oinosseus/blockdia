@@ -3,15 +3,16 @@
 #include <QGraphicsScene>
 #include <QDebug>
 
+#include <block.h>
 #include <parameterint.h>
 #include <input.h>
 #include <output.h>
 
-bd::ViewBlock::ViewBlock(QWidget *parent) : QGraphicsView(parent)
+libblockdia::ViewBlock::ViewBlock(QWidget *parent) : QGraphicsView(parent)
 {
 
     // create a test block
-    Block *myBlock = new Block();
+    Block *myBlock = new libblockdia::Block();
     myBlock->setTypeName("Compensated Calibration");
     myBlock->setTypeId("Cal1");
     myBlock->setInstanceName("Pressure Temp. Compensation");
@@ -31,13 +32,13 @@ bd::ViewBlock::ViewBlock(QWidget *parent) : QGraphicsView(parent)
     param->setPublic(true);
 
     // add inputs
-    new Input(myBlock, "Input1");
-    new Input(myBlock, "Input Two");
-    new Input(myBlock, "Input 3");
+//    new Input(myBlock, "Input1");
+//    new Input(myBlock, "Input Two");
+//    new Input(myBlock, "Input 3");
 
     // add outputs
-    new Output(myBlock, "Out1");
-    new Output(myBlock, "Out 2");
+//    new Output(myBlock, "Out1");
+//    new Output(myBlock, "Out 2");
 
     QGraphicsScene *scene = new QGraphicsScene(this);
     scene->setBackgroundBrush(QBrush(QColor("#fffcfc")));

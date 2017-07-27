@@ -7,9 +7,7 @@
 #include <QMenuBar>
 #include <QMenu>
 
-#include <block.h>
-#include <parameterint.h>
-#include <viewblockeditor.h>
+#include <libblockdia.h>
 
 #include <blockbrowser.h>
 
@@ -63,13 +61,13 @@ MainWindow::~MainWindow()
 void MainWindow::slotActionNewBlock()
 {
     // create new block editor
-    bd::Block *block = new bd::Block(this);
+    libblockdia::Block *block = new libblockdia::Block(this);
     block->setInstanceName("InstanceName");
     block->setTypeName("TypeName");
     block->setInstanceId("InstanceId");
     block->setTypeId("TypeId");
-    bd::ParameterInt(block, "Parameter1");
-    bd::ViewBlockEditor *bEditor = new bd::ViewBlockEditor(block);
+    libblockdia::ParameterInt(block, "Parameter1");
+    libblockdia::ViewBlockEditor *bEditor = new libblockdia::ViewBlockEditor(block);
 
     QTabWidget *tw = (QTabWidget *) this->centralWidget();
     tw->addTab(bEditor, "*");

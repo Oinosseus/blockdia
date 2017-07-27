@@ -5,7 +5,7 @@
 #include <QColor>
 #include <QBrush>
 
-bd::GraphicItemBlockHeader::GraphicItemBlockHeader(Block *block, QGraphicsItem *parent) : QGraphicsItem(parent)
+libblockdia::GraphicItemBlockHeader::GraphicItemBlockHeader(Block *block, QGraphicsItem *parent) : QGraphicsItem(parent)
 {
     this->block = block;
     this->minWidth = 0;
@@ -28,12 +28,12 @@ bd::GraphicItemBlockHeader::GraphicItemBlockHeader(Block *block, QGraphicsItem *
     this->fontId.setItalic(true);
 }
 
-QRectF bd::GraphicItemBlockHeader::boundingRect() const
+QRectF libblockdia::GraphicItemBlockHeader::boundingRect() const
 {
     return this->currentBoundingRect;
 }
 
-void bd::GraphicItemBlockHeader::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
+void libblockdia::GraphicItemBlockHeader::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
     Q_UNUSED(option);
     Q_UNUSED(widget);
@@ -77,7 +77,7 @@ void bd::GraphicItemBlockHeader::paint(QPainter *painter, const QStyleOptionGrap
 
 }
 
-qreal bd::GraphicItemBlockHeader::getUsedWidth()
+qreal libblockdia::GraphicItemBlockHeader::getUsedWidth()
 {
     QFontMetrics fmInstanceName = QFontMetrics(this->fontInstanceName);
     QFontMetrics fmTypeName = QFontMetrics(this->fontTypeName);
@@ -92,7 +92,7 @@ qreal bd::GraphicItemBlockHeader::getUsedWidth()
     return width + 2.0 * this->paddingH;
 }
 
-qreal bd::GraphicItemBlockHeader::getUsedHeight()
+qreal libblockdia::GraphicItemBlockHeader::getUsedHeight()
 {
     QFontMetrics fmInstanceName = QFontMetrics(this->fontInstanceName);
     QFontMetrics fmTypeName = QFontMetrics(this->fontTypeName);

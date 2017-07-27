@@ -1,7 +1,7 @@
 #ifndef GRAPHICITEMBLOCKHEADER_H
 #define GRAPHICITEMBLOCKHEADER_H
 
-#include "libblockdia.h"
+#include "libglobals.h"
 
 #include <QGraphicsItem>
 #include <QRectF>
@@ -11,7 +11,7 @@
 #include <block.h>
 
 
-namespace bd {
+namespace libblockdia {
 
 class LIBBLOCKDIASHARED_EXPORT GraphicItemBlockHeader : public QGraphicsItem
 {

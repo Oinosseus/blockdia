@@ -1,7 +1,7 @@
 #ifndef GRAPHICITEMTEXTBOX_H
 #define GRAPHICITEMTEXTBOX_H
 
-#include "libblockdia.h"
+#include "libglobals.h"
 
 #include <QGraphicsItem>
 #include <QRectF>
@@ -12,7 +12,7 @@
 #include <parameter.h>
 
 
-namespace bd {
+namespace libblockdia {
 
 class LIBBLOCKDIASHARED_EXPORT GraphicItemTextBox : public QGraphicsItem
 {

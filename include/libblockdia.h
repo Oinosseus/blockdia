@@ -1,28 +1,18 @@
 #ifndef LIBBLOCKDIA_H
 #define LIBBLOCKDIA_H
 
-#include <QtCore/qglobal.h>
-
-#if defined(LIBBLOCKDIA_LIBRARY)
-#  define LIBBLOCKDIASHARED_EXPORT Q_DECL_EXPORT
-#else
-#  define LIBBLOCKDIASHARED_EXPORT Q_DECL_IMPORT
-#endif
+// this can be used as central include file users of the library
 
 
-namespace bd {
+// block data classes
+#include <block.h>
+#include <input.h>
+#include <output.h>
+#include <parameter.h>
+#include <parameterint.h>
 
-// forward declarations for contained classes
-class Block;
-class Parameter;
-class Input;
-class Output;
-
-class GraphicItemBlock;
-class GraphicItemBlockHeader;
-class GraphicItemTextBox;
-
-} // namespace bd
-
+// block graphic classes
+#include <viewblock.h>
+#include <viewblockeditor.h>
 
 #endif // LIBBLOCKDIA_H

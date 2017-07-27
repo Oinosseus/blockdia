@@ -60,7 +60,8 @@ SOURCES +=  libblockdia.cpp \
             graphicitemblockheader.cpp \
             graphicitemtextbox.cpp
 
-HEADERS +=  ../../include/libblockdia.h\
+HEADERS +=  \
+             ../../include/libblockdia.h \
             ../../include/block.h \
             ../../include/graphicitemblock.h \
             ../../include/viewblock.h \
@@ -70,7 +71,8 @@ HEADERS +=  ../../include/libblockdia.h\
             ../../include/input.h \
             ../../include/output.h \
             ../../include/graphicitemblockheader.h \
-            ../../include/graphicitemtextbox.h
+            ../../include/graphicitemtextbox.h \
+    ../../include/libglobals.h
 
 unix {
     target.path = /usr/lib

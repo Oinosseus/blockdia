@@ -1,6 +1,6 @@
 #include "parameter.h"
 
-bd::Parameter::Parameter(Block *parent, const QString &name) : QObject(parent)
+libblockdia::Parameter::Parameter(Block *parent, const QString &name) : QObject(parent)
 {
     this->parent = parent;
     this->_name = name;
@@ -11,24 +11,24 @@ bd::Parameter::Parameter(Block *parent, const QString &name) : QObject(parent)
     emit this->parent->signalSomethingChanged();
 }
 
-QString bd::Parameter::name()
+QString libblockdia::Parameter::name()
 {
     return this->_name;
 }
 
-void bd::Parameter::setName(QString name)
+void libblockdia::Parameter::setName(QString name)
 {
     bool emitSignal = this->_name != name;
     this->_name = name;
     if (emitSignal) emit somethingHasChanged();
 }
 
-bool bd::Parameter::isPublic()
+bool libblockdia::Parameter::isPublic()
 {
     return this->_isPublic;
 }
 
-void bd::Parameter::setPublic(bool isPublic)
+void libblockdia::Parameter::setPublic(bool isPublic)
 {
     bool emitSignal = this->_isPublic == isPublic;
     this->_isPublic = isPublic;

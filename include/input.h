@@ -1,13 +1,16 @@
 #ifndef INPUT_H
 #define INPUT_H
 
-#include "libblockdia.h"
+#include "libglobals.h"
 
 #include <QObject>
 
 #include <block.h>
 
-namespace  bd {
+namespace  libblockdia {
+
+// forward declarations
+class Block;
 
 /**
  * @brief Input for blocks.

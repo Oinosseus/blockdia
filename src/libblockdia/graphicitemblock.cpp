@@ -6,7 +6,7 @@
 #include <QDebug>
 
 
-bd::GraphicItemBlock::GraphicItemBlock(Block *block, QGraphicsItem *parent) : QGraphicsItem(parent)
+libblockdia::GraphicItemBlock::GraphicItemBlock(Block *block, QGraphicsItem *parent) : QGraphicsItem(parent)
 {
     this->block = block;
     this->currentBoundingRect = QRectF();
@@ -16,13 +16,13 @@ bd::GraphicItemBlock::GraphicItemBlock(Block *block, QGraphicsItem *parent) : QG
     this->updateBlockData();
 }
 
-QRectF bd::GraphicItemBlock::boundingRect() const
+QRectF libblockdia::GraphicItemBlock::boundingRect() const
 {
     return this->currentBoundingRect;
 }
 
 
-void bd::GraphicItemBlock::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
+void libblockdia::GraphicItemBlock::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
     Q_UNUSED(option);
     Q_UNUSED(widget);
@@ -34,7 +34,7 @@ void bd::GraphicItemBlock::paint(QPainter *painter, const QStyleOptionGraphicsIt
 //    painter->drawLine(0, -200, 0, 200);
 }
 
-void bd::GraphicItemBlock::updateBlockData()
+void libblockdia::GraphicItemBlock::updateBlockData()
 {
     qreal widthMaximum = 0;
     qreal widthInputs = 0;

@@ -1,13 +1,13 @@
 #ifndef OUTPUT_H
 #define OUTPUT_H
 
-#include "libblockdia.h"
+#include "libglobals.h"
 
 #include <QObject>
 
 #include <block.h>
 
-namespace  bd {
+namespace  libblockdia {
 
 /**
  * @brief Output for blocks.

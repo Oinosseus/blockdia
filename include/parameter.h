@@ -1,14 +1,17 @@
 #ifndef BDPARAMETER_H
 #define BDPARAMETER_H
 
-#include "libblockdia.h"
+#include "libglobals.h"
 
 #include <QObject>
 #include <QString>
 
 #include <block.h>
 
-namespace bd {
+namespace libblockdia {
+
+// forward declarations
+class Block;
 
 /**
  * @brief Common base class (interface) for paramerters.

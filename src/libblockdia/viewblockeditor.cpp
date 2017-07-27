@@ -3,7 +3,7 @@
 #include <QGraphicsScene>
 #include <QDebug>
 
-bd::ViewBlockEditor::ViewBlockEditor(Block *block, QWidget *parent) : QGraphicsView(parent)
+libblockdia::ViewBlockEditor::ViewBlockEditor(Block *block, QWidget *parent) : QGraphicsView(parent)
 {
     this->block = block;
 

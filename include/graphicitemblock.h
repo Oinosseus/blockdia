@@ -1,7 +1,7 @@
 #ifndef BDGRAPHICSITEMBLOCK_H
 #define BDGRAPHICSITEMBLOCK_H
 
-#include "libblockdia.h"
+#include "libglobals.h"
 
 #include <QObject>
 #include <QGraphicsItem>
@@ -14,11 +14,14 @@
 #include <QList>
 #include <QString>
 
-#include <block.h>
 #include <graphicitemblockheader.h>
 #include <graphicitemtextbox.h>
 
-namespace bd {
+namespace libblockdia {
+
+// forward declarations
+class GraphicItemBlockHeader;
+class GraphicItemTextBox;
 
 class LIBBLOCKDIASHARED_EXPORT GraphicItemBlock : public QGraphicsItem
 {
