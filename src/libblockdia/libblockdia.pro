@@ -48,7 +48,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 # for easier deployment of the library
 INCLUDEPATH += ../../include/
 
-SOURCES +=  libblockdia.cpp \
+SOURCES +=  \
             block.cpp \
             graphicitemblock.cpp \
             viewblock.cpp \
