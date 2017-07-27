@@ -7,6 +7,8 @@
 #include <QRectF>
 #include <QPainter>
 #include <QFont>
+#include <QGraphicsSceneHoverEvent>
+#include <QGraphicsSceneContextMenuEvent>
 
 #include <block.h>
 
@@ -25,12 +27,17 @@ public:
     qreal paddingH;
     qreal paddingV;
 
+    void hoverEnterEvent(QGraphicsSceneHoverEvent *event);
+    void hoverLeaveEvent(QGraphicsSceneHoverEvent *event);
+    void contextMenuEvent(QGraphicsSceneContextMenuEvent *event);
+
 private:
     Block *block;
     QRectF currentBoundingRect;
     QFont fontInstanceName;
     QFont fontTypeName;
     QFont fontId;
+    bool isMouseHovered;
 };
 
 } // namespace bd

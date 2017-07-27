@@ -4,6 +4,12 @@
 #include <QFontMetrics>
 #include <QColor>
 #include <QBrush>
+#include <QAction>
+#include <QMenu>
+
+#include <parameterint.h>
+#include <input.h>
+#include <output.h>
 
 libblockdia::GraphicItemBlockHeader::GraphicItemBlockHeader(Block *block, QGraphicsItem *parent) : QGraphicsItem(parent)
 {
@@ -11,7 +17,7 @@ libblockdia::GraphicItemBlockHeader::GraphicItemBlockHeader(Block *block, QGraph
     this->minWidth = 0;
     this->paddingH = 10;
     this->paddingV = 5;
-
+    this->isMouseHovered = false;
 
     // font instance name
     this->fontInstanceName.setPointSize(fontInstanceName.pointSize() + 1);
@@ -26,6 +32,9 @@ libblockdia::GraphicItemBlockHeader::GraphicItemBlockHeader(Block *block, QGraph
     this->fontId.setPointSize(fontId.pointSize() - 3);
     this->fontId.setBold(false);
     this->fontId.setItalic(true);
+
+    // configurations
+    this->setAcceptHoverEvents(true);
 }
 
 QRectF libblockdia::GraphicItemBlockHeader::boundingRect() const
@@ -61,6 +70,7 @@ void libblockdia::GraphicItemBlockHeader::paint(QPainter *painter, const QStyleO
 
     // draw box
     painter->fillRect(this->currentBoundingRect, QBrush(this->block->color()));
+    painter->setPen((this->isMouseHovered) ? QColor(Qt::red) : QColor(Qt::black));
     painter->drawRect(this->currentBoundingRect);
 
     // draw instance name
@@ -104,4 +114,40 @@ qreal libblockdia::GraphicItemBlockHeader::getUsedHeight()
     height += (fmId.height() > fmTypeName.height()) ? fmId.height() : fmTypeName.height();
 
     return height + 2.0 * this->paddingV;
+}
+
+void libblockdia::GraphicItemBlockHeader::hoverEnterEvent(QGraphicsSceneHoverEvent *event)
+{
+    this->isMouseHovered = true;
+    this->update();
+}
+
+void libblockdia::GraphicItemBlockHeader::hoverLeaveEvent(QGraphicsSceneHoverEvent *event)
+{
+    this->isMouseHovered = false;
+    this->update();
+}
+
+void libblockdia::GraphicItemBlockHeader::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
+{
+    // create and execute menu
+    QMenu menu;
+    QAction *actionNewParam  = menu.addAction("Add Integer Parameter");
+    QAction *actionNewInput  = menu.addAction("Add Input");
+    QAction *actionNewOutput = menu.addAction("Add Output");
+    QAction *action = menu.exec(event->screenPos());
+
+    // action - new parameter
+    if (action == actionNewParam) {
+        new ParameterInt(this->block, "new param*");
+
+    // action - new input
+    } else if (action == actionNewInput) {
+        new Input(this->block, "new input");
+
+    // action - new output
+    } else if (action == actionNewOutput) {
+        new Output(this->block, "new output");
+
+    }
 }
