@@ -41,7 +41,24 @@ TGTOUTDIRS.append(os.path.join(PROJECTDIR, "doc", "html"))
 # -----------------------------------------------------------------------------
 
 def make_doc(args):
-    raise NotImplementedError("To Be Done :-|")
+
+    dir_dia_src = os.path.join(PROJECTDIR, "doc")
+    dir_dia_dst = os.path.join(PROJECTDIR, "build", "dia_export")
+
+    # dia export directory
+    if not os.path.isdir(dir_dia_dst):
+        os.makedirs(dir_dia_dst)
+
+    # export all dia files
+    for entry in os.listdir(dir_dia_src):
+
+        if entry[-4:].lower() == ".dia":
+            subprocess.run(["dia", "--export=" + os.path.join(dir_dia_dst, entry[:-4] + ".svg"), os.path.join(dir_dia_src, entry)])
+
+    # run doxygen
+    subprocess.run(["doxygen", os.path.join(PROJECTDIR, "doxyconf")])
+
+
 
 
 def make_build(args):
