@@ -13,7 +13,7 @@
 
 libblockdia::GraphicItemBlockHeader::GraphicItemBlockHeader(Block *block, QGraphicsItem *parent) : QGraphicsItem(parent)
 {
-    this->block = block;
+    this->_block = block;
     this->minWidth = 0;
     this->paddingH = 10;
     this->paddingV = 5;
@@ -35,6 +35,9 @@ libblockdia::GraphicItemBlockHeader::GraphicItemBlockHeader(Block *block, QGraph
 
     // configurations
     this->setAcceptHoverEvents(true);
+
+    // update
+    this->calculateDimensions();
 }
 
 QRectF libblockdia::GraphicItemBlockHeader::boundingRect() const
@@ -47,85 +50,65 @@ void libblockdia::GraphicItemBlockHeader::paint(QPainter *painter, const QStyleO
     Q_UNUSED(option);
     Q_UNUSED(widget);
 
-    QFontMetrics fmInstanceName = QFontMetrics(this->fontInstanceName);
-    QFontMetrics fmTypeName = QFontMetrics(this->fontTypeName);
-    QFontMetrics fmId = QFontMetrics(this->fontId);
-
-    qreal widthInstanceName = fmInstanceName.width(this->block->instanceName());
-    qreal widthTypeName   = fmTypeName.width(this->block->typeName());
-    qreal widthId   = fmId.width(this->block->typeId() + this->block->instanceId());
-    qreal widthTypeId = widthTypeName + this->paddingH + widthId;
-    qreal width = (widthInstanceName > widthTypeId) ? widthInstanceName : widthTypeId;
-
-    // determine width of the textbox
-    qreal boxHeight = this->getUsedHeight();
-    qreal boxWidth = this->getUsedWidth();
-    if (this->minWidth > boxWidth) boxWidth = this->minWidth;
-
-    // set new bounding rect
-    this->currentBoundingRect = QRectF ( - boxWidth/2.0, - boxHeight/2.0, boxWidth, boxHeight);
-
     // setup painter
     painter->setPen(Qt::black);
 
     // draw box
-    painter->fillRect(this->currentBoundingRect, QBrush(this->block->color()));
+    painter->fillRect(this->currentBoundingRect, QBrush(this->bgColor));
     painter->setPen((this->isMouseHovered) ? QColor(Qt::red) : QColor(Qt::black));
     painter->drawRect(this->currentBoundingRect);
 
     // draw instance name
     painter->setFont(fontInstanceName);
-    painter->drawText(-widthInstanceName/2.0, fmInstanceName.ascent() - boxHeight/2.0 + this->paddingV, this->block->instanceName());
+    painter->drawText(this->xInstanceName, this->yInstanceName, this->textInstanceName);
 
     // draw type name
     painter->setFont(fontTypeName);
-    painter->drawText(-widthTypeId/2.0, fmInstanceName.height() + this->paddingV + fmTypeName.ascent() - boxHeight/2.0 + this->paddingV, this->block->typeName());
+    painter->drawText(this->xTypeName, this->yTypeName, this->textTypeName);
 
     // draw typeId + instacneId
     painter->setFont(fontId);
-    painter->drawText(widthTypeId/2.0 - widthId, fmInstanceName.height() + this->paddingV + fmId.height() - boxHeight/2.0 + this->paddingV, this->block->typeId() + this->block->instanceId());
+    painter->drawText(this->xIds, this->yIds, this->textIds);
 
 }
 
-qreal libblockdia::GraphicItemBlockHeader::getUsedWidth()
+qreal libblockdia::GraphicItemBlockHeader::actualNeededWidth()
 {
-    QFontMetrics fmInstanceName = QFontMetrics(this->fontInstanceName);
-    QFontMetrics fmTypeName = QFontMetrics(this->fontTypeName);
-    QFontMetrics fmId = QFontMetrics(this->fontId);
-
-    qreal widthInstanceName = fmInstanceName.width(this->block->instanceName());
-    qreal widthTypeName   = fmTypeName.width(this->block->typeName());
-    qreal widthId   = fmId.width(this->block->typeId() + this->block->instanceId());
-    qreal widthTypeId = widthTypeName + this->paddingH + widthId;
-    qreal width = (widthInstanceName > widthTypeId) ? widthInstanceName : widthTypeId;
-
-    return width + 2.0 * this->paddingH;
+    return this->_actualNeededWidth;
 }
 
-qreal libblockdia::GraphicItemBlockHeader::getUsedHeight()
+qreal libblockdia::GraphicItemBlockHeader::actualNeededHeight()
 {
-    QFontMetrics fmInstanceName = QFontMetrics(this->fontInstanceName);
-    QFontMetrics fmTypeName = QFontMetrics(this->fontTypeName);
-    QFontMetrics fmId = QFontMetrics(this->fontId);
+    return this->_actaulNeededHeight;
+}
 
-    qreal height = 0;
-    height += fmInstanceName.height();
-    height += this->paddingV;
-    height += (fmId.height() > fmTypeName.height()) ? fmId.height() : fmTypeName.height();
+void libblockdia::GraphicItemBlockHeader::setData()
+{
+    this->prepareGeometryChange();
+    this->textInstanceName = this->_block->instanceName();
+    this->textTypeName = this->_block->typeName();
+    this->textIds = this->_block->typeId() + this->_block->instanceId();
+    this->bgColor = this->_block->color();
+    this->calculateDimensions();
+}
 
-    return height + 2.0 * this->paddingV;
+void libblockdia::GraphicItemBlockHeader::setMinWidth(qreal minWidth)
+{
+    this->prepareGeometryChange();
+    this->minWidth = minWidth;
+    this->calculateDimensions();
 }
 
 void libblockdia::GraphicItemBlockHeader::hoverEnterEvent(QGraphicsSceneHoverEvent *event)
 {
+    this->prepareGeometryChange();
     this->isMouseHovered = true;
-    this->update();
 }
 
 void libblockdia::GraphicItemBlockHeader::hoverLeaveEvent(QGraphicsSceneHoverEvent *event)
 {
+    this->prepareGeometryChange();
     this->isMouseHovered = false;
-    this->update();
 }
 
 void libblockdia::GraphicItemBlockHeader::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
@@ -139,15 +122,53 @@ void libblockdia::GraphicItemBlockHeader::contextMenuEvent(QGraphicsSceneContext
 
     // action - new parameter
     if (action == actionNewParam) {
-        new ParameterInt(this->block, "new param*");
+        new ParameterInt(this->_block, "new param*");
 
     // action - new input
     } else if (action == actionNewInput) {
-        new Input(this->block, "new input");
+        new Input(this->_block, "new input");
 
     // action - new output
     } else if (action == actionNewOutput) {
-        new Output(this->block, "new output");
+        new Output(this->_block, "new output");
 
     }
+}
+
+void libblockdia::GraphicItemBlockHeader::calculateDimensions()
+{
+    QFontMetrics fmInstanceName = QFontMetrics(this->fontInstanceName);
+    QFontMetrics fmTypeName = QFontMetrics(this->fontTypeName);
+    QFontMetrics fmId = QFontMetrics(this->fontId);
+
+    // calculate text widths
+    qreal widthInstanceName = fmInstanceName.width(this->textInstanceName);
+    qreal widthTypeName   = fmTypeName.width(this->textTypeName);
+    qreal widthId   = fmId.width(this->textIds);
+    qreal widthTypeId = widthTypeName + this->paddingH + widthId;
+    qreal widthTextMax = (widthInstanceName > widthTypeId) ? widthInstanceName : widthTypeId;
+
+    // set text x positions
+    this->xInstanceName = - widthInstanceName / 2.0;
+    this->xTypeName = - widthTypeId / 2.0;
+    this->xIds = - widthTypeId / 2.0 + widthTypeName + this->paddingH;
+
+    // calculate text heights
+    qreal heightTextMax = 0;
+    heightTextMax += fmInstanceName.height();
+    heightTextMax += this->paddingV;
+    heightTextMax += (fmId.height() > fmTypeName.height()) ? fmId.height() : fmTypeName.height();
+
+    // set text y positions
+    this->yInstanceName = fmInstanceName.ascent() - heightTextMax / 2.0;
+    this->yTypeName = fmTypeName.ascent() - heightTextMax / 2.0 + fmInstanceName.height() + this->paddingV;
+    this->yIds = fmId.ascent() - heightTextMax / 2.0 + fmInstanceName.height() + this->paddingV;
+
+    // calculate new bounding rect
+    this->_actualNeededWidth = widthTextMax + 2.0 * this->paddingH;
+    this->_actaulNeededHeight = heightTextMax + 2.0 * this->paddingV;
+    this->currentBoundingRect.setX(- this->_actualNeededWidth / 2.0);
+    this->currentBoundingRect.setWidth(this->_actualNeededWidth);
+    this->currentBoundingRect.setY(- this->_actaulNeededHeight / 2.0);
+    this->currentBoundingRect.setHeight(this->_actaulNeededHeight);
 }
