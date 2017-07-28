@@ -11,6 +11,7 @@ libblockdia::GraphicItemTextBox::GraphicItemTextBox(QGraphicsItem *parent) : QGr
     this->padding = 5;
     this->bgColor = QColor("#fdd");
     this->algn = Align::Center;
+    this->calculateDimensions();
 }
 
 QRectF libblockdia::GraphicItemTextBox::boundingRect() const
@@ -23,16 +24,6 @@ void libblockdia::GraphicItemTextBox::paint(QPainter *painter, const QStyleOptio
     Q_UNUSED(option);
     Q_UNUSED(widget);
 
-    QFontMetrics fm = QFontMetrics(this->font);
-
-    // determine width of the textbox
-    qreal boxHeight = this->getUsedHeight();
-    qreal boxWidth = this->getUsedWidth();
-    if (this->minWidth > boxWidth) boxWidth = this->minWidth;
-
-    // set new bounding rect
-    this->currentBoundingRect = QRectF ( - boxWidth/2.0, - boxHeight/2.0, boxWidth, boxHeight);
-
     // setup painter
     painter->setPen(Qt::black);
     painter->setFont(this->font);
@@ -41,30 +32,66 @@ void libblockdia::GraphicItemTextBox::paint(QPainter *painter, const QStyleOptio
     painter->fillRect(this->currentBoundingRect, QBrush(this->bgColor));
     painter->drawRect(this->currentBoundingRect);
 
-    // draw text
+    // calculate text y position
+    QFontMetrics fm = QFontMetrics(this->font);
+    qreal textY = - fm.descent() + this->textHeight/2.0;
+
+    // calculate text x position
+    qreal textX = 0.0;
     if (this->algn == Align::Left) {
-        painter->drawText(-boxWidth/2 + this->padding, fm.ascent() - boxHeight/2 + this->padding, this->text);
+        textX = -this->boundingRect().width()/2.0 + this->padding;
     } else if (this->algn == Align::Center) {
-        painter->drawText(-fm.width(this->text)/2, fm.ascent() - boxHeight/2 + this->padding, this->text);
+        textX = - this->textWidth / 2.0;
     } else if (this->algn == Align::Right) {
-        painter->drawText(boxWidth/2 - fm.width(this->text) - this->padding, fm.ascent() - boxHeight/2 + this->padding, this->text);
+        textX = this->boundingRect().width()/2 - this->textWidth - this->padding;
     }
+
+    // draw text
+    painter->drawText(textX, textY, this->text);
 }
 
 void libblockdia::GraphicItemTextBox::setText(const QString &text, Align align)
 {
+    this->prepareGeometryChange();
     this->text = text;
     this->algn = align;
+    this->calculateDimensions();
 }
 
-qreal libblockdia::GraphicItemTextBox::getUsedWidth()
+qreal libblockdia::GraphicItemTextBox::actualNeededWidth()
 {
-    QFontMetrics fm = QFontMetrics(this->font);
-    return 2.0 * this->padding + fm.width(this->text);
+    return this->textWidth;
 }
 
-qreal libblockdia::GraphicItemTextBox::getUsedHeight()
+qreal libblockdia::GraphicItemTextBox::actualNeededHeight()
 {
+    return this->textHeight;
+}
+
+void libblockdia::GraphicItemTextBox::setMinWidth(qreal minWidth)
+{
+    this->prepareGeometryChange();
+    this->minWidth = minWidth;
+    this->calculateDimensions();
+}
+
+void libblockdia::GraphicItemTextBox::setBgColor(QColor bgColor)
+{
+    this->prepareGeometryChange();
+    this->bgColor = bgColor;
+}
+
+void libblockdia::GraphicItemTextBox::calculateDimensions()
+{
+    // calculate new text size
     QFontMetrics fm = QFontMetrics(this->font);
-    return 2.0 * this->padding + fm.height();
+    this->textWidth = fm.width(this->text);
+    this->textHeight = fm.height();
+
+    // calculate new bounding rect
+    qreal width = (this->minWidth > this->textWidth) ? this->minWidth : this->textWidth;
+    width += 2.0 * this->padding;
+    qreal height = this->textHeight;
+    height += 2.0 + this->padding;
+    this->currentBoundingRect = QRectF ( - width/2.0, - height/2.0, width, height);
 }
