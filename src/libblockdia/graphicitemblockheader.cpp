@@ -37,7 +37,7 @@ libblockdia::GraphicItemBlockHeader::GraphicItemBlockHeader(Block *block, QGraph
     this->setAcceptHoverEvents(true);
 
     // update
-    this->calculateDimensions();
+    this->updateData();
 }
 
 QRectF libblockdia::GraphicItemBlockHeader::boundingRect() const
@@ -82,7 +82,7 @@ qreal libblockdia::GraphicItemBlockHeader::actualNeededHeight()
     return this->_actaulNeededHeight;
 }
 
-void libblockdia::GraphicItemBlockHeader::setData()
+void libblockdia::GraphicItemBlockHeader::updateData()
 {
     this->prepareGeometryChange();
     this->textInstanceName = this->_block->instanceName();
@@ -167,8 +167,9 @@ void libblockdia::GraphicItemBlockHeader::calculateDimensions()
     // calculate new bounding rect
     this->_actualNeededWidth = widthTextMax + 2.0 * this->paddingH;
     this->_actaulNeededHeight = heightTextMax + 2.0 * this->paddingV;
-    this->currentBoundingRect.setX(- this->_actualNeededWidth / 2.0);
-    this->currentBoundingRect.setWidth(this->_actualNeededWidth);
+    qreal w = (this->minWidth > this->_actualNeededWidth) ? this->minWidth : this->_actualNeededWidth;
+    this->currentBoundingRect.setX(- w / 2.0);
+    this->currentBoundingRect.setWidth(w);
     this->currentBoundingRect.setY(- this->_actaulNeededHeight / 2.0);
     this->currentBoundingRect.setHeight(this->_actaulNeededHeight);
 }

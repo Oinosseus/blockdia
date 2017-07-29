@@ -55,7 +55,7 @@ public:
      * @details Updates the displayed data
      * @param block Data is updated from the Block object
      */
-    void setData();
+    void updateData();
 
     /**
      * @param minWidth Setting a minimal requested width for the text box
