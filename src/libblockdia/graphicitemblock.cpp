@@ -12,7 +12,7 @@ libblockdia::GraphicItemBlock::GraphicItemBlock(Block *block, QGraphicsItem *par
 
     this->giBlockHead = Q_NULLPTR;
     this->giParamsPublic = QList<GraphicItemTextBox *>();
-    this->updateBlockData();
+    this->updateData();
 }
 
 QRectF libblockdia::GraphicItemBlock::boundingRect() const
@@ -40,7 +40,7 @@ void libblockdia::GraphicItemBlock::paint(QPainter *painter, const QStyleOptionG
 //    painter->drawLine(0, -200, 0, 200);
 }
 
-void libblockdia::GraphicItemBlock::updateBlockData()
+void libblockdia::GraphicItemBlock::updateData()
 {
     this->prepareGeometryChange();
 
@@ -50,26 +50,39 @@ void libblockdia::GraphicItemBlock::updateBlockData()
     qreal heightMaximum = 0;
     GraphicItemTextBox *gitb;
 
+    // get block information
+    QList<Parameter *> blockParamList = this->block->getParameters();
+    int countParamsPrivate = 0;
+    int countParamsPublic = 0;
+    for (int i=0; i < blockParamList.size(); ++i) {
+        if (blockParamList.at(i)->isPublic()) ++countParamsPublic;
+        else ++countParamsPrivate;
+    }
+
+
     // ------------------------------------------------------------------------
     //                           Create Sub GraphicItems
     // ------------------------------------------------------------------------
 
     // create new header
-    if (this->giBlockHead != Q_NULLPTR) {
-        delete this->giBlockHead;
+    if (this->giBlockHead == Q_NULLPTR) {
+        this->giBlockHead = new GraphicItemBlockHeader(this->block, this);
     }
-    this->giBlockHead = new GraphicItemBlockHeader(this->block, this);
+
+    // update header
+    this->giBlockHead->updateData();
     if (this->giBlockHead->actualNeededWidth() > widthMaximum) widthMaximum = this->giBlockHead->actualNeededWidth();
-    heightMaximum += this->giBlockHead->actualNeededHeight();
-    this->giBlockHead->setY(this->giBlockHead->actualNeededHeight()/2.0);
+    heightMaximum += this->giBlockHead->boundingRect().height();
+    this->giBlockHead->moveBy(0, this->giBlockHead->boundingRect().height() / 2.0);
 
 
-    // clear private parameters
-    while (this->giParamsPrivate.size() > 0) delete this->giParamsPrivate.takeLast();
+    // resize list private parameters
+    while (this->giParamsPrivate.size() > countParamsPrivate) delete this->giParamsPrivate.takeLast();
+    while (this->giParamsPrivate.size() < countParamsPrivate) this->giParamsPrivate.append(new GraphicItemTextBox(this));
 
-    // create public parameters
-    for (int i=0; i < this->block->getParameters().size(); ++i) { // create new list
-        Parameter *param = this->block->getParameters().at(i);
+    // update private parameters
+    for (int i=0; i < blockParamList.size(); ++i) {
+        Parameter *param = blockParamList.at(i);
         if (!param->isPublic()) {
             gitb = new GraphicItemTextBox(this);
             gitb->setBgColor(this->backgroundParameter);

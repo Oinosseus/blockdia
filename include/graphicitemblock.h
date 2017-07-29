@@ -32,7 +32,7 @@ public:
     QColor backgroundParameter = QColor("#ffd");
     QColor backgroundInputs     = QColor("#fdd");
     QColor backgroundOutputs    = QColor("#ddf");
-    void updateBlockData();
+    void updateData();
 
 private:
     Block *block;

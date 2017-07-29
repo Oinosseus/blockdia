@@ -145,6 +145,6 @@ QGraphicsItem *libblockdia::Block::getGraphicsItem()
 
 void libblockdia::Block::slotSomethingChanged()
 {
-    this->giBlock->updateBlockData();
+    this->giBlock->updateData();
 }
 
