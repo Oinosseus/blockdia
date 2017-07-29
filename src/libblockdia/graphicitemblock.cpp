@@ -17,7 +17,6 @@ libblockdia::GraphicItemBlock::GraphicItemBlock(Block *block, QGraphicsItem *par
 
 QRectF libblockdia::GraphicItemBlock::boundingRect() const
 {
-    QRectF r = this->childrenBoundingRect();
     return this->currentBoundingRect;
 }
 
@@ -60,9 +59,9 @@ void libblockdia::GraphicItemBlock::updateBlockData()
         delete this->giBlockHead;
     }
     this->giBlockHead = new GraphicItemBlockHeader(this->block, this);
-    if (this->giBlockHead->getUsedWidth() > widthMaximum) widthMaximum = this->giBlockHead->getUsedWidth();
-    heightMaximum += this->giBlockHead->getUsedHeight();
-    this->giBlockHead->setY(this->giBlockHead->getUsedHeight()/2.0);
+    if (this->giBlockHead->actualNeededWidth() > widthMaximum) widthMaximum = this->giBlockHead->actualNeededWidth();
+    heightMaximum += this->giBlockHead->actualNeededHeight();
+    this->giBlockHead->setY(this->giBlockHead->actualNeededHeight()/2.0);
 
 
     // clear private parameters
@@ -73,19 +72,19 @@ void libblockdia::GraphicItemBlock::updateBlockData()
         Parameter *param = this->block->getParameters().at(i);
         if (!param->isPublic()) {
             gitb = new GraphicItemTextBox(this);
-            gitb->bgColor = this->backgroundParameter;
+            gitb->setBgColor(this->backgroundParameter);
             this->giParamsPrivate.append(gitb);
 
             // update
             gitb->setText(param->name(), GraphicItemTextBox::Align::Center);
 
             // update height
-            gitb->setY(gitb->y() + gitb->getUsedHeight()/2.0);
+            gitb->setY(gitb->y() + gitb->actualNeededWidth()/2.0);
             gitb->setY(gitb->y() + heightMaximum);
-            heightMaximum += gitb->getUsedHeight();
+            heightMaximum += gitb->actualNeededHeight();
 
             // update maximum width
-            if (gitb->getUsedWidth() > widthMaximum) widthMaximum = gitb->getUsedWidth();
+            if (gitb->actualNeededWidth() > widthMaximum) widthMaximum = gitb->actualNeededWidth();
         }
     }
 
@@ -102,7 +101,7 @@ void libblockdia::GraphicItemBlock::updateBlockData()
 
         // input - create new textbox
         giInp = new GraphicItemTextBox(this);
-        giInp->bgColor = this->backgroundInputs;
+        giInp->setBgColor(this->backgroundInputs);
         this->giInputs.append(giInp);
 
         // input - write text into textbox
@@ -112,13 +111,13 @@ void libblockdia::GraphicItemBlock::updateBlockData()
         }
 
         // input update height, width
-        giInp->setY(giInp->y() + giInp->getUsedHeight()/2.0);
+        giInp->setY(giInp->y() + giInp->actualNeededHeight()/2.0);
         giInp->setY(giInp->y() + heightMaximum);
-        if (giInp->getUsedWidth() > widthInputs) widthInputs = giInp->getUsedWidth();
+        if (giInp->actualNeededWidth() > widthInputs) widthInputs = giInp->actualNeededWidth();
 
         // output - create new textbox
         giOutp = new GraphicItemTextBox(this);
-        giOutp->bgColor = this->backgroundOutputs;
+        giOutp->setBgColor(this->backgroundOutputs);
         this->giOutputs.append(giOutp);
 
         // output - write text into textbox
@@ -128,14 +127,14 @@ void libblockdia::GraphicItemBlock::updateBlockData()
         }
 
         // output - update height, width
-        giOutp->setY(giOutp->y() + giOutp->getUsedHeight()/2.0);
+        giOutp->setY(giOutp->y() + giOutp->actualNeededHeight()/2.0);
         giOutp->setY(giOutp->y() + heightMaximum);
-        if (giOutp->getUsedWidth() > widthOutputs) widthOutputs = giOutp->getUsedWidth();
+        if (giOutp->actualNeededWidth() > widthOutputs) widthOutputs = giOutp->actualNeededWidth();
 
         // set new height
         int h = 0;
-        if (giOutp->getUsedHeight() > h) h = giOutp->getUsedHeight();
-        if (giInp->getUsedHeight() > h)  h = giInp->getUsedHeight();
+        if (giOutp->actualNeededHeight() > h) h = giOutp->actualNeededHeight();
+        if (giInp->actualNeededHeight() > h)  h = giInp->actualNeededHeight();
         heightMaximum += h;
 
         // set new width
@@ -151,19 +150,19 @@ void libblockdia::GraphicItemBlock::updateBlockData()
         Parameter *param = this->block->getParameters().at(i);
         if (param->isPublic()) {
             gitb = new GraphicItemTextBox(this);
-            gitb->bgColor = this->backgroundParameter;
+            gitb->setBgColor(this->backgroundParameter);
             this->giParamsPublic.append(gitb);
 
             // update
             gitb->setText(param->name(), GraphicItemTextBox::Align::Center);
 
             // update height
-            gitb->setY(gitb->y() + gitb->getUsedHeight()/2.0);
+            gitb->setY(gitb->y() + gitb->actualNeededHeight()/2.0);
             gitb->setY(gitb->y() + heightMaximum);
-            heightMaximum += gitb->getUsedHeight();
+            heightMaximum += gitb->actualNeededHeight();
 
             // update maximum width
-            if (gitb->getUsedWidth() > widthMaximum) widthMaximum = gitb->getUsedWidth();
+            if (gitb->actualNeededWidth() > widthMaximum) widthMaximum = gitb->actualNeededWidth();
         }
     }
 
@@ -175,12 +174,12 @@ void libblockdia::GraphicItemBlock::updateBlockData()
 
     // update header
     this->giBlockHead->setY(this->giBlockHead->y() - heightMaximum/2.0);
-    this->giBlockHead->minWidth = widthMaximum;
+    this->giBlockHead->setMinWidth(widthMaximum);
 
     // update private parameters
     for (int i=0; i < this->giParamsPrivate.size(); ++i) {
         gitb = this->giParamsPrivate.at(i);
-        gitb->minWidth = widthMaximum;
+        gitb->setMinWidth(widthMaximum);
         gitb->setY(gitb->y() - heightMaximum/2.0);
     }
 
@@ -194,7 +193,7 @@ void libblockdia::GraphicItemBlock::updateBlockData()
     // update inputs
     for (int i=0; i < this->giInputs.size(); ++i) {
         gitb = this->giInputs.at(i);
-        gitb->minWidth = widthInputs;
+        gitb->setMinWidth(widthInputs);
         gitb->setY(gitb->y() - heightMaximum/2.0);
         gitb->setX((widthInputs - widthMaximum) / 2.0);
     }
@@ -202,7 +201,7 @@ void libblockdia::GraphicItemBlock::updateBlockData()
     // update outputs
     for (int i=0; i < this->giOutputs.size(); ++i) {
         gitb = this->giOutputs.at(i);
-        gitb->minWidth = widthOutputs;
+        gitb->setMinWidth(widthOutputs);
         gitb->setY(gitb->y() - heightMaximum/2.0);
         gitb->setX((widthMaximum - widthOutputs) / 2.0);
     }
@@ -210,7 +209,7 @@ void libblockdia::GraphicItemBlock::updateBlockData()
     // update public parameters
     for (int i=0; i < this->giParamsPublic.size(); ++i) {
         gitb = this->giParamsPublic.at(i);
-        gitb->minWidth = widthMaximum;
+        gitb->setMinWidth(widthMaximum);
         gitb->setY(gitb->y() - heightMaximum/2.0);
     }
 
