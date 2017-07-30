@@ -51,7 +51,7 @@ void libblockdia::GraphicItemBlockHeader::paint(QPainter *painter, const QStyleO
 
     // draw box
     painter->fillRect(this->currentBoundingRect, QBrush(this->bgColor));
-    painter->setPen((this->isUnderMouse()) ? QColor(Qt::red) : QColor(Qt::black));
+    painter->setPen((this->isMouseHovered) ? QColor(Qt::red) : QColor(Qt::black));
     painter->drawRect(this->currentBoundingRect);
 
     // draw instance name

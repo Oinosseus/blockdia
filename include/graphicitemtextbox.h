@@ -85,6 +85,7 @@ private:
     qreal _actualNeededWidth;
     qreal _actaulNeededHeight;
     qreal minWidth;
+    bool isMouseHovered;
 };
 
 } // namespace bd
