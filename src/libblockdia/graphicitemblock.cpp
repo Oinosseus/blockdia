@@ -51,12 +51,15 @@ void libblockdia::GraphicItemBlock::updateData()
     // get block information
     QList<Input *> blockInputList = this->block->getInputs();
     QList<Output *> blockOutputsList = this->block->getOutputs();
-    QList<Parameter *> blockParamList = this->block->getParameters();
-    int countParamsPrivate = 0;
-    int countParamsPublic = 0;
-    for (int i=0; i < blockParamList.size(); ++i) {
-        if (blockParamList.at(i)->isPublic()) ++countParamsPublic;
-        else ++countParamsPrivate;
+    QList<Parameter *> blockParameters = this->block->getParameters();
+    int countPublicParams = 0;
+    int countPrivateParams = 0;
+    for (int i=0; i < blockParameters.size(); ++i) {
+        if (blockParameters.at(i)->isPublic()) {
+            ++countPublicParams;
+        } else {
+            ++countPrivateParams;
+        }
     }
 
 
@@ -76,14 +79,14 @@ void libblockdia::GraphicItemBlock::updateData()
     heightMaximum += this->giBlockHead->boundingRect().height();
 
     // resize private parameters list
-    while (this->giParamsPrivate.size() > countParamsPrivate) delete this->giParamsPrivate.takeLast();
-    while (this->giParamsPrivate.size() < countParamsPrivate) this->giParamsPrivate.append(new GraphicItemParameter(this->block, -1, this));
+    while (this->giParamsPrivate.size() > countPrivateParams) delete this->giParamsPrivate.takeLast();
+    while (this->giParamsPrivate.size() < countPrivateParams) this->giParamsPrivate.append(new GraphicItemParameter(this->block, -1, this));
 
     // update private parameters
-    for (int i=0; i < this->giParamsPrivate.size(); ++i) {
-        Parameter *param = blockParamList.at(i);
-        if (!param->isPublic()) {
-            GraphicItemParameter *giParam = this->giParamsPrivate.at(i);
+    int idxParamPriv = 0;
+    for (int i=0; i < blockParameters.size(); ++i) {
+        if (!blockParameters.at(i)->isPublic()) {
+            GraphicItemParameter *giParam = this->giParamsPrivate.at(idxParamPriv);
             giParam->updateData(i);
             if (giParam->actualNeededWidth() > widthMaximum) widthMaximum = giParam->actualNeededWidth();
             giParam->setY(heightMaximum + giParam->boundingRect().height()/2.0);
@@ -91,6 +94,8 @@ void libblockdia::GraphicItemBlock::updateData()
 
             // update maximum width
             if (giParam->actualNeededWidth() > widthMaximum) widthMaximum = giParam->actualNeededWidth();
+
+            ++idxParamPriv;
         }
     }
 
@@ -138,14 +143,14 @@ void libblockdia::GraphicItemBlock::updateData()
     }
 
     // resize public parameters list
-    while (this->giParamsPublic.size() > countParamsPublic) delete this->giParamsPublic.takeLast();
-    while (this->giParamsPublic.size() < countParamsPublic) this->giParamsPublic.append(new GraphicItemParameter(this->block, 0, this));
+    while (this->giParamsPublic.size() > countPublicParams) delete this->giParamsPublic.takeLast();
+    while (this->giParamsPublic.size() < countPublicParams) this->giParamsPublic.append(new GraphicItemParameter(this->block, 0, this));
 
     // update public parameters
-    for (int i=0; i < this->giParamsPublic.size(); ++i) {
-        Parameter *param = blockParamList.at(i);
-        if (!param->isPublic()) {
-            GraphicItemParameter *giParam = this->giParamsPrivate.at(i);
+    int idxParamPub = 0;
+    for (int i=0; i < blockParameters.size(); ++i) {
+        if (blockParameters.at(i)->isPublic()) {
+            GraphicItemParameter *giParam = this->giParamsPublic.at(idxParamPub);
             giParam->updateData(i);
             if (giParam->actualNeededWidth() > widthMaximum) widthMaximum = giParam->actualNeededWidth();
             giParam->setY(heightMaximum + giParam->boundingRect().height()/2.0);
@@ -153,6 +158,8 @@ void libblockdia::GraphicItemBlock::updateData()
 
             // update maximum width
             if (giParam->actualNeededWidth() > widthMaximum) widthMaximum = giParam->actualNeededWidth();
+
+            ++idxParamPub;
         }
     }
 
@@ -199,7 +206,6 @@ void libblockdia::GraphicItemBlock::updateData()
     // public parameters
     for (int i=0; i < this->giParamsPublic.size(); ++i) {
         GraphicItemParameter *giParam = this->giParamsPublic.at(i);
-        giParam->setMinWidth(widthMaximum);
         giParam->setMinWidth(widthMaximum);
         giParam->moveBy(0, - heightMaximum/2.0);
     }

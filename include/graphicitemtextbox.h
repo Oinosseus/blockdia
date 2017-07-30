@@ -68,6 +68,9 @@ public:
      */
     void setBgColor(QColor bgColor);
 
+    void hoverEnterEvent(QGraphicsSceneHoverEvent *event);
+    void hoverLeaveEvent(QGraphicsSceneHoverEvent *event);
+
 
 
 private:
@@ -82,6 +85,7 @@ private:
     qreal _actualNeededWidth;
     qreal _actaulNeededHeight;
     qreal minWidth;
+    bool isMouseHovered;
 };
 
 } // namespace bd

@@ -172,6 +172,7 @@ void libblockdia::Block::slotUpdateChildObjects()
             Parameter *child = (Parameter *) listChildren.at(i);
             if (this->parametersList.count(child) == 0) {
                 this->parametersList.append(child);
+                connect(child, SIGNAL(somethingHasChanged()), this, SLOT(slotSomethingChanged()));
                 newChildrenFound = true;
             }
         }
@@ -181,6 +182,7 @@ void libblockdia::Block::slotUpdateChildObjects()
             Input *child = (Input *) listChildren.at(i);
             if (this->inputsList.count(child) == 0) {
                 this->inputsList.append(child);
+                connect(child, SIGNAL(somethingHasChanged()), this, SLOT(slotSomethingChanged()));
                 newChildrenFound = true;
             }
         }
@@ -190,6 +192,7 @@ void libblockdia::Block::slotUpdateChildObjects()
             Output *child = (Output *) listChildren.at(i);
             if (this->outputsList.count(child) == 0) {
                 this->outputsList.append(child);
+                connect(child, SIGNAL(somethingHasChanged()), this, SLOT(slotSomethingChanged()));
                 newChildrenFound = true;
             }
         }

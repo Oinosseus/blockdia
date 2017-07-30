@@ -2,6 +2,9 @@
 #define GRAPHICITEMPARAMETER_H
 
 #include "libglobals.h"
+
+#include <QGraphicsSceneContextMenuEvent>
+
 #include "block.h"
 
 namespace libblockdia {
@@ -28,6 +31,8 @@ public:
      * @param parameterIndex The index of the Parameter in the list of paramters of the Block
      */
     void updateData(int parameterIndex);
+
+    void contextMenuEvent(QGraphicsSceneContextMenuEvent *event);
 
 
 private:

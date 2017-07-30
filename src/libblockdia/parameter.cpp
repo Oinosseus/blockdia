@@ -25,7 +25,7 @@ bool libblockdia::Parameter::isPublic()
 
 void libblockdia::Parameter::setPublic(bool isPublic)
 {
-    bool emitSignal = this->_isPublic == isPublic;
+    bool emitSignal = this->_isPublic != isPublic;
     this->_isPublic = isPublic;
     if (emitSignal) emit somethingHasChanged();
 }

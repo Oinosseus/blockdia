@@ -54,10 +54,6 @@ public:
      */
     void setMinWidth(qreal minWidth);
 
-
-
-    void hoverEnterEvent(QGraphicsSceneHoverEvent *event);
-    void hoverLeaveEvent(QGraphicsSceneHoverEvent *event);
     void contextMenuEvent(QGraphicsSceneContextMenuEvent *event);
 
 private:
@@ -68,7 +64,6 @@ private:
     // storing status
     Block *_block;
     QRectF currentBoundingRect;
-    bool isMouseHovered;
     qreal minWidth;
     qreal paddingH;
     qreal paddingV;

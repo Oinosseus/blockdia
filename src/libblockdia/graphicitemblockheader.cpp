@@ -33,9 +33,6 @@ libblockdia::GraphicItemBlockHeader::GraphicItemBlockHeader(Block *block, QGraph
     this->fontId.setBold(false);
     this->fontId.setItalic(true);
 
-    // configurations
-    this->setAcceptHoverEvents(true);
-
     // update
     this->updateData();
 }
@@ -89,20 +86,6 @@ void libblockdia::GraphicItemBlockHeader::setMinWidth(qreal minWidth)
     this->calculateDimensions();
 }
 
-void libblockdia::GraphicItemBlockHeader::hoverEnterEvent(QGraphicsSceneHoverEvent *event)
-{
-    Q_UNUSED(event);
-    this->prepareGeometryChange();
-    this->isMouseHovered = true;
-}
-
-void libblockdia::GraphicItemBlockHeader::hoverLeaveEvent(QGraphicsSceneHoverEvent *event)
-{
-    Q_UNUSED(event);
-    this->prepareGeometryChange();
-    this->isMouseHovered = false;
-}
-
 void libblockdia::GraphicItemBlockHeader::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
 {
     // create and execute menu
@@ -114,7 +97,9 @@ void libblockdia::GraphicItemBlockHeader::contextMenuEvent(QGraphicsSceneContext
 
     // action - new parameter
     if (action == actionNewParam) {
-        new ParameterInt("new param*", this->_block);
+        QString parameterName = "New Parameter ";
+        parameterName += QString::number(this->_block->getParameters().size());
+        new ParameterInt(parameterName, this->_block);
 
     // action - new input
     } else if (action == actionNewInput) {

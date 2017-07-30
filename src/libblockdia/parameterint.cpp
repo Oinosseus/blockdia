@@ -5,6 +5,7 @@ libblockdia::ParameterInt::ParameterInt(const QString &name, QObject *parent) : 
 {
     this->_minimum = INT_MIN;
     this->_maximum = INT_MAX;
+    this->_value = this->_minimum;
 }
 
 int libblockdia::ParameterInt::minimum()
