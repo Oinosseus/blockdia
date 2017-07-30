@@ -4,6 +4,8 @@
 #include <QDebug>
 #include <QTimer>
 
+#include <parameterint.h>
+
 libblockdia::ViewBlockEditor::ViewBlockEditor(Block *block, QWidget *parent) : QGraphicsView(parent)
 {
     this->block = block;

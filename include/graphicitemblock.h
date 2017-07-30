@@ -13,15 +13,22 @@
 #include <QGraphicsRectItem>
 #include <QList>
 #include <QString>
+#include <QPair>
 
 #include <graphicitemblockheader.h>
 #include <graphicitemtextbox.h>
+#include <graphicitemparameter.h>
+#include <graphiciteminput.h>
+#include <graphicitemoutput.h>
 
 namespace libblockdia {
 
 // forward declarations
 class GraphicItemBlockHeader;
 class GraphicItemTextBox;
+class GraphicItemParameter;
+class GraphicItemInput;
+class GraphicItemOutput;
 
 class LIBBLOCKDIASHARED_EXPORT GraphicItemBlock : public QGraphicsItem
 {
@@ -29,18 +36,14 @@ public:
     explicit GraphicItemBlock(Block *block, QGraphicsItem *parent=Q_NULLPTR);
     QRectF boundingRect() const;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
-    QColor backgroundParameter = QColor("#ffd");
-    QColor backgroundInputs     = QColor("#fdd");
-    QColor backgroundOutputs    = QColor("#ddf");
     void updateData();
 
 private:
     Block *block;
     GraphicItemBlockHeader *giBlockHead;
-    QList<GraphicItemTextBox *> giParamsPrivate;
-    QList<GraphicItemTextBox *> giInputs;
-    QList<GraphicItemTextBox *> giOutputs;
-    QList<GraphicItemTextBox *> giParamsPublic;
+    QList<GraphicItemParameter *> giParamsPrivate;
+    QList<QPair<GraphicItemInput*, GraphicItemOutput*>> giInOuts;
+    QList<GraphicItemParameter *> giParamsPublic;
     QRectF currentBoundingRect;
 };
 

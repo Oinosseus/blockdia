@@ -58,10 +58,13 @@ SOURCES +=  \
             input.cpp \
             output.cpp \
             graphicitemblockheader.cpp \
-            graphicitemtextbox.cpp
+            graphicitemtextbox.cpp \
+            graphicitemparameter.cpp \
+            graphiciteminput.cpp \
+            graphicitemoutput.cpp
 
-HEADERS +=  \
-             ../../include/libblockdia.h \
+HEADERS +=  ../../include/libglobals.h \
+            ../../include/libblockdia.h \
             ../../include/block.h \
             ../../include/graphicitemblock.h \
             ../../include/viewblock.h \
@@ -71,8 +74,10 @@ HEADERS +=  \
             ../../include/input.h \
             ../../include/output.h \
             ../../include/graphicitemblockheader.h \
-            ../../include/graphicitemtextbox.h \
-    ../../include/libglobals.h
+            ../../include/graphicitemtextbox.h \            
+            ../../include/graphicitemparameter.h \
+            ../../include/graphiciteminput.h \
+            ../../include/graphicitemoutput.h
 
 unix {
     target.path = /usr/lib

@@ -5,8 +5,6 @@
 
 #include <QObject>
 
-#include <block.h>
-
 namespace  libblockdia {
 
 /**
@@ -24,7 +22,7 @@ public:
      * @param block The parent block, this output belongs to.
      * @param name The name for the output
      */
-    explicit Output(Block *block, const QString &name);
+    explicit Output(const QString &name, QObject *parent = 0);
 
     /**
      * @brief The name of the output
@@ -52,7 +50,6 @@ public slots:
 
 private:
     QString _name;
-    Block *parent;
 };
 
 } // namespace bd

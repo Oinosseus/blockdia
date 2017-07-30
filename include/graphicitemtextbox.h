@@ -9,9 +9,6 @@
 #include <QFont>
 #include <QFontMetrics>
 
-#include <parameter.h>
-
-
 namespace libblockdia {
 
 /**
@@ -19,6 +16,8 @@ namespace libblockdia {
  */
 class LIBBLOCKDIASHARED_EXPORT GraphicItemTextBox : public QGraphicsItem
 {
+    friend class GraphicItemBlockHeader;
+
 public:
 
     /**
@@ -34,20 +33,20 @@ public:
     /**
      * @return The current bounding rect of the QGraphicsItem
      */
-    QRectF boundingRect() const;
+    virtual QRectF boundingRect() const;
 
     /**
      * @param painter
      * @param option
      * @param widget
      */
-    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
+    virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
 
     /**
      * @param text Setting a new text for the graphics item
      * @param align The text alignement
      */
-    void setText(const QString &text, Align align = Align::Center);
+    virtual void updateData(const QString &text, Align align = Align::Center);
 
     /**
      * @return The actual needed width for the text box (regardless of requested minimal width)
@@ -62,7 +61,7 @@ public:
     /**
      * @param minWidth Setting a minimal requested width for the text box
      */
-    void setMinWidth(qreal minWidth);
+    virtual void setMinWidth(qreal minWidth);
 
     /**
      * @param bgColor Setting a new background color
@@ -80,8 +79,8 @@ private:
     int padding;
     Align algn;
     QRectF currentBoundingRect;
-    qreal textWidth;
-    qreal textHeight;
+    qreal _actualNeededWidth;
+    qreal _actaulNeededHeight;
     qreal minWidth;
 };
 

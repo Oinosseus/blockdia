@@ -6,8 +6,6 @@
 #include <QObject>
 #include <QString>
 
-#include <block.h>
-
 namespace libblockdia {
 
 // forward declarations
@@ -19,6 +17,7 @@ class Block;
 class LIBBLOCKDIASHARED_EXPORT Parameter : public QObject
 {
     Q_OBJECT
+
 public:
 
     /**
@@ -26,7 +25,7 @@ public:
      * @param parent
      * @param name The name for the parameter
      */
-    explicit Parameter(Block *parent, const QString &name);
+    explicit Parameter(const QString &name, QObject *parent = 0);
 
     /**
      * @brief The name of the parameter
@@ -84,7 +83,6 @@ signals:
     void somethingHasChanged();
 
 private:
-    Block *parent;
     QString _name;
     bool _isPublic;
 };

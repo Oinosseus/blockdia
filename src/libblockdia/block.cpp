@@ -1,5 +1,7 @@
 #include "block.h"
 #include <QDebug>
+#include <QMetaClassInfo>
+#include <QObjectList>
 
 libblockdia::Block::Block(QObject *parent) : QObject(parent)
 {
@@ -85,7 +87,7 @@ QList<libblockdia::Parameter *> libblockdia::Block::getParameters()
 
 libblockdia::Parameter *libblockdia::Block::getParameter(const QString name)
 {
-    Parameter *ret = NULL;
+    Parameter *ret = Q_NULLPTR;
 
     // find parameter by name
     for (int i = 0; i < this->parametersList.size(); ++i) {
@@ -105,7 +107,7 @@ QList<libblockdia::Input *> libblockdia::Block::getInputs()
 
 libblockdia::Input *libblockdia::Block::getInput(const QString name)
 {
-    Input *ret = NULL;
+    Input *ret = Q_NULLPTR;
 
     // find input by name
     for (int i = 0; i < this->inputsList.size(); ++i) {
@@ -143,8 +145,58 @@ QGraphicsItem *libblockdia::Block::getGraphicsItem()
     return this->giBlock;
 }
 
+void libblockdia::Block::childEvent(QChildEvent *e)
+{
+    // catch child add event
+    if (e->added()) {
+        QTimer::singleShot(0, this, SLOT(slotUpdateChildObjects()));
+    }
+}
+
 void libblockdia::Block::slotSomethingChanged()
 {
     this->giBlock->updateData();
 }
 
+void libblockdia::Block::slotUpdateChildObjects()
+{
+    bool newChildrenFound = false;
+
+    QObjectList listChildren = this->children();
+    for (int i=0; i < listChildren.size(); ++i) {
+        // get liblock dia meta data
+        QString childClass = listChildren.at(i)->metaObject()->className();
+
+        // check for new parameters
+        if (childClass == "libblockdia::Parameter") {
+            Parameter *child = (Parameter *) listChildren.at(i);
+            if (this->parametersList.count(child) == 0) {
+                this->parametersList.append(child);
+                newChildrenFound = true;
+            }
+        }
+
+        // check for new inputs
+        else if (childClass == "libblockdia::Input") {
+            Input *child = (Input *) listChildren.at(i);
+            if (this->inputsList.count(child) == 0) {
+                this->inputsList.append(child);
+                newChildrenFound = true;
+            }
+        }
+
+        // check for new outputs
+        else if (childClass == "libblockdia::Output") {
+            Output *child = (Output *) listChildren.at(i);
+            if (this->outputsList.count(child) == 0) {
+                this->outputsList.append(child);
+                newChildrenFound = true;
+            }
+        }
+    }
+
+    // emit singal
+    if (newChildrenFound) {
+        emit signalSomethingChanged();
+    }
+}

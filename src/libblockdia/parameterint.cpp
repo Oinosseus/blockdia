@@ -1,7 +1,7 @@
 #include "parameterint.h"
 #include <limits.h>
 
-libblockdia::ParameterInt::ParameterInt(Block *parent, const QString &name) : Parameter(parent, name)
+libblockdia::ParameterInt::ParameterInt(const QString &name, QObject *parent) : Parameter(name, parent)
 {
     this->_minimum = INT_MIN;
     this->_maximum = INT_MAX;

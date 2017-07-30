@@ -21,24 +21,24 @@ libblockdia::ViewBlock::ViewBlock(QWidget *parent) : QGraphicsView(parent)
 
     // add parameters
     ParameterInt *param;
-    param = new ParameterInt(myBlock, "Parameter 1");
+    param = new ParameterInt("Parameter 1", myBlock);
     param->setValue(-27);
     param->setPublic(false);
-    param = new ParameterInt(myBlock, "Parameter two");
+    param = new ParameterInt("Parameter two", myBlock);
     param->setValue(32768);
     param->setPublic(true);
-    param = new ParameterInt(myBlock, "Parameter3");
+    param = new ParameterInt("Parameter3", myBlock);
     param->setValue("123");
     param->setPublic(true);
 
     // add inputs
-//    new Input(myBlock, "Input1");
-//    new Input(myBlock, "Input Two");
-//    new Input(myBlock, "Input 3");
+    new Input("Input1", myBlock);
+    new Input("Input Two", myBlock);
+    new Input("Input 3", myBlock);
 
     // add outputs
-//    new Output(myBlock, "Out1");
-//    new Output(myBlock, "Out 2");
+    new Output("Out1", myBlock);
+    new Output("Out 2", myBlock);
 
     QGraphicsScene *scene = new QGraphicsScene(this);
     scene->setBackgroundBrush(QBrush(QColor("#fffcfc")));

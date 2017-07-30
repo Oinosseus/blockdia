@@ -16,10 +16,13 @@
 
 namespace libblockdia {
 
+// forward declarations
+//class GraphicItemTextBox;
+
 /**
  * @brief A QGraphicsItem that shows the header of a Block
  */
-class LIBBLOCKDIASHARED_EXPORT GraphicItemBlockHeader : public QGraphicsItem
+class LIBBLOCKDIASHARED_EXPORT GraphicItemBlockHeader : public GraphicItemTextBox
 {
 
 public:
@@ -42,18 +45,7 @@ public:
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
 
     /**
-     * @return The actual needed width for the text box (regardless of requested minimal width)
-     */
-    qreal actualNeededWidth();
-
-    /**
-     * @return The actual needed height for the text box (regardless of requested minimal height)
-     */
-    qreal actualNeededHeight();
-
-    /**
      * @details Updates the displayed data
-     * @param block Data is updated from the Block object
      */
     void updateData();
 
@@ -80,8 +72,6 @@ private:
     qreal minWidth;
     qreal paddingH;
     qreal paddingV;
-    qreal _actualNeededWidth;
-    qreal _actaulNeededHeight;
     QFont fontInstanceName;
     QFont fontTypeName;
     QFont fontId;

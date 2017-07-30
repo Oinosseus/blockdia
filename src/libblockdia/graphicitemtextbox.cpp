@@ -34,23 +34,23 @@ void libblockdia::GraphicItemTextBox::paint(QPainter *painter, const QStyleOptio
 
     // calculate text y position
     QFontMetrics fm = QFontMetrics(this->font);
-    qreal textY = - fm.descent() + this->textHeight/2.0;
+    qreal textY = - fm.descent() + fm.height() / 2.0;
 
     // calculate text x position
     qreal textX = 0.0;
     if (this->algn == Align::Left) {
         textX = -this->boundingRect().width()/2.0 + this->padding;
     } else if (this->algn == Align::Center) {
-        textX = - this->textWidth / 2.0;
+        textX = - this->_actualNeededWidth / 2.0 + this->padding;
     } else if (this->algn == Align::Right) {
-        textX = this->boundingRect().width()/2 - this->textWidth - this->padding;
+        textX = this->boundingRect().width()/2 - this->_actualNeededWidth + this->padding;
     }
 
     // draw text
     painter->drawText(textX, textY, this->text);
 }
 
-void libblockdia::GraphicItemTextBox::setText(const QString &text, Align align)
+void libblockdia::GraphicItemTextBox::updateData(const QString &text, Align align)
 {
     this->prepareGeometryChange();
     this->text = text;
@@ -60,12 +60,12 @@ void libblockdia::GraphicItemTextBox::setText(const QString &text, Align align)
 
 qreal libblockdia::GraphicItemTextBox::actualNeededWidth()
 {
-    return this->textWidth;
+    return this->_actualNeededWidth;
 }
 
 qreal libblockdia::GraphicItemTextBox::actualNeededHeight()
 {
-    return this->textHeight;
+    return this->_actaulNeededHeight;
 }
 
 void libblockdia::GraphicItemTextBox::setMinWidth(qreal minWidth)
@@ -85,13 +85,11 @@ void libblockdia::GraphicItemTextBox::calculateDimensions()
 {
     // calculate new text size
     QFontMetrics fm = QFontMetrics(this->font);
-    this->textWidth = fm.width(this->text);
-    this->textHeight = fm.height();
+    this->_actualNeededWidth = 2.0 * this->padding + fm.width(this->text);
+    this->_actaulNeededHeight = 2.0 * this->padding + fm.height();
 
     // calculate new bounding rect
-    qreal width = (this->minWidth > this->textWidth) ? this->minWidth : this->textWidth;
-    width += 2.0 * this->padding;
-    qreal height = this->textHeight;
-    height += 2.0 + this->padding;
+    qreal width = (this->minWidth > this->_actualNeededWidth) ? this->minWidth : this->_actualNeededWidth;
+    qreal height = this->_actaulNeededHeight;
     this->currentBoundingRect = QRectF ( - width/2.0, - height/2.0, width, height);
 }

@@ -11,7 +11,7 @@
 #include <input.h>
 #include <output.h>
 
-libblockdia::GraphicItemBlockHeader::GraphicItemBlockHeader(Block *block, QGraphicsItem *parent) : QGraphicsItem(parent)
+libblockdia::GraphicItemBlockHeader::GraphicItemBlockHeader(Block *block, QGraphicsItem *parent) : GraphicItemTextBox(parent)
 {
     this->_block = block;
     this->minWidth = 0;
@@ -72,16 +72,6 @@ void libblockdia::GraphicItemBlockHeader::paint(QPainter *painter, const QStyleO
 
 }
 
-qreal libblockdia::GraphicItemBlockHeader::actualNeededWidth()
-{
-    return this->_actualNeededWidth;
-}
-
-qreal libblockdia::GraphicItemBlockHeader::actualNeededHeight()
-{
-    return this->_actaulNeededHeight;
-}
-
 void libblockdia::GraphicItemBlockHeader::updateData()
 {
     this->prepareGeometryChange();
@@ -101,12 +91,14 @@ void libblockdia::GraphicItemBlockHeader::setMinWidth(qreal minWidth)
 
 void libblockdia::GraphicItemBlockHeader::hoverEnterEvent(QGraphicsSceneHoverEvent *event)
 {
+    Q_UNUSED(event);
     this->prepareGeometryChange();
     this->isMouseHovered = true;
 }
 
 void libblockdia::GraphicItemBlockHeader::hoverLeaveEvent(QGraphicsSceneHoverEvent *event)
 {
+    Q_UNUSED(event);
     this->prepareGeometryChange();
     this->isMouseHovered = false;
 }
@@ -122,15 +114,15 @@ void libblockdia::GraphicItemBlockHeader::contextMenuEvent(QGraphicsSceneContext
 
     // action - new parameter
     if (action == actionNewParam) {
-        new ParameterInt(this->_block, "new param*");
+        new ParameterInt("new param*", this->_block);
 
     // action - new input
     } else if (action == actionNewInput) {
-        new Input(this->_block, "new input");
+        new Input("new input", this->_block);
 
     // action - new output
     } else if (action == actionNewOutput) {
-        new Output(this->_block, "new output");
+        new Output("new output", this->_block);
 
     }
 }

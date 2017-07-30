@@ -5,11 +5,11 @@
 
 
 // block data classes
-#include <block.h>
 #include <input.h>
 #include <output.h>
 #include <parameter.h>
 #include <parameterint.h>
+#include <block.h>
 
 // block graphic classes
 #include <viewblock.h>

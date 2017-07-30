@@ -23,9 +23,6 @@ private:
     Block *block;
     QGraphicsItem *giTest;
     int testCounter;
-
-private slots:
-    void slotTestTimeout();
 };
 
 } // namespace bd

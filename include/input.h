@@ -5,12 +5,7 @@
 
 #include <QObject>
 
-#include <block.h>
-
 namespace  libblockdia {
-
-// forward declarations
-class Block;
 
 /**
  * @brief Input for blocks.
@@ -24,10 +19,9 @@ public:
 
     /**
      * @brief Constructing an Input
-     * @param block The parent block, this input belongs to.
      * @param name The name for the input
      */
-    explicit Input(Block *block, const QString &name);
+    explicit Input(const QString &name, QObject *parent = 0);
 
     /**
      * @brief The name of the input
@@ -55,7 +49,6 @@ public slots:
 
 private:
     QString _name;
-    Block *parent;
 };
 
 } // namespace bd

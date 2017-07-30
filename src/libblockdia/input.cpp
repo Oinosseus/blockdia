@@ -1,13 +1,8 @@
 #include "input.h"
 
-libblockdia::Input::Input(Block *block, const QString &name) : QObject(block)
+libblockdia::Input::Input(const QString &name, QObject *parent) : QObject(parent)
 {
-    this->parent = block;
     this->_name = name;
-
-    // add this input to the inputs list of the block
-    this->parent->inputsList.append(this);
-    emit this->parent->signalSomethingChanged();
 }
 
 QString libblockdia::Input::name()

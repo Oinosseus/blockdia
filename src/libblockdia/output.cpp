@@ -1,13 +1,8 @@
 #include "output.h"
 
-libblockdia::Output::Output(Block *block, const QString &name) : QObject(block)
+libblockdia::Output::Output(const QString &name, QObject *parent) : QObject(parent)
 {
-    this->parent = block;
     this->_name = name;
-
-    // add this output to the outputs list of the block
-    this->parent->outputsList.append(this);
-    emit this->parent->signalSomethingChanged();
 }
 
 QString libblockdia::Output::name()

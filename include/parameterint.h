@@ -2,7 +2,6 @@
 #define BDPARAMETERINT_H
 
 #include "libglobals.h"
-
 #include <parameter.h>
 
 namespace libblockdia {
@@ -20,7 +19,7 @@ public:
      * @param parent The block this parameter belogns to.
      * @param name The name for the parameter
      */
-    ParameterInt(Block *parent, const QString &name);
+    ParameterInt(const QString &name, QObject *parent = 0);
 
     /**
      * @brief The minimum allowed parameter value

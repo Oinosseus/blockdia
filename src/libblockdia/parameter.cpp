@@ -1,14 +1,9 @@
 #include "parameter.h"
 
-libblockdia::Parameter::Parameter(Block *parent, const QString &name) : QObject(parent)
+libblockdia::Parameter::Parameter(const QString &name, QObject *parent) : QObject(parent)
 {
-    this->parent = parent;
     this->_name = name;
     this->_isPublic = false;
-
-    // add parameter to block
-    this->parent->parametersList.append(this);
-    emit this->parent->signalSomethingChanged();
 }
 
 QString libblockdia::Parameter::name()

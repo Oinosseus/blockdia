@@ -11,7 +11,6 @@ libblockdia::GraphicItemBlock::GraphicItemBlock(Block *block, QGraphicsItem *par
     this->block = block;
 
     this->giBlockHead = Q_NULLPTR;
-    this->giParamsPublic = QList<GraphicItemTextBox *>();
     this->updateData();
 }
 
@@ -48,9 +47,10 @@ void libblockdia::GraphicItemBlock::updateData()
     qreal widthInputs = 0;
     qreal widthOutputs = 0;
     qreal heightMaximum = 0;
-    GraphicItemTextBox *gitb;
 
     // get block information
+    QList<Input *> blockInputList = this->block->getInputs();
+    QList<Output *> blockOutputsList = this->block->getOutputs();
     QList<Parameter *> blockParamList = this->block->getParameters();
     int countParamsPrivate = 0;
     int countParamsPublic = 0;
@@ -72,162 +72,138 @@ void libblockdia::GraphicItemBlock::updateData()
     // update header
     this->giBlockHead->updateData();
     if (this->giBlockHead->actualNeededWidth() > widthMaximum) widthMaximum = this->giBlockHead->actualNeededWidth();
+    this->giBlockHead->setY(heightMaximum + this->giBlockHead->boundingRect().height() / 2.0);
     heightMaximum += this->giBlockHead->boundingRect().height();
-    this->giBlockHead->moveBy(0, this->giBlockHead->boundingRect().height() / 2.0);
 
-
-    // resize list private parameters
+    // resize private parameters list
     while (this->giParamsPrivate.size() > countParamsPrivate) delete this->giParamsPrivate.takeLast();
-    while (this->giParamsPrivate.size() < countParamsPrivate) this->giParamsPrivate.append(new GraphicItemTextBox(this));
-
-    // update private parameters
-    for (int i=0; i < blockParamList.size(); ++i) {
-        Parameter *param = blockParamList.at(i);
-        if (!param->isPublic()) {
-            gitb = new GraphicItemTextBox(this);
-            gitb->setBgColor(this->backgroundParameter);
-            this->giParamsPrivate.append(gitb);
-
-            // update
-            gitb->setText(param->name(), GraphicItemTextBox::Align::Center);
-
-            // update height
-            gitb->setY(gitb->y() + gitb->actualNeededWidth()/2.0);
-            gitb->setY(gitb->y() + heightMaximum);
-            heightMaximum += gitb->actualNeededHeight();
-
-            // update maximum width
-            if (gitb->actualNeededWidth() > widthMaximum) widthMaximum = gitb->actualNeededWidth();
-        }
-    }
-
-
-    // clear inputs and outputs
-    while (this->giInputs.size() > 0) delete this->giInputs.takeLast();
-    while (this->giOutputs.size() > 0) delete this->giOutputs.takeLast();
-    for (int i = 0; i < this->block->getInputs().size() || i < this->block->getOutputs().size(); ++i) {
-
-        Input *inp = Q_NULLPTR;
-        Output *outp = Q_NULLPTR;
-        GraphicItemTextBox *giInp = Q_NULLPTR;
-        GraphicItemTextBox *giOutp = Q_NULLPTR;
-
-        // input - create new textbox
-        giInp = new GraphicItemTextBox(this);
-        giInp->setBgColor(this->backgroundInputs);
-        this->giInputs.append(giInp);
-
-        // input - write text into textbox
-        if (i < this->block->getInputs().size()) {
-            inp = this->block->getInputs().at(i);
-            giInp->setText(inp->name(), GraphicItemTextBox::Align::Left);
-        }
-
-        // input update height, width
-        giInp->setY(giInp->y() + giInp->actualNeededHeight()/2.0);
-        giInp->setY(giInp->y() + heightMaximum);
-        if (giInp->actualNeededWidth() > widthInputs) widthInputs = giInp->actualNeededWidth();
-
-        // output - create new textbox
-        giOutp = new GraphicItemTextBox(this);
-        giOutp->setBgColor(this->backgroundOutputs);
-        this->giOutputs.append(giOutp);
-
-        // output - write text into textbox
-        if (i < this->block->getOutputs().size()) {
-            outp = this->block->getOutputs().at(i);
-            giOutp->setText(outp->name(), GraphicItemTextBox::Align::Right);
-        }
-
-        // output - update height, width
-        giOutp->setY(giOutp->y() + giOutp->actualNeededHeight()/2.0);
-        giOutp->setY(giOutp->y() + heightMaximum);
-        if (giOutp->actualNeededWidth() > widthOutputs) widthOutputs = giOutp->actualNeededWidth();
-
-        // set new height
-        int h = 0;
-        if (giOutp->actualNeededHeight() > h) h = giOutp->actualNeededHeight();
-        if (giInp->actualNeededHeight() > h)  h = giInp->actualNeededHeight();
-        heightMaximum += h;
-
-        // set new width
-        if ((widthInputs + widthOutputs) > widthMaximum) widthMaximum = widthInputs + widthOutputs;
-    }
-
-
-    // clear public parameters
-    while (this->giParamsPublic.size() > 0) delete this->giParamsPublic.takeLast();
-
-    // create public parameters
-    for (int i=0; i < this->block->getParameters().size(); ++i) { // create new list
-        Parameter *param = this->block->getParameters().at(i);
-        if (param->isPublic()) {
-            gitb = new GraphicItemTextBox(this);
-            gitb->setBgColor(this->backgroundParameter);
-            this->giParamsPublic.append(gitb);
-
-            // update
-            gitb->setText(param->name(), GraphicItemTextBox::Align::Center);
-
-            // update height
-            gitb->setY(gitb->y() + gitb->actualNeededHeight()/2.0);
-            gitb->setY(gitb->y() + heightMaximum);
-            heightMaximum += gitb->actualNeededHeight();
-
-            // update maximum width
-            if (gitb->actualNeededWidth() > widthMaximum) widthMaximum = gitb->actualNeededWidth();
-        }
-    }
-
-
-
-    // ------------------------------------------------------------------------
-    //                             Update Positon
-    // ------------------------------------------------------------------------
-
-    // update header
-    this->giBlockHead->setY(this->giBlockHead->y() - heightMaximum/2.0);
-    this->giBlockHead->setMinWidth(widthMaximum);
+    while (this->giParamsPrivate.size() < countParamsPrivate) this->giParamsPrivate.append(new GraphicItemParameter(this->block, -1, this));
 
     // update private parameters
     for (int i=0; i < this->giParamsPrivate.size(); ++i) {
-        gitb = this->giParamsPrivate.at(i);
-        gitb->setMinWidth(widthMaximum);
-        gitb->setY(gitb->y() - heightMaximum/2.0);
+        Parameter *param = blockParamList.at(i);
+        if (!param->isPublic()) {
+            GraphicItemParameter *giParam = this->giParamsPrivate.at(i);
+            giParam->updateData(i);
+            if (giParam->actualNeededWidth() > widthMaximum) widthMaximum = giParam->actualNeededWidth();
+            giParam->setY(heightMaximum + giParam->boundingRect().height()/2.0);
+            heightMaximum += giParam->boundingRect().height();
+
+            // update maximum width
+            if (giParam->actualNeededWidth() > widthMaximum) widthMaximum = giParam->actualNeededWidth();
+        }
     }
 
-    // stretch i/o width
+    // resize IO list
+    while (this->giInOuts.size() > blockInputList.size() || this->giInOuts.size() > blockOutputsList.size()) {
+        QPair<GraphicItemInput *, GraphicItemOutput *> p = this->giInOuts.takeLast();
+        delete p.first;
+        delete p.second;
+    }
+    while (this->giInOuts.size() < blockInputList.size() || this->giInOuts.size() < blockOutputsList.size()) {
+        QPair<GraphicItemInput *, GraphicItemOutput *> p;
+        p.first = new GraphicItemInput(this->block, -1, this);
+        p.second = new GraphicItemOutput(this->block, -1, this);
+        this->giInOuts.append(p);
+    }
+
+    // update inputs/output list
+    for (int i = 0; i < this->giInOuts.size(); ++i) {
+        QPair<GraphicItemInput *, GraphicItemOutput *> p = this->giInOuts.at(i);
+
+        // create new input
+        if (i <= blockInputList.size()) {
+            p.first->updateData(i);
+        } else {
+            p.first->updateData();
+        }
+
+        // create new output
+        if (i < blockOutputsList.size()) {
+            p.second->updateData(i);
+        } else {
+            p.second->updateData();
+        }
+
+        // calculate width
+        if (p.first->actualNeededWidth() > widthInputs) widthInputs = p.first->actualNeededWidth();
+        if (p.second->actualNeededWidth() > widthOutputs) widthOutputs = p.second->actualNeededWidth();
+        qreal w = widthInputs + widthOutputs;
+        if (w > widthMaximum) widthMaximum = w;
+
+        // calculate height
+        p.first->setY(heightMaximum + p.first->boundingRect().height() / 2.0);
+        p.second->setY(heightMaximum + p.second->boundingRect().height() / 2.0);
+        heightMaximum += (p.first->boundingRect().height() > p.second->boundingRect().height()) ? p.first->boundingRect().height() : p.second->boundingRect().height();
+    }
+
+    // resize public parameters list
+    while (this->giParamsPublic.size() > countParamsPublic) delete this->giParamsPublic.takeLast();
+    while (this->giParamsPublic.size() < countParamsPublic) this->giParamsPublic.append(new GraphicItemParameter(this->block, 0, this));
+
+    // update public parameters
+    for (int i=0; i < this->giParamsPublic.size(); ++i) {
+        Parameter *param = blockParamList.at(i);
+        if (!param->isPublic()) {
+            GraphicItemParameter *giParam = this->giParamsPrivate.at(i);
+            giParam->updateData(i);
+            if (giParam->actualNeededWidth() > widthMaximum) widthMaximum = giParam->actualNeededWidth();
+            giParam->setY(heightMaximum + giParam->boundingRect().height()/2.0);
+            heightMaximum += giParam->boundingRect().height();
+
+            // update maximum width
+            if (giParam->actualNeededWidth() > widthMaximum) widthMaximum = giParam->actualNeededWidth();
+        }
+    }
+
+
+
+    // ------------------------------------------------------------------------
+    //                              Update Positons
+    // ------------------------------------------------------------------------
+
+    // header
+    this->giBlockHead->setMinWidth(widthMaximum);
+    this->giBlockHead->setX(0);
+    this->giBlockHead->moveBy(0, - heightMaximum/2.0);
+
+    // private parameters
+    for (int i=0; i < this->giParamsPrivate.size(); ++i) {
+        GraphicItemParameter *giParam = this->giParamsPrivate.at(i);
+        giParam->setMinWidth(widthMaximum);
+        giParam->moveBy(0, - heightMaximum/2.0);
+    }
+
+    // stretch i/o widths
     if ((widthInputs + widthOutputs) < widthMaximum) {
         int w = widthMaximum - widthInputs - widthOutputs;
         widthInputs += w/2.0;
         widthOutputs += w/2.0;
     }
 
-    // update inputs
-    for (int i=0; i < this->giInputs.size(); ++i) {
-        gitb = this->giInputs.at(i);
-        gitb->setMinWidth(widthInputs);
-        gitb->setY(gitb->y() - heightMaximum/2.0);
-        gitb->setX((widthInputs - widthMaximum) / 2.0);
+    // In-/Outputs
+    for (int i=0; i < this->giInOuts.size(); ++i) {
+        QPair<GraphicItemInput *, GraphicItemOutput *> p = this->giInOuts.at(i);
+
+        // update input
+        p.first->setMinWidth(widthInputs);
+        p.first->moveBy(0,  - heightMaximum/2.0);
+        p.first->setX(- widthMaximum / 2.0 + p.first->boundingRect().width() / 2.0);
+
+        // update output
+        p.second->setMinWidth(widthOutputs);
+        p.second->moveBy(0,  - heightMaximum/2.0);
+        p.second->setX(widthMaximum / 2.0 - p.second->boundingRect().width() / 2.0);
     }
 
-    // update outputs
-    for (int i=0; i < this->giOutputs.size(); ++i) {
-        gitb = this->giOutputs.at(i);
-        gitb->setMinWidth(widthOutputs);
-        gitb->setY(gitb->y() - heightMaximum/2.0);
-        gitb->setX((widthMaximum - widthOutputs) / 2.0);
-    }
-
-    // update public parameters
+    // public parameters
     for (int i=0; i < this->giParamsPublic.size(); ++i) {
-        gitb = this->giParamsPublic.at(i);
-        gitb->setMinWidth(widthMaximum);
-        gitb->setY(gitb->y() - heightMaximum/2.0);
+        GraphicItemParameter *giParam = this->giParamsPublic.at(i);
+        giParam->setMinWidth(widthMaximum);
+        giParam->setMinWidth(widthMaximum);
+        giParam->moveBy(0, - heightMaximum/2.0);
     }
 
-    this->currentBoundingRect.setWidth(widthMaximum);
-    this->currentBoundingRect.setHeight(heightMaximum);
-    this->currentBoundingRect.setY(this->giBlockHead->y());
-    this->currentBoundingRect.setX(this->giBlockHead->x());
+    // calculate new bounding rect
+    this->currentBoundingRect = QRectF(- widthMaximum / 2.0, - heightMaximum / 2.0, widthMaximum, heightMaximum);
 }

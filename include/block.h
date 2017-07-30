@@ -8,6 +8,8 @@
 #include <QList>
 #include <QColor>
 #include <QGraphicsItem>
+#include <QChildEvent>
+#include <QTimer>
 
 #include <parameter.h>
 #include <input.h>
@@ -27,11 +29,8 @@ class Output;
  */
 class LIBBLOCKDIASHARED_EXPORT Block : public QObject
 {
-    friend class Parameter;
-    friend class Input;
-    friend class Output;
-
     Q_OBJECT
+
 public:
 
     /**
@@ -176,6 +175,8 @@ signals:
 public slots:
 
 private:
+    void childEvent(QChildEvent *e);
+
     QString _TypeId;
     QString _TypeName;
     QString _InstanceId;
@@ -188,6 +189,7 @@ private:
 
 private slots:
     void slotSomethingChanged();
+    void slotUpdateChildObjects();
 };
 
 } // namespace bd
