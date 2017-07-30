@@ -12,7 +12,6 @@ libblockdia::GraphicItemTextBox::GraphicItemTextBox(QGraphicsItem *parent) : QGr
     this->bgColor = QColor("#fdd");
     this->algn = Align::Center;
     this->calculateDimensions();
-    this->isMouseHovered = false;
 
     // configurations
     this->setAcceptHoverEvents(true);
@@ -34,7 +33,7 @@ void libblockdia::GraphicItemTextBox::paint(QPainter *painter, const QStyleOptio
 
     // draw box
     painter->fillRect(this->currentBoundingRect, QBrush(this->bgColor));
-    painter->setPen((this->isMouseHovered) ? QColor(Qt::red) : QColor(Qt::black));
+    painter->setPen((this->isUnderMouse()) ? QColor(Qt::red) : QColor(Qt::black));
     painter->drawRect(this->currentBoundingRect);
 
     // calculate text y position
@@ -90,14 +89,12 @@ void libblockdia::GraphicItemTextBox::hoverEnterEvent(QGraphicsSceneHoverEvent *
 {
     Q_UNUSED(event);
     this->prepareGeometryChange();
-    this->isMouseHovered = true;
 }
 
 void libblockdia::GraphicItemTextBox::hoverLeaveEvent(QGraphicsSceneHoverEvent *event)
 {
     Q_UNUSED(event);
     this->prepareGeometryChange();
-    this->isMouseHovered = false;
 }
 
 void libblockdia::GraphicItemTextBox::calculateDimensions()

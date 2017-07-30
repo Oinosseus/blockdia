@@ -17,7 +17,6 @@ libblockdia::GraphicItemBlockHeader::GraphicItemBlockHeader(Block *block, QGraph
     this->minWidth = 0;
     this->paddingH = 10;
     this->paddingV = 5;
-    this->isMouseHovered = false;
 
     // font instance name
     this->fontInstanceName.setPointSize(fontInstanceName.pointSize() + 1);
@@ -52,7 +51,7 @@ void libblockdia::GraphicItemBlockHeader::paint(QPainter *painter, const QStyleO
 
     // draw box
     painter->fillRect(this->currentBoundingRect, QBrush(this->bgColor));
-    painter->setPen((this->isMouseHovered) ? QColor(Qt::red) : QColor(Qt::black));
+    painter->setPen((this->isUnderMouse()) ? QColor(Qt::red) : QColor(Qt::black));
     painter->drawRect(this->currentBoundingRect);
 
     // draw instance name
@@ -88,7 +87,7 @@ void libblockdia::GraphicItemBlockHeader::setMinWidth(qreal minWidth)
 
 void libblockdia::GraphicItemBlockHeader::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
 {
-    // create and execute menu
+    // get menu from parent block item
     QMenu menu;
     QAction *actionNewParam  = menu.addAction("Add Integer Parameter");
     QAction *actionNewInput  = menu.addAction("Add Input");

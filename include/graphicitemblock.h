@@ -14,6 +14,7 @@
 #include <QList>
 #include <QString>
 #include <QPair>
+#include <QMenu>
 
 #include <graphicitemblockheader.h>
 #include <graphicitemtextbox.h>
@@ -39,6 +40,7 @@ public:
     void updateData();
 
 private:
+    void contextMenuEvent(QGraphicsSceneContextMenuEvent *event);
     Block *block;
     GraphicItemBlockHeader *giBlockHead;
     QList<GraphicItemParameter *> giParamsPrivate;

@@ -4,6 +4,7 @@
 #include <QColor>
 #include <QFontMetrics>
 #include <QDebug>
+#include <QAction>
 
 
 libblockdia::GraphicItemBlock::GraphicItemBlock(Block *block, QGraphicsItem *parent) : QGraphicsItem(parent)
@@ -78,15 +79,15 @@ void libblockdia::GraphicItemBlock::updateData()
     this->giBlockHead->setY(heightMaximum + this->giBlockHead->boundingRect().height() / 2.0);
     heightMaximum += this->giBlockHead->boundingRect().height();
 
-    // resize private parameters list
-    while (this->giParamsPrivate.size() > countPrivateParams) delete this->giParamsPrivate.takeLast();
-    while (this->giParamsPrivate.size() < countPrivateParams) this->giParamsPrivate.append(new GraphicItemParameter(this->block, -1, this));
+    // resize public parameters list
+    while (this->giParamsPublic.size() > countPublicParams) delete this->giParamsPublic.takeLast();
+    while (this->giParamsPublic.size() < countPublicParams) this->giParamsPublic.append(new GraphicItemParameter(this->block, 0, this));
 
-    // update private parameters
-    int idxParamPriv = 0;
+    // update public parameters
+    int idxParamPub = 0;
     for (int i=0; i < blockParameters.size(); ++i) {
-        if (!blockParameters.at(i)->isPublic()) {
-            GraphicItemParameter *giParam = this->giParamsPrivate.at(idxParamPriv);
+        if (blockParameters.at(i)->isPublic()) {
+            GraphicItemParameter *giParam = this->giParamsPublic.at(idxParamPub);
             giParam->updateData(i);
             if (giParam->actualNeededWidth() > widthMaximum) widthMaximum = giParam->actualNeededWidth();
             giParam->setY(heightMaximum + giParam->boundingRect().height()/2.0);
@@ -95,7 +96,7 @@ void libblockdia::GraphicItemBlock::updateData()
             // update maximum width
             if (giParam->actualNeededWidth() > widthMaximum) widthMaximum = giParam->actualNeededWidth();
 
-            ++idxParamPriv;
+            ++idxParamPub;
         }
     }
 
@@ -142,15 +143,15 @@ void libblockdia::GraphicItemBlock::updateData()
         heightMaximum += (p.first->boundingRect().height() > p.second->boundingRect().height()) ? p.first->boundingRect().height() : p.second->boundingRect().height();
     }
 
-    // resize public parameters list
-    while (this->giParamsPublic.size() > countPublicParams) delete this->giParamsPublic.takeLast();
-    while (this->giParamsPublic.size() < countPublicParams) this->giParamsPublic.append(new GraphicItemParameter(this->block, 0, this));
+    // resize private parameters list
+    while (this->giParamsPrivate.size() > countPrivateParams) delete this->giParamsPrivate.takeLast();
+    while (this->giParamsPrivate.size() < countPrivateParams) this->giParamsPrivate.append(new GraphicItemParameter(this->block, -1, this));
 
-    // update public parameters
-    int idxParamPub = 0;
+    // update private parameters
+    int idxParamPriv = 0;
     for (int i=0; i < blockParameters.size(); ++i) {
-        if (blockParameters.at(i)->isPublic()) {
-            GraphicItemParameter *giParam = this->giParamsPublic.at(idxParamPub);
+        if (!blockParameters.at(i)->isPublic()) {
+            GraphicItemParameter *giParam = this->giParamsPrivate.at(idxParamPriv);
             giParam->updateData(i);
             if (giParam->actualNeededWidth() > widthMaximum) widthMaximum = giParam->actualNeededWidth();
             giParam->setY(heightMaximum + giParam->boundingRect().height()/2.0);
@@ -159,7 +160,7 @@ void libblockdia::GraphicItemBlock::updateData()
             // update maximum width
             if (giParam->actualNeededWidth() > widthMaximum) widthMaximum = giParam->actualNeededWidth();
 
-            ++idxParamPub;
+            ++idxParamPriv;
         }
     }
 
@@ -212,4 +213,12 @@ void libblockdia::GraphicItemBlock::updateData()
 
     // calculate new bounding rect
     this->currentBoundingRect = QRectF(- widthMaximum / 2.0, - heightMaximum / 2.0, widthMaximum, heightMaximum);
+}
+
+void libblockdia::GraphicItemBlock::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
+{
+    QMenu menu;
+    menu.addAction("Block Menu1");
+    menu.addAction("Block Menu2");
+    menu.exec(event->screenPos());
 }
