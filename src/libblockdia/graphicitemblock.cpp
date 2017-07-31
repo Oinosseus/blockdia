@@ -336,12 +336,16 @@ void libblockdia::GraphicItemBlock::contextMenuEvent(QGraphicsSceneContextMenuEv
     // parameter menu
     QAction *actionParameterDelete = Q_NULLPTR;
     QAction *actionParameterEdit = Q_NULLPTR;
+    QAction *actionParameterPublic = Q_NULLPTR;
+    QAction *actionParameterPrivate = Q_NULLPTR;
     if (param != Q_NULLPTR) {
         QMenu *menuSub = new QMenu(param->name());
         menu.addSeparator();
         menu.addMenu(menuSub);
-        actionParameterDelete = menuSub->addAction("Delete Parameter");
+        if (param->isPublic()) actionParameterPrivate = menuSub->addAction("Set Private Parameter");
+        else actionParameterPublic = menuSub->addAction("Set Public Paramerer");
         actionParameterEdit = menuSub->addAction("Edit Parameter");
+        actionParameterDelete = menuSub->addAction("Delete Parameter");
     }
 
     // input menu
@@ -351,8 +355,8 @@ void libblockdia::GraphicItemBlock::contextMenuEvent(QGraphicsSceneContextMenuEv
         QMenu *menuSub = new QMenu(input->name());
         menu.addSeparator();
         menu.addMenu(menuSub);
-        actionInputDelete = menuSub->addAction("Delete Input");
         actionInputEdit = menuSub->addAction("Edit Input");
+        actionInputDelete = menuSub->addAction("Delete Input");
     }
 
     // output menu
@@ -362,8 +366,8 @@ void libblockdia::GraphicItemBlock::contextMenuEvent(QGraphicsSceneContextMenuEv
         QMenu *menuSub = new QMenu(output->name());
         menu.addSeparator();
         menu.addMenu(menuSub);
-        actionOutputDelete = menuSub->addAction("Delete Output");
         actionOutputEdit = menuSub->addAction("Edit Output");
+        actionOutputDelete = menuSub->addAction("Delete Output");
     }
 
 
@@ -387,6 +391,16 @@ void libblockdia::GraphicItemBlock::contextMenuEvent(QGraphicsSceneContextMenuEv
     // delete parameter
     else if (action == actionParameterDelete) {
         param->deleteLater();
+    }
+
+    // set parameter private
+    else if (action == actionParameterPrivate) {
+        param->setPublic(false);
+    }
+
+    // set parameter public
+    else if (action == actionParameterPublic) {
+        param->setPublic(true);
     }
 
     // add input
