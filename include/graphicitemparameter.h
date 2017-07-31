@@ -19,7 +19,7 @@ public:
      * @param parameterIndex The index of the Parameter in the list of paramters of the Block
      * @param parent The Qt parent QGraphicsItem
      */
-    GraphicItemParameter(Block *block, int parameterIndex, QGraphicsItem *parent=0);
+    GraphicItemParameter(Block *block, int _parameterIndex, QGraphicsItem *parent=0);
 
     /**
      * @details Updates the displayed data
@@ -30,13 +30,17 @@ public:
      * @details Updates the displayed data
      * @param parameterIndex The index of the Parameter in the list of paramters of the Block
      */
-    void updateData(int parameterIndex);
+    void updateData(int _parameterIndex);
 
-    void contextMenuEvent(QGraphicsSceneContextMenuEvent *event);
+    /**
+     * @return The actual used index of the Parameter in the list of parameter of the corresponding Block.
+     */
+    int parameterIndex();
+
 
 
 private:
-    int parameterIndex;
+    int _parameterIndex;
     Block *block;
 };
 

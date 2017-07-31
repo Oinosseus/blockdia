@@ -4,7 +4,7 @@
 libblockdia::GraphicItemInput::GraphicItemInput(Block *block, int inputIndex, QGraphicsItem *parent) : GraphicItemTextBox(parent)
 {
     this->block = block;
-    this->inputIndex = inputIndex;
+    this->_inputIndex = inputIndex;
     this->setBgColor(QColor("#eef"));
 }
 
@@ -14,8 +14,8 @@ void libblockdia::GraphicItemInput::updateData()
     QList<Input *> inputsList = this->block->getInputs();
 
     // get input data
-    if (this->inputIndex >= 0 && this->inputIndex < inputsList.size()) {
-        txt = inputsList.at(this->inputIndex)->name();
+    if (this->_inputIndex >= 0 && this->_inputIndex < inputsList.size()) {
+        txt = inputsList.at(this->_inputIndex)->name();
     }
 
     // update
@@ -24,6 +24,11 @@ void libblockdia::GraphicItemInput::updateData()
 
 void libblockdia::GraphicItemInput::updateData(int inputIndex)
 {
-    this->inputIndex = inputIndex;
+    this->_inputIndex = inputIndex;
     this->updateData();
+}
+
+int libblockdia::GraphicItemInput::inputIndex()
+{
+    return this->_inputIndex;
 }

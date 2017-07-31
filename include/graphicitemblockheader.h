@@ -54,7 +54,6 @@ public:
      */
     void setMinWidth(qreal minWidth);
 
-    void contextMenuEvent(QGraphicsSceneContextMenuEvent *event);
 
 private:
 

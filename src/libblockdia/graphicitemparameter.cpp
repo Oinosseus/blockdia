@@ -6,7 +6,7 @@
 libblockdia::GraphicItemParameter::GraphicItemParameter(Block *block, int parameterIndex, QGraphicsItem *parent) : GraphicItemTextBox(parent)
 {
     this->block = block;
-    this->parameterIndex = parameterIndex;
+    this->_parameterIndex = parameterIndex;
     this->setBgColor(QColor("#ffe"));
 }
 
@@ -16,11 +16,11 @@ void libblockdia::GraphicItemParameter::updateData()
     QList<Parameter *> paramList = this->block->getParameters();
 
     // get parameter data
-    if (this->parameterIndex >= 0 && this->parameterIndex <= paramList.size()) {
-        txt = paramList.at(this->parameterIndex)->name();
+    if (this->_parameterIndex >= 0 && this->_parameterIndex <= paramList.size()) {
+        txt = paramList.at(this->_parameterIndex)->name();
         txt += " = ";
-        txt += paramList.at(this->parameterIndex)->strValue();
-        if (paramList.at(this->parameterIndex)->isPublic()) txt += " (public)";
+        txt += paramList.at(this->_parameterIndex)->strValue();
+        if (paramList.at(this->_parameterIndex)->isPublic()) txt += " (public)";
         else txt += " (private)";
     }
 
@@ -30,28 +30,11 @@ void libblockdia::GraphicItemParameter::updateData()
 
 void libblockdia::GraphicItemParameter::updateData(int parameterIndex)
 {
-    this->parameterIndex = parameterIndex;
+    this->_parameterIndex = parameterIndex;
     this->updateData();
 }
 
-void libblockdia::GraphicItemParameter::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
+int libblockdia::GraphicItemParameter::parameterIndex()
 {
-    QList<Parameter *> paramList = this->block->getParameters();
-
-    // create and execute menu
-    QMenu menu;
-    QAction *actionPublic  = menu.addAction("Set Public");
-    QAction *actionPrivate = menu.addAction("Set Private");
-    QAction *action = menu.exec(event->screenPos());
-
-    // action - public
-    if (action == actionPublic && this->parameterIndex >= 0 && this->parameterIndex <= paramList.size()) {
-        paramList.at(this->parameterIndex)->setPublic(true);
-    }
-
-    // action - private
-    else if (action == actionPrivate && this->parameterIndex >= 0 && this->parameterIndex <= paramList.size()) {
-        paramList.at(this->parameterIndex)->setPublic(false);
-    }
-
+    return this->_parameterIndex;
 }

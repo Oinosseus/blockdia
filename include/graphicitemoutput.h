@@ -4,12 +4,14 @@
 #include "libglobals.h"
 #include "block.h"
 
+#include <QGraphicsSceneContextMenuEvent>
+
 namespace libblockdia {
 
 class LIBBLOCKDIASHARED_EXPORT GraphicItemOutput : public GraphicItemTextBox
 {
 public:
-    GraphicItemOutput(Block *block, int outputIndex, QGraphicsItem *parent=0);
+    GraphicItemOutput(Block *block, int _outputIndex, QGraphicsItem *parent=0);
 
     /**
      * @details Updates the displayed data
@@ -20,11 +22,16 @@ public:
      * @details Updates the displayed data
      * @param outputIndex The index of the Input in the list of outputs of the Block
      */
-    void updateData(int outputIndex);
+    void updateData(int _outputIndex);
+
+    /**
+     * @return The actual used index of the Output in the list of outputs of the corresponding Block.
+     */
+    int outputIndex();
 
 private:
     Block *block;
-    int outputIndex;
+    int _outputIndex;
 };
 
 } // namespace libblockdia

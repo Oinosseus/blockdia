@@ -15,6 +15,7 @@
 #include <QString>
 #include <QPair>
 #include <QMenu>
+#include <QGraphicsSceneContextMenuEvent>
 
 #include <graphicitemblockheader.h>
 #include <graphicitemtextbox.h>
@@ -38,15 +39,20 @@ public:
     QRectF boundingRect() const;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
     void updateData();
+    QMenu *contextMenu();
 
 private:
-    void contextMenuEvent(QGraphicsSceneContextMenuEvent *event);
+    void hoverEnterEvent(QGraphicsSceneHoverEvent *e);
+    void hoverLeaveEvent(QGraphicsSceneHoverEvent *e);
+    void contextMenuEvent(QGraphicsSceneContextMenuEvent *e);
     Block *block;
     GraphicItemBlockHeader *giBlockHead;
     QList<GraphicItemParameter *> giParamsPrivate;
     QList<QPair<GraphicItemInput*, GraphicItemOutput*>> giInOuts;
     QList<GraphicItemParameter *> giParamsPublic;
     QRectF currentBoundingRect;
+    QRectF currentBoundingRectHighlighted;
+    bool isMouseHovered;
 };
 
 } // namespace bd

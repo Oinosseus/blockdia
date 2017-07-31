@@ -6,18 +6,26 @@
 #include <QDebug>
 #include <QAction>
 
+#include <parameterint.h>
+#include <input.h>
+#include <output.h>
 
 libblockdia::GraphicItemBlock::GraphicItemBlock(Block *block, QGraphicsItem *parent) : QGraphicsItem(parent)
 {
     this->block = block;
-
+    this->isMouseHovered = false;
     this->giBlockHead = Q_NULLPTR;
     this->updateData();
+    this->setAcceptHoverEvents(true);
 }
 
 QRectF libblockdia::GraphicItemBlock::boundingRect() const
 {
-    return this->currentBoundingRect;
+    if (this->isMouseHovered) {
+        return this->currentBoundingRectHighlighted;
+    } else {
+        return this->currentBoundingRect;
+    }
 }
 
 
@@ -26,6 +34,11 @@ void libblockdia::GraphicItemBlock::paint(QPainter *painter, const QStyleOptionG
     Q_UNUSED(option);
     Q_UNUSED(widget);
     Q_UNUSED(painter);
+
+    // paint highlight border if hovered
+    if (this->isMouseHovered) {
+        painter->fillRect(this->currentBoundingRectHighlighted, QColor("#f00"));
+    }
 
 //    // background 0-cross
 //    QRectF r = this->childrenBoundingRect();
@@ -213,12 +226,148 @@ void libblockdia::GraphicItemBlock::updateData()
 
     // calculate new bounding rect
     this->currentBoundingRect = QRectF(- widthMaximum / 2.0, - heightMaximum / 2.0, widthMaximum, heightMaximum);
+    this->currentBoundingRectHighlighted = this->currentBoundingRect;
+    this->currentBoundingRectHighlighted.adjust(-2, -2, 2, 2);
 }
 
-void libblockdia::GraphicItemBlock::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
+void libblockdia::GraphicItemBlock::hoverEnterEvent(QGraphicsSceneHoverEvent *e)
 {
+    Q_UNUSED(e);
+    this->prepareGeometryChange();
+    this->isMouseHovered = true;
+}
+
+void libblockdia::GraphicItemBlock::hoverLeaveEvent(QGraphicsSceneHoverEvent *e)
+{
+    Q_UNUSED(e);
+    this->prepareGeometryChange();
+    this->isMouseHovered = false;
+}
+
+void libblockdia::GraphicItemBlock::contextMenuEvent(QGraphicsSceneContextMenuEvent *e)
+{
+    Parameter *param = Q_NULLPTR;
+    Input *input = Q_NULLPTR;
+    Output *output = Q_NULLPTR;
+
+
+    // ------------------------------------------------------------------------
+    //                          Find Child Item Objects
+    // ------------------------------------------------------------------------
+
+    // check if parameter is clicked
+    if (param == Q_NULLPTR && input == Q_NULLPTR && output == Q_NULLPTR) {
+        for (int i=0; i < this->giParamsPrivate.size(); ++i) {
+            GraphicItemParameter *item = this->giParamsPrivate.at(i);
+            if (item->contains(e->scenePos())) {
+                int idx = item->parameterIndex();
+                if (idx > 0) {
+                    QList<Parameter *> listParams = this->block->getParameters();
+                    if (idx < listParams.size()) {
+                        param = listParams.at(idx);
+                        break;
+                    }
+                }
+            }
+        }
+    }
+    if (param == Q_NULLPTR && input == Q_NULLPTR && output == Q_NULLPTR) {
+        for (int i=0; i < this->giParamsPublic.size(); ++i) {
+            GraphicItemParameter *item = this->giParamsPublic.at(i);
+            if (item->isUnderMouse()) {
+                int idx = item->parameterIndex();
+                if (idx > 0) {
+                    QList<Parameter *> listParams = this->block->getParameters();
+                    if (idx < listParams.size()) {
+                        param = listParams.at(idx);
+                        break;
+                    }
+                }
+            }
+        }
+    }
+
+    // check if input is clicked
+    if (param == Q_NULLPTR && input == Q_NULLPTR && output == Q_NULLPTR) {
+        for (int i=0; i < this->giInOuts.size(); ++i) {
+            QPair<GraphicItemInput *, GraphicItemOutput *> p = this->giInOuts.at(i);
+            if (p.first->isUnderMouse()) {
+                int idx = p.first->inputIndex();
+                if (idx > 0) {
+                    QList<Input *> l = this->block->getInputs();
+                    if (idx < l.size()) {
+                        input = l.at(idx);
+                        break;
+                    }
+                }
+            } else if (p.second->isUnderMouse()) {
+                int idx = p.second->outputIndex();
+                if (idx > 0) {
+                    QList<Output *> l = this->block->getOutputs();
+                    if (idx < l.size()) {
+                        output = l.at(idx);
+                        break;
+                    }
+                }
+            }
+        }
+    }
+
+
+    // ------------------------------------------------------------------------
+    //                               Create Menu
+    // ------------------------------------------------------------------------
+
+    // create menu - parameter add
+    QMenu menuAddParam("Add Parameter");
+    QAction *actionAddParameterInt = menuAddParam.addAction("Integer Parameter");
+
+    // create menu - main
     QMenu menu;
-    menu.addAction("Block Menu1");
-    menu.addAction("Block Menu2");
-    menu.exec(event->screenPos());
+    QAction *actionEditTypeName = menu.addAction("Edit Type Name");
+    QAction *actionEditTypeId = menu.addAction("Edit Type ID");
+
+    // add inputs/outputs/params
+    menu.addSeparator();
+    QAction *actionAddInput = menu.addAction("Add Input");
+    QAction *actionAddOutput = menu.addAction("Add Output");
+    menu.addMenu(&menuAddParam);
+
+    // params menu
+    QAction *actionParameterDelete = Q_NULLPTR;
+    QAction *actionParameterEdit = Q_NULLPTR;
+    if (param != Q_NULLPTR) {
+        menu.addSeparator();
+        menu.addSection(param->name());
+        actionParameterDelete = menu.addAction("Delete Parameter");
+        actionParameterEdit = menu.addAction("Edit Parameter");
+    }
+
+
+    // ------------------------------------------------------------------------
+    //                               Execute Menu
+    // ------------------------------------------------------------------------
+
+    // execute menu
+    QAction *action = menu.exec(e->screenPos());
+
+    // process action - no action
+    if (action == Q_NULLPTR) {
+        // do nothing
+    }
+
+    // process action - add pramter
+    else if (action == actionAddParameterInt) {
+        new ParameterInt("new parameter", this->block);
+    }
+
+    // process action - add input
+    else if (action == actionAddInput) {
+        new Input("new input", this->block);
+    }
+
+    // process action - add output
+    else if (action == actionAddOutput) {
+        new Output("new output", this->block);
+    }
 }

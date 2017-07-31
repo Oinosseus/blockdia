@@ -85,32 +85,6 @@ void libblockdia::GraphicItemBlockHeader::setMinWidth(qreal minWidth)
     this->calculateDimensions();
 }
 
-void libblockdia::GraphicItemBlockHeader::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
-{
-    // get menu from parent block item
-    QMenu menu;
-    QAction *actionNewParam  = menu.addAction("Add Integer Parameter");
-    QAction *actionNewInput  = menu.addAction("Add Input");
-    QAction *actionNewOutput = menu.addAction("Add Output");
-    QAction *action = menu.exec(event->screenPos());
-
-    // action - new parameter
-    if (action == actionNewParam) {
-        QString parameterName = "New Parameter ";
-        parameterName += QString::number(this->_block->getParameters().size());
-        new ParameterInt(parameterName, this->_block);
-
-    // action - new input
-    } else if (action == actionNewInput) {
-        new Input("new input", this->_block);
-
-    // action - new output
-    } else if (action == actionNewOutput) {
-        new Output("new output", this->_block);
-
-    }
-}
-
 void libblockdia::GraphicItemBlockHeader::calculateDimensions()
 {
     QFontMetrics fmInstanceName = QFontMetrics(this->fontInstanceName);
