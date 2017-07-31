@@ -259,9 +259,9 @@ void libblockdia::GraphicItemBlock::contextMenuEvent(QGraphicsSceneContextMenuEv
     if (param == Q_NULLPTR && input == Q_NULLPTR && output == Q_NULLPTR) {
         for (int i=0; i < this->giParamsPrivate.size(); ++i) {
             GraphicItemParameter *item = this->giParamsPrivate.at(i);
-            if (item->contains(e->scenePos())) {
+            if (item->isMouseHovered()) {
                 int idx = item->parameterIndex();
-                if (idx > 0) {
+                if (idx >= 0) {
                     QList<Parameter *> listParams = this->block->getParameters();
                     if (idx < listParams.size()) {
                         param = listParams.at(idx);
@@ -274,9 +274,9 @@ void libblockdia::GraphicItemBlock::contextMenuEvent(QGraphicsSceneContextMenuEv
     if (param == Q_NULLPTR && input == Q_NULLPTR && output == Q_NULLPTR) {
         for (int i=0; i < this->giParamsPublic.size(); ++i) {
             GraphicItemParameter *item = this->giParamsPublic.at(i);
-            if (item->isUnderMouse()) {
+            if (item->isMouseHovered()) {
                 int idx = item->parameterIndex();
-                if (idx > 0) {
+                if (idx >= 0) {
                     QList<Parameter *> listParams = this->block->getParameters();
                     if (idx < listParams.size()) {
                         param = listParams.at(idx);
@@ -291,18 +291,18 @@ void libblockdia::GraphicItemBlock::contextMenuEvent(QGraphicsSceneContextMenuEv
     if (param == Q_NULLPTR && input == Q_NULLPTR && output == Q_NULLPTR) {
         for (int i=0; i < this->giInOuts.size(); ++i) {
             QPair<GraphicItemInput *, GraphicItemOutput *> p = this->giInOuts.at(i);
-            if (p.first->isUnderMouse()) {
+            if (p.first->isMouseHovered()) {
                 int idx = p.first->inputIndex();
-                if (idx > 0) {
+                if (idx >= 0) {
                     QList<Input *> l = this->block->getInputs();
                     if (idx < l.size()) {
                         input = l.at(idx);
                         break;
                     }
                 }
-            } else if (p.second->isUnderMouse()) {
+            } else if (p.second->isMouseHovered()) {
                 int idx = p.second->outputIndex();
-                if (idx > 0) {
+                if (idx >= 0) {
                     QList<Output *> l = this->block->getOutputs();
                     if (idx < l.size()) {
                         output = l.at(idx);
@@ -333,14 +333,37 @@ void libblockdia::GraphicItemBlock::contextMenuEvent(QGraphicsSceneContextMenuEv
     QAction *actionAddOutput = menu.addAction("Add Output");
     menu.addMenu(&menuAddParam);
 
-    // params menu
+    // parameter menu
     QAction *actionParameterDelete = Q_NULLPTR;
     QAction *actionParameterEdit = Q_NULLPTR;
     if (param != Q_NULLPTR) {
+        QMenu *menuSub = new QMenu(param->name());
         menu.addSeparator();
-        menu.addSection(param->name());
-        actionParameterDelete = menu.addAction("Delete Parameter");
-        actionParameterEdit = menu.addAction("Edit Parameter");
+        menu.addMenu(menuSub);
+        actionParameterDelete = menuSub->addAction("Delete Parameter");
+        actionParameterEdit = menuSub->addAction("Edit Parameter");
+    }
+
+    // input menu
+    QAction *actionInputDelete = Q_NULLPTR;
+    QAction *actionInputEdit = Q_NULLPTR;
+    if (input != Q_NULLPTR) {
+        QMenu *menuSub = new QMenu(input->name());
+        menu.addSeparator();
+        menu.addMenu(menuSub);
+        actionInputDelete = menuSub->addAction("Delete Input");
+        actionInputEdit = menuSub->addAction("Edit Input");
+    }
+
+    // output menu
+    QAction *actionOutputDelete = Q_NULLPTR;
+    QAction *actionOutputEdit = Q_NULLPTR;
+    if (output != Q_NULLPTR) {
+        QMenu *menuSub = new QMenu(output->name());
+        menu.addSeparator();
+        menu.addMenu(menuSub);
+        actionOutputDelete = menuSub->addAction("Delete Output");
+        actionOutputEdit = menuSub->addAction("Edit Output");
     }
 
 

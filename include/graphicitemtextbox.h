@@ -68,6 +68,11 @@ public:
      */
     void setBgColor(QColor bgColor);
 
+    /**
+     * @return True if the item is currently hovered by mouse
+     */
+    bool isMouseHovered();
+
 
 
 
@@ -85,7 +90,7 @@ private:
     qreal _actualNeededWidth;
     qreal _actaulNeededHeight;
     qreal minWidth;
-    bool isMouseHovered;
+    bool _isMouseHovered;
 };
 
 } // namespace bd
