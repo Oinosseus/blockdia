@@ -147,10 +147,10 @@ QGraphicsItem *libblockdia::Block::getGraphicsItem()
 
 void libblockdia::Block::childEvent(QChildEvent *e)
 {
-    // catch child add event
-    if (e->added()) {
-        QTimer::singleShot(0, this, SLOT(slotUpdateChildObjects()));
-    }
+    // catch child add/delete event
+    // delayed timer ensures that child is add/deleted completely
+    // when calling the timer slot function
+    QTimer::singleShot(0, this, SLOT(slotUpdateChildObjects()));
 }
 
 void libblockdia::Block::slotSomethingChanged()
@@ -160,9 +160,14 @@ void libblockdia::Block::slotSomethingChanged()
 
 void libblockdia::Block::slotUpdateChildObjects()
 {
-    bool newChildrenFound = false;
-
+    bool emitSomethignChanged = false;
     QObjectList listChildren = this->children();
+
+
+    // ------------------------------------------------------------------------
+    //                               Find New Children
+    // ------------------------------------------------------------------------
+
     for (int i=0; i < listChildren.size(); ++i) {
         // get liblock dia meta data
         QString childClass = listChildren.at(i)->metaObject()->className();
@@ -173,7 +178,7 @@ void libblockdia::Block::slotUpdateChildObjects()
             if (this->parametersList.count(child) == 0) {
                 this->parametersList.append(child);
                 connect(child, SIGNAL(somethingHasChanged()), this, SLOT(slotSomethingChanged()));
-                newChildrenFound = true;
+                emitSomethignChanged = true;
             }
         }
 
@@ -183,7 +188,7 @@ void libblockdia::Block::slotUpdateChildObjects()
             if (this->inputsList.count(child) == 0) {
                 this->inputsList.append(child);
                 connect(child, SIGNAL(somethingHasChanged()), this, SLOT(slotSomethingChanged()));
-                newChildrenFound = true;
+                emitSomethignChanged = true;
             }
         }
 
@@ -193,13 +198,41 @@ void libblockdia::Block::slotUpdateChildObjects()
             if (this->outputsList.count(child) == 0) {
                 this->outputsList.append(child);
                 connect(child, SIGNAL(somethingHasChanged()), this, SLOT(slotSomethingChanged()));
-                newChildrenFound = true;
+                emitSomethignChanged = true;
             }
         }
     }
 
+
+
+    // ------------------------------------------------------------------------
+    //                           Delete Lost Children
+    // ------------------------------------------------------------------------
+
+    for (int i=0; i < this->parametersList.size(); ++i) {
+        if (!listChildren.contains(this->parametersList.at(i))) {
+            this->parametersList.removeAt(i);
+            emitSomethignChanged = true;
+        }
+    }
+
+    for (int i=0; i < this->inputsList.size(); ++i) {
+        if (!listChildren.contains(this->inputsList.at(i))) {
+            this->inputsList.removeAt(i);
+            emitSomethignChanged = true;
+        }
+    }
+
+    for (int i=0; i < this->outputsList.size(); ++i) {
+        if (!listChildren.contains(this->outputsList.at(i))) {
+            this->outputsList.removeAt(i);
+            emitSomethignChanged = true;
+        }
+    }
+
+
     // emit singal
-    if (newChildrenFound) {
+    if (emitSomethignChanged) {
         emit signalSomethingChanged();
     }
 }

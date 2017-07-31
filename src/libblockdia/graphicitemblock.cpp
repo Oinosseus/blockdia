@@ -320,7 +320,7 @@ void libblockdia::GraphicItemBlock::contextMenuEvent(QGraphicsSceneContextMenuEv
 
     // create menu - parameter add
     QMenu menuAddParam("Add Parameter");
-    QAction *actionAddParameterInt = menuAddParam.addAction("Integer Parameter");
+    QAction *actionParameterAddInt = menuAddParam.addAction("Integer Parameter");
 
     // create menu - main
     QMenu menu;
@@ -374,23 +374,38 @@ void libblockdia::GraphicItemBlock::contextMenuEvent(QGraphicsSceneContextMenuEv
     // execute menu
     QAction *action = menu.exec(e->screenPos());
 
-    // process action - no action
+    // no action
     if (action == Q_NULLPTR) {
         // do nothing
     }
 
-    // process action - add pramter
-    else if (action == actionAddParameterInt) {
+    // add pramter
+    else if (action == actionParameterAddInt) {
         new ParameterInt("new parameter", this->block);
     }
 
-    // process action - add input
+    // delete parameter
+    else if (action == actionParameterDelete) {
+        param->deleteLater();
+    }
+
+    // add input
     else if (action == actionAddInput) {
         new Input("new input", this->block);
     }
 
-    // process action - add output
+    // delete input
+    else if (action == actionInputDelete) {
+        input->deleteLater();
+    }
+
+    // add output
     else if (action == actionAddOutput) {
         new Output("new output", this->block);
+    }
+
+    // delete output
+    else if (action == actionOutputDelete) {
+        output->deleteLater();
     }
 }
