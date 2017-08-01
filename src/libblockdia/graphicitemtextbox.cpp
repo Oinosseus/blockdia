@@ -92,15 +92,19 @@ bool libblockdia::GraphicItemTextBox::isMouseHovered()
 void libblockdia::GraphicItemTextBox::hoverEnterEvent(QGraphicsSceneHoverEvent *event)
 {
     Q_UNUSED(event);
-    this->prepareGeometryChange();
-    this->_isMouseHovered = true;
+    if (this->isMouseHoverable) {
+        this->prepareGeometryChange();
+        this->_isMouseHovered = true;
+    }
 }
 
 void libblockdia::GraphicItemTextBox::hoverLeaveEvent(QGraphicsSceneHoverEvent *event)
 {
     Q_UNUSED(event);
-    this->prepareGeometryChange();
-    this->_isMouseHovered = false;
+    if (this->isMouseHoverable) {
+        this->prepareGeometryChange();
+        this->_isMouseHovered = false;
+    }
 }
 
 void libblockdia::GraphicItemTextBox::calculateDimensions()

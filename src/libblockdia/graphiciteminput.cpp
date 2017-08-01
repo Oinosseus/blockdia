@@ -6,6 +6,7 @@ libblockdia::GraphicItemInput::GraphicItemInput(Block *block, int inputIndex, QG
     this->block = block;
     this->_inputIndex = inputIndex;
     this->setBgColor(QColor("#eef"));
+    this->isMouseHoverable = this->_inputIndex >= 0 && this->_inputIndex < this->block->getInputs().size();
 }
 
 void libblockdia::GraphicItemInput::updateData()
@@ -25,6 +26,7 @@ void libblockdia::GraphicItemInput::updateData()
 void libblockdia::GraphicItemInput::updateData(int inputIndex)
 {
     this->_inputIndex = inputIndex;
+    this->isMouseHoverable = this->_inputIndex >= 0 && this->_inputIndex < this->block->getInputs().size();
     this->updateData();
 }
 

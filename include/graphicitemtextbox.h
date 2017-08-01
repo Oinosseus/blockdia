@@ -73,6 +73,12 @@ public:
      */
     bool isMouseHovered();
 
+    /**
+     * @details Define if the mouse hover effect shall be shown
+     */
+    bool isMouseHoverable;
+
+
 
 
 

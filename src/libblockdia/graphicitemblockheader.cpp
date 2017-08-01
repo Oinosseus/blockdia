@@ -17,6 +17,7 @@ libblockdia::GraphicItemBlockHeader::GraphicItemBlockHeader(Block *block, QGraph
     this->minWidth = 0;
     this->paddingH = 10;
     this->paddingV = 5;
+    this->isMouseHoverable = true;
 
     // font instance name
     this->fontInstanceName.setPointSize(fontInstanceName.pointSize() + 1);

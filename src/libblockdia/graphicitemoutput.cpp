@@ -5,6 +5,7 @@ libblockdia::GraphicItemOutput::GraphicItemOutput(Block *block, int outputIndex,
     this->block = block;
     this->_outputIndex = outputIndex;
     this->setBgColor(QColor("#fee"));
+    this->isMouseHoverable = this->_outputIndex >= 0 && this->_outputIndex < this->block->getOutputs().size();
 }
 
 void libblockdia::GraphicItemOutput::updateData()
@@ -24,6 +25,7 @@ void libblockdia::GraphicItemOutput::updateData()
 void libblockdia::GraphicItemOutput::updateData(int outputIndex)
 {
     this->_outputIndex = outputIndex;
+    this->isMouseHoverable = this->_outputIndex >= 0 && this->_outputIndex < this->block->getOutputs().size();
     this->updateData();
 }
 

@@ -8,6 +8,8 @@ libblockdia::GraphicItemParameter::GraphicItemParameter(Block *block, int parame
     this->block = block;
     this->_parameterIndex = parameterIndex;
     this->setBgColor(QColor("#ffe"));
+    this->isMouseHoverable = this->_parameterIndex >= 0 && this->_parameterIndex < this->block->getParameters().size();
+    this->updateData();
 }
 
 void libblockdia::GraphicItemParameter::updateData()
@@ -31,6 +33,7 @@ void libblockdia::GraphicItemParameter::updateData()
 void libblockdia::GraphicItemParameter::updateData(int parameterIndex)
 {
     this->_parameterIndex = parameterIndex;
+    this->isMouseHoverable = this->_parameterIndex >= 0 && this->_parameterIndex < this->block->getParameters().size();
     this->updateData();
 }
 
