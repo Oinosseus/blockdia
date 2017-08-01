@@ -28,13 +28,9 @@ void libblockdia::GraphicItemTextBox::paint(QPainter *painter, const QStyleOptio
     Q_UNUSED(option);
     Q_UNUSED(widget);
 
-    // setup painter
-    painter->setPen(Qt::black);
-    painter->setFont(this->font);
-
     // draw box
-    painter->fillRect(this->currentBoundingRect, QBrush(this->bgColor));
-    painter->setPen((this->_isMouseHovered) ? QColor(Qt::red) : QColor(Qt::black));
+    painter->fillRect(this->currentBoundingRect, QBrush((this->_isMouseHovered) ? QColor("#444") : this->bgColor));
+    painter->setPen(QColor(Qt::black));
     painter->drawRect(this->currentBoundingRect);
 
     // calculate text y position
@@ -52,6 +48,8 @@ void libblockdia::GraphicItemTextBox::paint(QPainter *painter, const QStyleOptio
     }
 
     // draw text
+    painter->setFont(this->font);
+    painter->setPen((this->_isMouseHovered) ? QColor(Qt::white) : QColor(Qt::black));
     painter->drawText(textX, textY, this->text);
 }
 

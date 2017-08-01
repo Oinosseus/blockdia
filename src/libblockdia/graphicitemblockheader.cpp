@@ -46,13 +46,13 @@ void libblockdia::GraphicItemBlockHeader::paint(QPainter *painter, const QStyleO
     Q_UNUSED(option);
     Q_UNUSED(widget);
 
-    // setup painter
-    painter->setPen(Qt::black);
-
     // draw box
-    painter->fillRect(this->currentBoundingRect, QBrush(this->_block->color()));
-    painter->setPen((this->_isMouseHovered) ? QColor(Qt::red) : QColor(Qt::black));
+    painter->fillRect(this->currentBoundingRect, QBrush((this->_isMouseHovered) ? QColor("#444") : this->_block->color()));
+    painter->setPen(QColor(Qt::black));
     painter->drawRect(this->currentBoundingRect);
+
+    // set pen for text
+    painter->setPen((this->_isMouseHovered) ? QColor(Qt::white) : QColor(Qt::black));
 
     // draw instance name
     painter->setFont(fontInstanceName);

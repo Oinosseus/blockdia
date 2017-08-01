@@ -147,6 +147,8 @@ QGraphicsItem *libblockdia::Block::getGraphicsItem()
 
 void libblockdia::Block::childEvent(QChildEvent *e)
 {
+    Q_UNUSED(e)
+
     // catch child add/delete event
     // delayed timer ensures that child is add/deleted completely
     // when calling the timer slot function

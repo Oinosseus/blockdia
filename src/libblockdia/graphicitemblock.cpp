@@ -40,7 +40,7 @@ void libblockdia::GraphicItemBlock::paint(QPainter *painter, const QStyleOptionG
 
     // paint highlight border if hovered
     if (this->isMouseHovered) {
-        painter->fillRect(this->currentBoundingRectHighlighted, QColor("#f00"));
+        painter->fillRect(this->currentBoundingRectHighlighted, QColor("#444"));
     }
 
 //    // background 0-cross
@@ -230,7 +230,7 @@ void libblockdia::GraphicItemBlock::updateData()
     // calculate new bounding rect
     this->currentBoundingRect = QRectF(- widthMaximum / 2.0, - heightMaximum / 2.0, widthMaximum, heightMaximum);
     this->currentBoundingRectHighlighted = this->currentBoundingRect;
-    this->currentBoundingRectHighlighted.adjust(-2, -2, 2, 2);
+    this->currentBoundingRectHighlighted.adjust(-4, -5, 5, 4);
 }
 
 void libblockdia::GraphicItemBlock::hoverEnterEvent(QGraphicsSceneHoverEvent *e)
