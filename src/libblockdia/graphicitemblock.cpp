@@ -9,6 +9,7 @@
 #include <parameterint.h>
 #include <input.h>
 #include <output.h>
+#include <dialogeditheader.h>
 
 libblockdia::GraphicItemBlock::GraphicItemBlock(Block *block, QGraphicsItem *parent) : QGraphicsItem(parent)
 {
@@ -324,8 +325,7 @@ void libblockdia::GraphicItemBlock::contextMenuEvent(QGraphicsSceneContextMenuEv
 
     // create menu - main
     QMenu menu;
-    QAction *actionEditTypeName = menu.addAction("Edit Type Name");
-    QAction *actionEditTypeId = menu.addAction("Edit Type ID");
+    QAction *actionBlockHeader = menu.addAction("Edit Block Header");
 
     // add inputs/outputs/params
     menu.addSeparator();
@@ -381,6 +381,12 @@ void libblockdia::GraphicItemBlock::contextMenuEvent(QGraphicsSceneContextMenuEv
     // no action
     if (action == Q_NULLPTR) {
         // do nothing
+    }
+
+    // edit block header
+    else if (action == actionBlockHeader) {
+        DialogEditHeader dialog(this->block);
+        dialog.exec();
     }
 
     // add pramter
