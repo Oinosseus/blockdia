@@ -5,6 +5,7 @@
 #include <QHBoxLayout>
 #include <QLabel>
 #include <QColorDialog>
+#include <QDialogButtonBox>
 
 libblockdia::DialogEditHeader::DialogEditHeader(libblockdia::Block *block, QWidget *parent) : QDialog(parent)
 {
@@ -66,26 +67,16 @@ libblockdia::DialogEditHeader::DialogEditHeader(libblockdia::Block *block, QWidg
     // ------------------------------------------------------------------------
 
     // buttons
-    QPushButton *btnOk = new QPushButton("Ok");
-    btnOk->setDefault(true);
-    connect(btnOk, SIGNAL(clicked()), this, SLOT(accept()));
-    QPushButton *btnCancel = new QPushButton("Cancel");
-    connect(btnCancel, SIGNAL(clicked()), this, SLOT(reject()));
-
-    // button layout
-    QHBoxLayout *layoutButtons = new QHBoxLayout();
-    layoutButtons->addStretch(1);
-    layoutButtons->addWidget(btnOk);
-    layoutButtons->addStretch(1);
-    layoutButtons->addWidget(btnCancel);
-    layoutButtons->addStretch(1);
+    QDialogButtonBox *btnBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
+    connect(btnBox, SIGNAL(accepted()), this, SLOT(accept()));
+    connect(btnBox, SIGNAL(rejected()), this, SLOT(reject()));
 
     // setup main layout
     QVBoxLayout *layoutMain = new QVBoxLayout();
     this->setLayout(layoutMain);
     layoutMain->addLayout(layoutGrid, 1);
     layoutMain->addSpacing(50);
-    layoutMain->addLayout(layoutButtons);
+    layoutMain->addWidget(btnBox);
 
 }
 
