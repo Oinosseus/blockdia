@@ -11,6 +11,7 @@
 #include <output.h>
 #include <dialogeditheader.h>
 #include <dialogeditinput.h>
+#include <dialogeditoutput.h>
 
 libblockdia::GraphicItemBlock::GraphicItemBlock(Block *block, QGraphicsItem *parent) : QGraphicsItem(parent)
 {
@@ -429,6 +430,12 @@ void libblockdia::GraphicItemBlock::contextMenuEvent(QGraphicsSceneContextMenuEv
     // add output
     else if (action == actionOutputAdd) {
         new Output("new output", this->block);
+    }
+
+    // edit output
+    else if (action == actionOutputEdit) {
+        DialogEditOutput dialog(output);
+        dialog.exec();
     }
 
     // delete output
