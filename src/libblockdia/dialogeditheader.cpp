@@ -6,7 +6,7 @@
 #include <QLabel>
 #include <QPushButton>
 
-libblockdia::DialogEditHeader::DialogEditHeader(Block *block, QWidget *parent) : QDialog(parent)
+libblockdia::DialogEditHeader::DialogEditHeader(libblockdia::Block *block, QWidget *parent) : QDialog(parent)
 {
     // setup configuration
     this->block = block;

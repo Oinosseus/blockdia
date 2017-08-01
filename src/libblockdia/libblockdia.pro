@@ -62,7 +62,8 @@ SOURCES +=  \
             graphicitemparameter.cpp \
             graphiciteminput.cpp \
             graphicitemoutput.cpp \
-    dialogeditheader.cpp
+            dialogeditheader.cpp \
+            dialogeditinput.cpp
 
 HEADERS +=  ../../include/libglobals.h \
             ../../include/libblockdia.h \
@@ -79,7 +80,8 @@ HEADERS +=  ../../include/libglobals.h \
             ../../include/graphicitemparameter.h \
             ../../include/graphiciteminput.h \
             ../../include/graphicitemoutput.h \
-    ../../include/dialogeditheader.h
+            ../../include/dialogeditheader.h \
+            ../../include/dialogeditinput.h
 
 unix {
     target.path = /usr/lib

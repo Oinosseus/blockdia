@@ -10,6 +10,7 @@
 #include <input.h>
 #include <output.h>
 #include <dialogeditheader.h>
+#include <dialogeditinput.h>
 
 libblockdia::GraphicItemBlock::GraphicItemBlock(Block *block, QGraphicsItem *parent) : QGraphicsItem(parent)
 {
@@ -329,8 +330,8 @@ void libblockdia::GraphicItemBlock::contextMenuEvent(QGraphicsSceneContextMenuEv
 
     // add inputs/outputs/params
     menu.addSeparator();
-    QAction *actionAddInput = menu.addAction("Add Input");
-    QAction *actionAddOutput = menu.addAction("Add Output");
+    QAction *actionInputAdd = menu.addAction("Add Input");
+    QAction *actionOutputAdd = menu.addAction("Add Output");
     menu.addMenu(&menuAddParam);
 
     // parameter menu
@@ -410,8 +411,14 @@ void libblockdia::GraphicItemBlock::contextMenuEvent(QGraphicsSceneContextMenuEv
     }
 
     // add input
-    else if (action == actionAddInput) {
+    else if (action == actionInputAdd) {
         new Input("new input", this->block);
+    }
+
+    // edit input
+    else if (action == actionInputEdit) {
+        DialogEditInput dialog(input);
+        dialog.exec();
     }
 
     // delete input
@@ -420,7 +427,7 @@ void libblockdia::GraphicItemBlock::contextMenuEvent(QGraphicsSceneContextMenuEv
     }
 
     // add output
-    else if (action == actionAddOutput) {
+    else if (action == actionOutputAdd) {
         new Output("new output", this->block);
     }
 
