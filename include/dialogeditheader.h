@@ -3,6 +3,8 @@
 
 #include <QDialog>
 #include <QLineEdit>
+#include <QColor>
+#include <QPushButton>
 
 #include <block.h>
 
@@ -24,9 +26,12 @@ private:
     QLineEdit lineInstanceId;
     QLineEdit lineTypeName;
     QLineEdit lineTypeId;
+    QColor colorEdit;
+    QPushButton btnColor;
 
 private slots:
     void slotWriteBlockData();
+    void slotColorDialog();
 };
 
 } // namespace libblockdia

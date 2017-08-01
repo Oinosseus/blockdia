@@ -69,7 +69,6 @@ private:
     QFont fontInstanceName;
     QFont fontTypeName;
     QFont fontId;
-    QColor bgColor;
 
     // instance name
     QString textInstanceName;

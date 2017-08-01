@@ -4,13 +4,14 @@
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 #include <QLabel>
-#include <QPushButton>
+#include <QColorDialog>
 
 libblockdia::DialogEditHeader::DialogEditHeader(libblockdia::Block *block, QWidget *parent) : QDialog(parent)
 {
     // setup configuration
     this->block = block;
     this->setSizeGripEnabled(true);
+    this->colorEdit = this->block->color();
     connect(this, SIGNAL(accepted()), this, SLOT(slotWriteBlockData()));
 
 
@@ -51,6 +52,13 @@ libblockdia::DialogEditHeader::DialogEditHeader(libblockdia::Block *block, QWidg
     layoutGrid->setRowStretch(gridRowCount, 10);
     ++gridRowCount;
 
+    // add color edits
+    connect(&this->btnColor, SIGNAL(clicked()), this, SLOT(slotColorDialog()));
+    this->btnColor.setText(this->colorEdit.name());
+    layoutGrid->addWidget(new QLabel("Color"), gridRowCount, 0, Qt::AlignRight);
+    layoutGrid->addWidget(&btnColor, gridRowCount, 1, 2, Qt::AlignJustify);
+    layoutGrid->setRowStretch(gridRowCount, 10);
+    ++gridRowCount;
 
 
     // ------------------------------------------------------------------------
@@ -87,4 +95,12 @@ void libblockdia::DialogEditHeader::slotWriteBlockData()
     this->block->setInstanceName(this->lineInstanceName.text().trimmed());
     this->block->setTypeId(this->lineTypeId.text().trimmed());
     this->block->setTypeName(this->lineTypeName.text().trimmed());
+    this->block->setColor(this->colorEdit);
+}
+
+void libblockdia::DialogEditHeader::slotColorDialog()
+{
+    QColorDialog dialog(this);
+    this->colorEdit = dialog.getColor(this->colorEdit);
+    this->btnColor.setText(this->colorEdit.name());
 }
