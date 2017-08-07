@@ -18,6 +18,7 @@ libblockdia::DialogEditParameterInt::DialogEditParameterInt(ParameterInt *param,
     this->checkPublic.setChecked(this->param->isPublic());
     this->lineEditMax.setText(QString::number(this->param->maximum()));
     this->lineEditMin.setText(QString::number(this->param->minimum()));
+    this->lineEditDefault.setText(QString::number(this->param->defaultValue()));
 
     // create layout
     QGridLayout *layoutGrid = new QGridLayout();
@@ -53,6 +54,12 @@ libblockdia::DialogEditParameterInt::DialogEditParameterInt(ParameterInt *param,
     layoutGrid->setRowStretch(gridRowCount, 10);
     ++gridRowCount;
 
+    // add default edit
+    layoutGrid->addWidget(new QLabel("Default"), gridRowCount, 0, Qt::AlignRight);
+    layoutGrid->addWidget(&this->lineEditDefault, gridRowCount, 1);
+    layoutGrid->setRowStretch(gridRowCount, 10);
+    ++gridRowCount;
+
 
 
     // buttons
@@ -75,4 +82,5 @@ void libblockdia::DialogEditParameterInt::slotWriteData()
     this->param->setPublic(this->checkPublic.isChecked());
     this->param->setMaximum(this->lineEditMax.text().trimmed().toInt());
     this->param->setMinimum(this->lineEditMin.text().trimmed().toInt());
+    this->param->setDefaultValue(this->lineEditDefault.text().trimmed());
 }

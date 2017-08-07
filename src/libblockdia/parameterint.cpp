@@ -6,6 +6,7 @@ libblockdia::ParameterInt::ParameterInt(const QString &name, QObject *parent) : 
     this->_minimum = INT_MIN;
     this->_maximum = INT_MAX;
     this->_value = this->_minimum;
+    this->_defaultValue = this->_value;
 }
 
 int libblockdia::ParameterInt::minimum()
@@ -30,6 +31,49 @@ int libblockdia::ParameterInt::maximum()
 int libblockdia::ParameterInt::value()
 {
     return this->_value;
+}
+
+QString libblockdia::ParameterInt::strDefaultValue()
+{
+    return QString::number(this->_defaultValue);
+}
+
+int libblockdia::ParameterInt::defaultValue()
+{
+    return this->_defaultValue;
+}
+
+bool libblockdia::ParameterInt::setDefaultValue(QString value)
+{
+    bool ok;
+    int ivalue = value.toInt(&ok);
+    ok &= this->setDefaultValue(ivalue);
+    return ok;
+}
+
+bool libblockdia::ParameterInt::setDefaultValue(int value)
+{
+    bool ret = true;
+
+    // clip at minimum
+    if (value < this->_minimum) {
+        value = this->_minimum;
+        ret = false;
+    }
+
+    // clip at maximum
+    if (value > this->_maximum) {
+        value = this->_maximum;
+        ret = false;
+    }
+
+    // set new value
+    if (this->_defaultValue != value) {
+        this->_defaultValue = value;
+        emit somethingHasChanged();
+    }
+
+    return ret;
 }
 
 bool libblockdia::ParameterInt::setValue(int value)

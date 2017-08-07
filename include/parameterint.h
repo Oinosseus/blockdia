@@ -54,6 +54,28 @@ public:
     int value();
 
     /**
+     * @return The default value as string representation
+     */
+    virtual QString strDefaultValue();
+
+    /**
+     * @return The default value
+     */
+    virtual int defaultValue();
+
+    /**
+     * @param value Setting the default value from a string
+     * @return False if the value could not be set
+     */
+    virtual bool setDefaultValue(QString value);
+
+    /**
+     * @param value Setting the default value
+     * @return False if the value could not be set
+     */
+    virtual bool setDefaultValue(int value);
+
+    /**
      * @details Setting a new value for this parameter.
      * The value will be clipped to the range defined by
      * minimum and maximum.
@@ -86,6 +108,7 @@ private:
     int _minimum;
     int _maximum;
     int _value;
+    int _defaultValue;
 
 };
 

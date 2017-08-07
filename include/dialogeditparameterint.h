@@ -25,6 +25,7 @@ private:
     QCheckBox checkPublic;
     QLineEdit lineEditMin;
     QLineEdit lineEditMax;
+    QLineEdit lineEditDefault;
 
 private slots:
     void slotWriteData();

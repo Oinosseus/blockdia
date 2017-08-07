@@ -52,6 +52,19 @@ public:
     void setPublic(bool isPublic);
 
     /**
+     * @details Every parameter must have a default value.
+     * A derived class must implement the default value.
+     * @return The default value as string representation
+     */
+    virtual QString strDefaultValue() = 0;
+
+    /**
+     * @param value Setting the default value from a string
+     * @return False if the value could not be set
+     */
+    virtual bool setDefaultValue(QString value) = 0;
+
+    /**
      * @details This must be implemented by every derived class.
      * @return The current value as a QString
      */
