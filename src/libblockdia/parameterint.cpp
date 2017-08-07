@@ -17,6 +17,7 @@ void libblockdia::ParameterInt::setMinimum(int min)
 {
     if (this->_minimum != min) {
         this->_minimum = min;
+        this->setValue(this->_value); // update for limit adjust
         emit somethingHasChanged();
     }
 }
@@ -78,6 +79,7 @@ void libblockdia::ParameterInt::setMaximum(int max)
 {
     if (this->_maximum != max) {
         this->_maximum = max;
+        this->setValue(this->_value); // update for limit adjust
         emit somethingHasChanged();
     }
 }
