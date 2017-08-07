@@ -12,6 +12,8 @@ namespace libblockdia {
  */
 class LIBBLOCKDIASHARED_EXPORT ParameterInt : public Parameter
 {
+    Q_OBJECT
+
 public:
 
     /**

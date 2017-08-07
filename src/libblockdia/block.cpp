@@ -173,9 +173,10 @@ void libblockdia::Block::slotUpdateChildObjects()
     for (int i=0; i < listChildren.size(); ++i) {
         // get liblock dia meta data
         QString childClass = listChildren.at(i)->metaObject()->className();
+        QString childSuperClass = listChildren.at(i)->metaObject()->superClass()->className();
 
         // check for new parameters
-        if (childClass == "libblockdia::Parameter") {
+        if (childSuperClass == "libblockdia::Parameter") {
             Parameter *child = (Parameter *) listChildren.at(i);
             if (this->parametersList.count(child) == 0) {
                 this->parametersList.append(child);
