@@ -21,14 +21,14 @@ class LIBBLOCKDIASHARED_EXPORT Parameter : public QObject
 public:
 
     /**
-     * @brief Constructing a parameter
-     * @param parent
+     * @details Constructing a parameter
      * @param name The name for the parameter
+     * @param parent The parent Block for the parameter (the parameter is automatically attached to the Block)
      */
     explicit Parameter(const QString &name, QObject *parent = 0);
 
     /**
-     * @brief The name of the parameter
+     * @details The name of the parameter
      * It is recommended, that every parameter within
      * has a unique name within a certain block.
      * @return The name of the parameter.
@@ -36,39 +36,35 @@ public:
     QString name();
 
     /**
-     * @brief Assigning a new name for the parameter.
      * @see Parameter::name()
-     * @param name The new name
+     * @param name Assigning a new name for the parameter
      */
     void setName(QString name);
 
     /**
-     * @brief Parameters can be defined as public or private.
      * @return Parameters can be defined as public or private.
      */
     bool isPublic();
 
     /**
-     * @brief Parameters can be defined as public or private.
      * @param isPublic Defines if this parameter is public.
      */
     void setPublic(bool isPublic);
 
     /**
-     * @brief The current value as a QString.
+     * @details This must be implemented by every derived class.
      * @return The current value as a QString
      */
     virtual QString strValue() = 0;
 
     /**
-     * @brief Setting a new value.
-     * @param value The new value.
+     * @param value Setting a new value from string
      * @return False if the value is outside the allowed range.
      */
     virtual bool setValue(QString value) = 0;
 
     /**
-     * @brief An information about the allowed values for this parameter.
+     * @details An information about the allowed values for this parameter.
      * This is used as informational message.
      * For example enums can return a string that lists all available enum items,
      * or integers can return a string with the allowed range (min..max).
@@ -78,7 +74,7 @@ public:
 
 signals:
     /**
-     * @brief This signal is emitted whenever a value has changed.
+     * @details This signal is emitted whenever a value has changed.
      */
     void somethingHasChanged();
 

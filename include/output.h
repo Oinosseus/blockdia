@@ -8,7 +8,7 @@
 namespace  libblockdia {
 
 /**
- * @brief Output for blocks.
+ * @details Output for blocks.
  * Output objects represent inputs for Blocks.
  * Output objects can be connected to multiple inputs.
  */
@@ -18,14 +18,15 @@ class LIBBLOCKDIASHARED_EXPORT Output : public QObject
 public:
 
     /**
-     * @brief Constructing an Output
-     * @param block The parent block, this output belongs to.
+     * @details Constructing an Output
+     * The output is automatically attached to the parent block.
      * @param name The name for the output
+     * @param parent The parent block, this output belongs to.
      */
     explicit Output(const QString &name, QObject *parent = 0);
 
     /**
-     * @brief The name of the output
+     * @details The name of the output
      * It is recommended, that every output
      * has a unique name within a certain block.
      * @return The name of the output.
@@ -33,7 +34,7 @@ public:
     QString name();
 
     /**
-     * @brief Assigning a new name for the output.
+     * @details Assigning a new name for the output.
      * @see Output::name()
      * @param name The new name
      */
@@ -42,7 +43,7 @@ public:
 
 signals:
     /**
-     * @brief This signal is emitted whenever something has changed.
+     * @details This signal is emitted whenever something has changed.
      */
     void somethingHasChanged();
 

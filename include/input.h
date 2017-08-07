@@ -18,13 +18,13 @@ class LIBBLOCKDIASHARED_EXPORT Input : public QObject
 public:
 
     /**
-     * @brief Constructing an Input
+     * @details Constructing an Input
      * @param name The name for the input
      */
     explicit Input(const QString &name, QObject *parent = 0);
 
     /**
-     * @brief The name of the input
+     * @details The name of the input
      * It is recommended, that every input
      * has a unique name within a certain block.
      * @return The name of the input.
@@ -32,7 +32,7 @@ public:
     QString name();
 
     /**
-     * @brief Assigning a new name for the input.
+     * @details Assigning a new name for the input.
      * @see Input::name()
      * @param name The new name
      */
@@ -41,7 +41,7 @@ public:
 
 signals:
     /**
-     * @brief This signal is emitted whenever something has changed.
+     * @details This signal is emitted whenever something has changed.
      */
     void somethingHasChanged();
 
