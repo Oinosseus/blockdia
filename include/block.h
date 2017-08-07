@@ -34,7 +34,7 @@ class LIBBLOCKDIASHARED_EXPORT Block : public QObject
 public:
 
     /**
-     * @brief Construct a BDBlock
+     * @details Construct a BDBlock
      * @param parent The Qt parent pointer.
      */
     explicit Block(QObject *parent = 0);
@@ -44,7 +44,7 @@ public:
     // ------------------------------------------------------------------------
 
     /**
-     * @brief A identification of similar block types.
+     * @details A identification of similar block types.
      *
      * This is not a unique Id for each block instance.
      * The BDBlock::TypeId is the short cut of BDBlock::typeName.
@@ -56,26 +56,22 @@ public:
     QString typeId();
 
     /**
-     * @brief Setting the BDBlock::typeId property
-     * @param The new BDBlock::typeId
+     * @param id Setting a new BDBlock::typeId property
      */
     void setTypeId(const QString &id);
 
     /**
-     * @brief The longer version of the BDBlock::typeId
-     * This is the same as the BDBlock::typeId but as a longer representation.
-     * @return
+     * @return This is the long representation of typeId()
      */
     QString typeName();
 
     /**
-     * @brief Setting the BDBlock::typeName property.
-     * @param The new BDBlock::typeName
+     * @param Setting a new BDBlock::typeName property
      */
     void setTypeName(const QString &name);
 
     /**
-     * @brief Distinguishing different block instances of same type.
+     * @details Distinguishing different block instances of same type.
      *
      * This is a unique Id for block instances of the same type.
      * The instanceId is the short cut of BDBlock::instanceName.
@@ -86,79 +82,67 @@ public:
     QString instanceId();
 
     /**
-     * @brief Setting the BDBlock::instanceId
-     * @param The new instanceId
+     * @param id Setting a new BDBlock::instanceId
      */
     void setInstanceId(const QString &id);
 
     /**
-     * @brief The longer version of the BDBlock::instanceId
-     * This is the same as the BDBlock::instanceId but as a longer representation.
-     * @return
+     * @return This is the long represenmtation of instanceId()
      */
     QString instanceName();
 
     /**
-     * @brief Setting the BDBlock::instanceName property.
-     * @param The new BDBlock::instanceName
+     * @param name Setting a new instanceName() property
      */
     void setInstanceName(const QString &name);
 
     /**
-     * @brief The color of the block.
-     * This is used as background color for the BDGraphicItemBlock.
-     * @return The color of the block.
+     * @return This is used as background color for the BDGraphicItemBlock.
      */
     QColor color();
 
     /**
-     * @brief Setting a new block color
-     * @see BDBlock::color
-     * @param color The new color for the block.
+     * @param color Setting a new block color
      */
     void setColor(QColor color);
 
     /**
-     * @brief Retrieving a list of all parameters.
-     * @return The list of parameters.
+     * @return A list of all parameters
      */
     QList<Parameter *> getParameters();
 
     /**
-     * @brief Get a certain parameter
+     * @details Get a certain parameter
      * @param name The name of the parameter.
      * @return Returns a pointer to the parameter or NULL if no the parameter could be found.
      */
     Parameter *getParameter(const QString name);
 
     /**
-     * @brief Retrieving a list of all inputs.
-     * @return The list of inputs.
+     * @return A list of all inputs
      */
     QList<Input *> getInputs();
 
     /**
-     * @brief Get a certain input
+     * @details Get a certain input
      * @param name The name of the input.
      * @return Returns a pointer to the input or NULL if the input could not be found.
      */
     Input *getInput(const QString name);
 
     /**
-     * @brief Retrieving a list of all outputs.
-     * @return The list of outputs.
+     * @return A list of all outputs
      */
     QList<Output *> getOutputs();
 
     /**
-     * @brief Get a certain output
+     * @details Get a certain output
      * @param name The name of the output.
      * @return Returns a pointer to the output or NULL if the output could not be found.
      */
     Output *getOutput(const QString name);
 
     /**
-     * @brief Get the corresponding QGraphicsItem object
      * @return The corresponding QGraphicsItem object
      */
     QGraphicsItem *getGraphicsItem();
@@ -168,7 +152,7 @@ public:
 signals:
 
     /**
-     * @brief Is emitted when any contained data has been changed.
+     * @details Is emitted when any contained data has been changed.
      */
     void signalSomethingChanged();
 
