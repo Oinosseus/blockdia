@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<BlockDef version="1">
+
+    <TypeName>ReworkDataBlock</TypeName>
+    <TypeId>Rdb</TypeId>
+    <Color>#ecc</Color>
+
+    <Parameters>
+        <Parameter type="int" name="Param1">
+            <Min>0</Min>
+            <Max>100</Max>
+            <Default>50</Default>
+            <IsPublic>True</IsPublic>
+        </Parameter>
+        <Parameter type="int" name="Param2">
+            <Min>0</Min>
+            <Max>15</Max>
+            <Default>15</Default>
+            <IsPublic>No</IsPublic>
+        </Parameter>
+        <Parameter type="int" name="Param3">
+            <Min>-1</Min>
+            <Max>15</Max>
+            <Default>-1</Default>
+            <IsPublic>No</IsPublic>
+        </Parameter>
+    </Parameters>
+
+    <Inputs>
+        <Input name="Inp1" />
+        <Input name="Inp2" />
+    </Inputs>
+
+    <Outputs>
+        <Output name="Outp1" />
+        <Output name="Outp2" />
+        <Output name="Outp3" />
+    </Outputs>
+
+
+</BlockDef>
