@@ -68,7 +68,8 @@ void MainWindow::slotActionNewBlock()
 
     // add block editor to central widget
     QTabWidget *tw = (QTabWidget *) this->centralWidget();
-    tw->addTab(bEditor, block->typeId() + "*");
+    int index = tw->addTab(bEditor, block->typeId() + "*");
+    tw->setCurrentIndex(index);
 }
 
 void MainWindow::slotActionQuit()
