@@ -163,34 +163,42 @@ libblockdia::Block *libblockdia::Block::parseBlockDef(QIODevice *dev, libblockdi
                 // create new block
                 if (!block) block = new Block();
 
-                // read block attributes
-                while (xml.readNext()) {
-                    QString xmlTag = xml.name().toString().toLower();
+                // read block definitions
+                if (!(xml.isEndElement())) {
+                    while (xml.readNextStartElement()) {
+                        QString xmlTag = xml.name().toString().toLower();
 
-                    // check for finish of block definition
-                    if (xmlTag == "blockdef" && (xml.tokenType() | QXmlStreamReader::EndElement)) break;
+                        // read type name
+                        if (xmlTag == "typename") {
+                            QString t = xml.readElementText(QXmlStreamReader::SkipChildElements);
+                            block->setTypeName(t);
+                        }
 
-                    // read type name
-                    if (xmlTag == "typename") {
-                        QString t = xml.readElementText(QXmlStreamReader::SkipChildElements);
-                        block->setTypeName(t);
-                    }
+                        // read type id
+                        else if (xmlTag == "typeid") {
+                            QString t = xml.readElementText(QXmlStreamReader::SkipChildElements);
+                            block->setTypeId(t);
+                        }
 
-                    // read type id
-                    if (xmlTag == "typeid") {
-                        QString t = xml.readElementText(QXmlStreamReader::SkipChildElements);
-                        block->setTypeId(t);
-                    }
+                        // read color
+                        else if (xmlTag == "color") {
+                            QString t = xml.readElementText(QXmlStreamReader::SkipChildElements);
+                            block->setColor(QColor(t));
+                        }
 
-                    // read color
-                    if (xmlTag == "color") {
-                        QString t = xml.readElementText(QXmlStreamReader::SkipChildElements);
-                        block->setColor(QColor(t));
-                    }
+                        // check for inputs
+                        else if (xmlTag == "inputs") {
+                            if (!xml.isEndElement()) {
+                                while (xml.readNextStartElement()) {
+                                    Input::parseBlockDef(&xml, block);
+                                }
+                            }
+                        }
 
-                    // check for inputs
-                    if (xmlTag == "inputs") {
-
+                        // unknown tag
+                        else {
+                            xml.skipCurrentElement();
+                        }
                     }
                 }
 

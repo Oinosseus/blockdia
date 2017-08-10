@@ -17,3 +17,25 @@ void libblockdia::Input::setName(QString name)
         emit somethingHasChanged();
     }
 }
+
+libblockdia::Input *libblockdia::Input::parseBlockDef(QXmlStreamReader *xml, QObject *parent)
+{
+    Input *inp = Q_NULLPTR;
+
+    // check for correct start tag
+    if (xml->name().toString().toLower() == "input") {
+
+        // check for name attribute
+        QString name = "";
+        QXmlStreamAttributes attr = xml->attributes();
+        if (attr.hasAttribute("name")) name = attr.value("name").toString().trimmed();
+
+        // create new input
+        inp = new Input(name, parent);
+    }
+
+    // finish parsing current element
+    xml->skipCurrentElement();
+
+    return inp;
+}

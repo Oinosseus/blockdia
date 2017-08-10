@@ -4,6 +4,7 @@
 #include "libglobals.h"
 
 #include <QObject>
+#include <QXmlStreamReader>
 
 namespace  libblockdia {
 
@@ -37,6 +38,17 @@ public:
      * @param name The new name
      */
     void setName(QString name);
+
+    /**
+     * @details Parsing a XML stram for inputs
+     * The XML stream is parsed from the current element for an inputs definition.
+     * In every case the XML parser is set to after the current element (parent or next child).
+     * @param xml The current xml parser
+     * @param parent The parent Block object
+     * @return A new defined Input object or Q_NULLPTR
+     */
+    static Input *parseBlockDef(QXmlStreamReader *xml, QObject *parent);
+
 
 
 signals:
