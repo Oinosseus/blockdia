@@ -195,6 +195,15 @@ libblockdia::Block *libblockdia::Block::parseBlockDef(QIODevice *dev, libblockdi
                             }
                         }
 
+                        // check for outputs
+                        else if (xmlTag == "outputs") {
+                            if (!xml.isEndElement()) {
+                                while (xml.readNextStartElement()) {
+                                    Output::parseBlockDef(&xml, block);
+                                }
+                            }
+                        }
+
                         // unknown tag
                         else {
                             xml.skipCurrentElement();
