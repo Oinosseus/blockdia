@@ -151,6 +151,34 @@ libblockdia::Block *libblockdia::Block::parseBlockDef(QIODevice *dev, libblockdi
 {
     QXmlStreamReader xml(dev);
 
+    while (!xml.atEnd()) {
+
+        // find next blockdef start
+        if (xml.readNextStartElement() && xml.name().toString().toLower() == "blockdef") {
+            QXmlStreamAttributes attr = xml.attributes();
+
+            // read version
+            int blockdefVersion = -1;
+            if (attr.hasAttribute("version")) {
+                bool ok = false;
+                int v = attr.value("version").toInt(&ok);
+                if (ok) blockdefVersion = v;
+            }
+
+            // parse version 1
+            if (blockdefVersion == 1) {
+
+                // create new block
+                if (!block) block = new Block();
+
+
+
+                // do not parse another blockdef
+                break;
+            }
+        }
+    }
+
     return block;
 }
 
