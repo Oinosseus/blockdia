@@ -6,6 +6,8 @@
 #include <QAction>
 #include <QMenuBar>
 #include <QMenu>
+#include <QFile>
+#include <QMessageBox>
 
 #include <libblockdia.h>
 
@@ -64,7 +66,25 @@ MainWindow::~MainWindow()
 
 void MainWindow::slotFileOpen(QString filePath)
 {
+    // open file
+    QFile f(filePath);
+    if (!f.open(QIODevice::ReadOnly | QIODevice::Text)) {
+        QMessageBox::critical(this, "Error", "Cannot open file!");
+        return;
+    }
 
+    // parse block
+    libblockdia::Block * block = libblockdia::Block::parseBlockDef(&f);
+    f.close();
+    if (!block) {
+        QMessageBox::critical(this, "Error", "Error on parsing file!");
+        return;
+    }
+
+    // open new tab for block
+    QTabWidget *tw = (QTabWidget *) this->centralWidget();
+    int index = tw->addTab(new libblockdia::ViewBlockEditor(block), block->typeId());
+    tw->setCurrentIndex(index);
 }
 
 void MainWindow::slotActionNewBlock()

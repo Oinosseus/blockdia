@@ -1,7 +1,9 @@
 #include "block.h"
+
 #include <QDebug>
 #include <QMetaClassInfo>
 #include <QObjectList>
+#include <QXmlStreamReader>
 
 libblockdia::Block::Block(QObject *parent) : QObject(parent)
 {
@@ -143,6 +145,13 @@ libblockdia::Output *libblockdia::Block::getOutput(const QString name)
 QGraphicsItem *libblockdia::Block::getGraphicsItem()
 {
     return this->giBlock;
+}
+
+libblockdia::Block *libblockdia::Block::parseBlockDef(QIODevice *dev, libblockdia::Block *block)
+{
+    QXmlStreamReader xml(dev);
+
+    return block;
 }
 
 void libblockdia::Block::childEvent(QChildEvent *e)

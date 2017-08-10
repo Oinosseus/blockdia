@@ -10,6 +10,7 @@
 #include <QGraphicsItem>
 #include <QChildEvent>
 #include <QTimer>
+#include <QIODevice>
 
 #include <parameter.h>
 #include <input.h>
@@ -146,6 +147,23 @@ public:
      * @return The corresponding QGraphicsItem object
      */
     QGraphicsItem *getGraphicsItem();
+
+    /**
+     * @details Parsing a block definition
+     *
+     * This static method reads a block definition xml structure
+     * and tries to create a block object from it.
+     * If the block object could not be created Q_NULLPTR is returned.
+     *
+     * The block parameter can be set to an existing block.
+     * In that case the existing block is updated.
+     * (Existing elements will not be deleted)
+     *
+     * @param dev The device to read the data from (eg. QFile)
+     * @param block A already existing block object
+     * @return A pointer to the block or Q_NULLPTR
+     */
+    static Block *parseBlockDef(QIODevice *dev, Block *block = Q_NULLPTR);
 
 
 
