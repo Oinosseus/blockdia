@@ -119,6 +119,57 @@ QString libblockdia::ParameterInt::allowedValues()
     return QString::number(this->_minimum) + " .. " + QString::number(this->_maximum);
 }
 
+libblockdia::ParameterInt *libblockdia::ParameterInt::parseBlockDef(QXmlStreamReader *xml, QObject *parent)
+{
+    QXmlStreamAttributes attr = xml->attributes();
+
+    // ctreate parameter
+    QString name = "";
+    if (attr.hasAttribute("name")) name = attr.value("name").toString().trimmed();
+    ParameterInt *param = new ParameterInt(name, parent);
+
+    // check public
+    if (attr.hasAttribute("isPublic")) {
+        QString ispublic = attr.value("isPublic").toString().trimmed();
+        param->setPublic(ispublic == "yes" || ispublic == "true" || ispublic == "1");
+    }
+
+    // read default
+    if (attr.hasAttribute("default")) {
+        QString def = attr.value("default").toString().trimmed();
+        param->setDefaultValue(def);
+    }
+
+    // parse definitions
+    if (!xml->isEndElement()) {
+        while (xml->readNextStartElement()) {
+            QString xmlTag = xml->name().toString().toLower();
+
+            // read min
+            if (xmlTag == "min") {
+                QString t = xml->readElementText(QXmlStreamReader::SkipChildElements);
+                bool ok;
+                int i = t.toInt(&ok);
+                if (ok) param->setMinimum(i);
+            }
+
+            // read max
+            else if (xmlTag == "max") {
+                QString t = xml->readElementText(QXmlStreamReader::SkipChildElements);
+                bool ok;
+                int i = t.toInt(&ok);
+                if (ok) param->setMaximum(i);
+            }
+
+            else {
+                xml->skipCurrentElement();
+            }
+        }
+    }
+
+    return param;
+}
+
 void libblockdia::ParameterInt::setMaximum(int max)
 {
     if (this->_maximum != max) {

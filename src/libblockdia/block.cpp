@@ -204,6 +204,15 @@ libblockdia::Block *libblockdia::Block::parseBlockDef(QIODevice *dev, libblockdi
                             }
                         }
 
+                        // check for parameters
+                        else if (xmlTag == "parameters") {
+                            if (!xml.isEndElement()) {
+                                while (xml.readNextStartElement()) {
+                                    Parameter::parseBlockDef(&xml, block);
+                                }
+                            }
+                        }
+
                         // unknown tag
                         else {
                             xml.skipCurrentElement();

@@ -103,6 +103,16 @@ public:
      */
     QString allowedValues();
 
+    /**
+     * @details Parsing a XML stram for an parameter
+     * The XML stream is parsed from the current element for an parameter definition.
+     * In every case the XML parser is set to after the current element (parent or next child).
+     * @param xml The current xml parser
+     * @param parent The parent Block object
+     * @return A new defined Output object or Q_NULLPTR
+     */
+    static ParameterInt *parseBlockDef(QXmlStreamReader *xml, QObject *parent);
+
 
 private:
     int _minimum;
