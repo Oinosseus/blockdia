@@ -35,14 +35,18 @@ MainWindow::MainWindow(QWidget *parent)
     this->widgetMain = new QTabWidget(this);
     this->setCentralWidget(this->widgetMain);
 
+    // block browser
+    BlockBrowser *browser = new BlockBrowser(this);
+    connect(browser, SIGNAL(signalFileOpen(QString)), this, SLOT(slotFileOpen(QString)));
+
     // block browser dock
     QDockWidget *dock = new QDockWidget("", this);
     dock->setObjectName("BlockBrowser");
     dock->setAllowedAreas(Qt::LeftDockWidgetArea);
-    dock->setWidget(new BlockBrowser(this));
+    dock->setWidget(browser);
     dock->setFloating(false);
     dock->setFeatures(QDockWidget::NoDockWidgetFeatures);
-    this->addDockWidget(Qt::LeftDockWidgetArea, dock);
+    this->addDockWidget(Qt::LeftDockWidgetArea, dock);    
 
     // restore window state
     QSettings s;
@@ -56,6 +60,11 @@ MainWindow::~MainWindow()
     QSettings s;
     s.setValue("MainWindow/State", this->saveState());
     s.setValue("MainWindow/Geometry", this->saveGeometry());
+}
+
+void MainWindow::slotFileOpen(QString filePath)
+{
+
 }
 
 void MainWindow::slotActionNewBlock()
