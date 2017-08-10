@@ -157,19 +157,42 @@ libblockdia::Block *libblockdia::Block::parseBlockDef(QIODevice *dev, libblockdi
         if (xml.readNextStartElement() && xml.name().toString().toLower() == "blockdef") {
             QXmlStreamAttributes attr = xml.attributes();
 
-            // read version
-            int blockdefVersion = -1;
-            if (attr.hasAttribute("version")) {
-                bool ok = false;
-                int v = attr.value("version").toInt(&ok);
-                if (ok) blockdefVersion = v;
-            }
-
-            // parse version 1
-            if (blockdefVersion == 1) {
+            // check for correct version
+            if (attr.hasAttribute("version") && attr.value("version") == "1") {
 
                 // create new block
                 if (!block) block = new Block();
+
+                // read block attributes
+                while (xml.readNext()) {
+                    QString xmlTag = xml.name().toString().toLower();
+
+                    // check for finish of block definition
+                    if (xmlTag == "blockdef" && (xml.tokenType() | QXmlStreamReader::EndElement)) break;
+
+                    // read type name
+                    if (xmlTag == "typename") {
+                        QString t = xml.readElementText(QXmlStreamReader::SkipChildElements);
+                        block->setTypeName(t);
+                    }
+
+                    // read type id
+                    if (xmlTag == "typeid") {
+                        QString t = xml.readElementText(QXmlStreamReader::SkipChildElements);
+                        block->setTypeId(t);
+                    }
+
+                    // read color
+                    if (xmlTag == "color") {
+                        QString t = xml.readElementText(QXmlStreamReader::SkipChildElements);
+                        block->setColor(QColor(t));
+                    }
+
+                    // check for inputs
+                    if (xmlTag == "inputs") {
+
+                    }
+                }
 
 
 

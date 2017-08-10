@@ -3,7 +3,7 @@
 
     <TypeName>ReworkDataBlock</TypeName>
     <TypeId>Rdb</TypeId>
-    <Color>#ecc</Color>
+    <Color>#cec</Color>
 
     <Parameters>
         <Parameter type="int" name="Param1">
