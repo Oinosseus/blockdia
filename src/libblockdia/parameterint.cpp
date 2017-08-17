@@ -130,7 +130,7 @@ libblockdia::ParameterInt *libblockdia::ParameterInt::parseBlockDef(QXmlStreamRe
 
     // check public
     if (attr.hasAttribute("isPublic")) {
-        QString ispublic = attr.value("isPublic").toString().trimmed();
+        QString ispublic = attr.value("isPublic").toString().trimmed().toLower();
         param->setPublic(ispublic == "yes" || ispublic == "true" || ispublic == "1");
     }
 

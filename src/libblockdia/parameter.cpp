@@ -37,8 +37,6 @@ libblockdia::Parameter *libblockdia::Parameter::parseBlockDef(QXmlStreamReader *
 {
     Parameter *param = Q_NULLPTR;
 
-    qDebug() << xml->name();
-
     // ParamterInt
     if (xml->name().toString().toLower() == "parameterint") {
         param = ParameterInt::parseBlockDef(xml, parent);
@@ -49,6 +47,5 @@ libblockdia::Parameter *libblockdia::Parameter::parseBlockDef(QXmlStreamReader *
         xml->skipCurrentElement();
     }
 
-    qDebug() << xml->name();
     return param;
 }
