@@ -53,6 +53,13 @@ public:
     QString allowedValues();
 
     /**
+     * @details Only added items can be set as default or as value.
+     * @param item Adding an item.
+     * @return True if the item did not already exist
+     */
+    bool addEnumItem(const QString &item);
+
+    /**
      * @details Parsing a XML stram for an parameter
      * The XML stream is parsed from the current element for an parameter definition.
      * In every case the XML parser is set to after the current element (parent or next child).

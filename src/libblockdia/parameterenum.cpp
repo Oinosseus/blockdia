@@ -48,13 +48,40 @@ QString libblockdia::ParameterEnum::allowedValues()
     return values;
 }
 
+bool libblockdia::ParameterEnum::addEnumItem(const QString &item)
+{
+    if (this->_enumItems.contains(item)) {
+        return false;
+    } else {
+        this->_enumItems.append(item);
+        return true;
+    }
+}
+
 libblockdia::ParameterEnum *libblockdia::ParameterEnum::parseBlockDef(QXmlStreamReader *xml, QObject *parent)
 {
+    Q_ASSERT(xml->isStartElement() && xml->name() == "ParameterEnum");
+
     // ctreate parameter
     ParameterEnum *param = new ParameterEnum(xml->attributes().value("name").toString(), parent);
 
     while (xml->readNextStartElement()) {
-        xml->skipCurrentElement();
+        if (xml->name() == "EnumItems") {
+
+                // read enum items
+                while (xml->readNextStartElement()) {
+
+                    // append new item
+                    if (xml->name() == "Item") {
+                        param->addEnumItem(xml->attributes().value("name").toString());
+                    }
+
+                    xml->skipCurrentElement();
+                }
+
+        } else {
+            xml->skipCurrentElement();
+        }
     }
 
     return param;
