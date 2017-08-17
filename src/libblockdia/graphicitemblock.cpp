@@ -13,6 +13,7 @@
 #include <dialogeditinput.h>
 #include <dialogeditoutput.h>
 #include <dialogeditparameterint.h>
+#include <dialogeditparameterstr.h>
 
 libblockdia::GraphicItemBlock::GraphicItemBlock(Block *block, QGraphicsItem *parent) : QGraphicsItem(parent)
 {
@@ -402,6 +403,9 @@ void libblockdia::GraphicItemBlock::contextMenuEvent(QGraphicsSceneContextMenuEv
         QString paramType = param->metaObject()->className();
         if (paramType == "libblockdia::ParameterInt") {
             DialogEditParameterInt dialog((ParameterInt *) param);
+            dialog.exec();
+        } else if (paramType == "libblockdia::ParameterStr") {
+            DialogEditParameterStr dialog((ParameterStr *) param);
             dialog.exec();
         }
     }

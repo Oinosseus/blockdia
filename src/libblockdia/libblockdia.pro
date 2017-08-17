@@ -66,7 +66,8 @@ SOURCES +=  \
             dialogeditheader.cpp \
             dialogeditinput.cpp \
             dialogeditoutput.cpp \
-            dialogeditparameterint.cpp
+            dialogeditparameterint.cpp \
+            dialogeditparameterstr.cpp
 
 HEADERS +=  ../../include/libglobals.h \
             ../../include/libblockdia.h \
@@ -87,7 +88,8 @@ HEADERS +=  ../../include/libglobals.h \
             ../../include/dialogeditheader.h \
             ../../include/dialogeditinput.h \
             ../../include/dialogeditoutput.h \
-            ../../include/dialogeditparameterint.h
+            ../../include/dialogeditparameterint.h \
+            ../../include/dialogeditparameterstr.h
 
 unix {
     target.path = /usr/lib
