@@ -178,6 +178,7 @@ public slots:
 
 private:
     void childEvent(QChildEvent *e);
+    static void parseBlockDefVersion1(QXmlStreamReader *xml, Block *block = Q_NULLPTR);
 
     QString _TypeId;
     QString _TypeName;

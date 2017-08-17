@@ -34,25 +34,45 @@ void libblockdia::Parameter::setPublic(bool isPublic)
     if (emitSignal) emit somethingHasChanged();
 }
 
-libblockdia::Parameter *libblockdia::Parameter::parseBlockDef(QXmlStreamReader *xml, QObject *parent)
+void libblockdia::Parameter::parseBlockDef(QXmlStreamReader *xml, QObject *parent)
 {
-    Parameter *param = Q_NULLPTR;
-    QString tagName = xml->name().toString().toLower();
+    Q_ASSERT(xml->isStartElement() && xml->name() == "Parameters");
 
-    // ParamterInt
-    if (tagName == "parameterint") {
-        param = ParameterInt::parseBlockDef(xml, parent);
+    while (xml->readNextStartElement()) {
+
+        Parameter *param = Q_NULLPTR;
+        QXmlStreamAttributes atrr = xml->attributes();
+
+       // create integer parameter
+       if (xml->name() == "ParameterInt") {
+           param = ParameterInt::parseBlockDef(xml, parent);
+       }
+
+       // create string parameter
+       else if (xml->name() == "ParameterStr") {
+           param = ParameterStr::parseBlockDef(xml, parent);
+       }
+
+       // unknown type
+       else {
+           xml->skipCurrentElement();
+       }
+
+
+       // set attribute
+       if (param) {
+
+           // public
+           if (atrr.hasAttribute("isPublic")) {
+                QString v = atrr.value("isPublic").toString().trimmed().toLower();
+                param->setPublic(v == "yes" || v == "true" || v == "1");
+           }
+
+            // default
+           if (atrr.hasAttribute("default")) {
+                QString v = atrr.value("default").toString().trimmed().toLower();
+                param->setDefaultValue(v);
+           }
+       }
     }
-
-    // ParamterStr
-    if (tagName == "parameterstr") {
-        param = ParameterStr::parseBlockDef(xml, parent);
-    }
-
-    // unknown type
-    else {
-        xml->skipCurrentElement();
-    }
-
-    return param;
 }

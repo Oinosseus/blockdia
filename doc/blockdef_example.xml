@@ -6,7 +6,7 @@
     <Color>#aea</Color>
 
     <Parameters>
-        <ParameterInt name="Param1" isPublic="Yes" default="50">
+        <ParameterInt name="Param1" isPublic="0" default="50">
             <Min>0</Min>
             <Max>100</Max>
         </ParameterInt>
@@ -14,14 +14,7 @@
             <Min>0</Min>
             <Max>15</Max>
         </ParameterInt>
-        <ParameterInt name="Param3" isPublic="false" default="-1">
-            <Min>-1</Min>
-            <Max>15</Max>
-        </ParameterInt>
-        <ParameterStr name="Param4" isPublic="true" default="">
-            <Min>-1</Min>
-            <Max>15</Max>
-        </ParameterStr>
+        <ParameterStr name="Param4" isPublic="true" default="" />
     </Parameters>
 
     <Inputs>

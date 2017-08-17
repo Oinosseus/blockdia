@@ -1,4 +1,5 @@
 #include "input.h"
+#include <QDebug>
 
 libblockdia::Input::Input(const QString &name, QObject *parent) : QObject(parent)
 {
@@ -18,24 +19,19 @@ void libblockdia::Input::setName(QString name)
     }
 }
 
-libblockdia::Input *libblockdia::Input::parseBlockDef(QXmlStreamReader *xml, QObject *parent)
+void libblockdia::Input::parseBlockDef(QXmlStreamReader *xml, QObject *parent)
 {
-    Input *inp = Q_NULLPTR;
+    Q_ASSERT(xml->isStartElement() && xml->name() == "Inputs");
 
-    // check for correct start tag
-    if (xml->name().toString().toLower() == "input") {
+    while (xml->readNextStartElement()) {
 
-        // check for name attribute
-        QString name = "";
-        QXmlStreamAttributes attr = xml->attributes();
-        if (attr.hasAttribute("name")) name = attr.value("name").toString().trimmed();
+        if (xml->name() == "Input") {
+            QString name = "";
+            QXmlStreamAttributes attr = xml->attributes();
+            if (attr.hasAttribute("name")) name = attr.value("name").toString().trimmed();
+            new Input(name, parent);
+        }
 
-        // create new input
-        inp = new Input(name, parent);
+        xml->skipCurrentElement();
     }
-
-    // finish parsing current element
-    xml->skipCurrentElement();
-
-    return inp;
 }

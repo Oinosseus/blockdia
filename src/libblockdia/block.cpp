@@ -153,77 +153,26 @@ libblockdia::Block *libblockdia::Block::parseBlockDef(QIODevice *dev, libblockdi
 
     while (!xml.atEnd()) {
 
-        // find next blockdef start
-        if (xml.readNextStartElement() && xml.name().toString().toLower() == "blockdef") {
-            QXmlStreamAttributes attr = xml.attributes();
+        if (xml.readNextStartElement()) {
 
-            // check for correct version
-            if (attr.hasAttribute("version") && attr.value("version") == "1") {
+            // no block definition found
+            if (xml.name() != "BlockDef") {
+                qWarning() << "parseBlockDef: unknown root element:" << xml.name();
+                xml.skipCurrentElement();
+            } else {
 
-                // create new block
-                if (!block) block = new Block();
-
-                // read block definitions
-                if (!(xml.isEndElement())) {
-                    while (xml.readNextStartElement()) {
-                        QString xmlTag = xml.name().toString().toLower();
-
-                        // read type name
-                        if (xmlTag == "typename") {
-                            QString t = xml.readElementText(QXmlStreamReader::SkipChildElements);
-                            block->setTypeName(t);
-                        }
-
-                        // read type id
-                        else if (xmlTag == "typeid") {
-                            QString t = xml.readElementText(QXmlStreamReader::SkipChildElements);
-                            block->setTypeId(t);
-                        }
-
-                        // read color
-                        else if (xmlTag == "color") {
-                            QString t = xml.readElementText(QXmlStreamReader::SkipChildElements);
-                            block->setColor(QColor(t));
-                        }
-
-                        // check for inputs
-                        else if (xmlTag == "inputs") {
-                            if (!xml.isEndElement()) {
-                                while (xml.readNextStartElement()) {
-                                    Input::parseBlockDef(&xml, block);
-                                }
-                            }
-                        }
-
-                        // check for outputs
-                        else if (xmlTag == "outputs") {
-                            if (!xml.isEndElement()) {
-                                while (xml.readNextStartElement()) {
-                                    Output::parseBlockDef(&xml, block);
-                                }
-                            }
-                        }
-
-                        // check for parameters
-                        else if (xmlTag == "parameters") {
-                            if (!xml.isEndElement()) {
-                                while (xml.readNextStartElement()) {
-                                    Parameter::parseBlockDef(&xml, block);
-                                }
-                            }
-                        }
-
-                        // unknown tag
-                        else {
-                            xml.skipCurrentElement();
-                        }
-                    }
+                // parse different versions
+                if (xml.attributes().value("version") == "1") {
+                    if (!block) block = new Block();
+                    parseBlockDefVersion1(&xml, block);
+                    break;
                 }
 
-
-
-                // do not parse another blockdef
-                break;
+                // unknwon version
+                else {
+                    qWarning() << "parseBlockDef: unsupported version:" << xml.attributes().value("version");
+                    xml.skipCurrentElement();
+                }
             }
         }
     }
@@ -239,6 +188,53 @@ void libblockdia::Block::childEvent(QChildEvent *e)
     // delayed timer ensures that child is add/deleted completely
     // when calling the timer slot function
     QTimer::singleShot(0, this, SLOT(slotUpdateChildObjects()));
+}
+
+void libblockdia::Block::parseBlockDefVersion1(QXmlStreamReader *xml, libblockdia::Block *block)
+{
+    Q_ASSERT(xml->isStartElement() && xml->name() == "BlockDef");
+
+    // read block definitions
+    while (xml->readNextStartElement()) {
+
+        // read type name
+        if (xml->name() == "TypeName") {
+            QString t = xml->readElementText(QXmlStreamReader::SkipChildElements);
+            block->setTypeName(t);
+        }
+
+        // read type id
+        else if (xml->name() == "TypeId") {
+            QString t = xml->readElementText(QXmlStreamReader::SkipChildElements);
+            block->setTypeId(t);
+        }
+
+        // read color
+        else if (xml->name() == "Color") {
+            QString t = xml->readElementText(QXmlStreamReader::SkipChildElements);
+            block->setColor(QColor(t));
+        }
+
+        // check for inputs
+        else if (xml->name() == "Inputs") {
+            Input::parseBlockDef(xml, block);
+        }
+
+        // check for outputs
+        else if (xml->name() == "Outputs") {
+            Output::parseBlockDef(xml, block);
+        }
+
+        // check for parameters
+        else if (xml->name() == "Parameters") {
+            Parameter::parseBlockDef(xml, block);
+        }
+
+        // unknown tag
+        else {
+            xml->skipCurrentElement();
+        }
+    }
 }
 
 void libblockdia::Block::slotSomethingChanged()

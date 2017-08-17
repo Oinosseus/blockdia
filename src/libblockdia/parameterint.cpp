@@ -121,49 +121,29 @@ QString libblockdia::ParameterInt::allowedValues()
 
 libblockdia::ParameterInt *libblockdia::ParameterInt::parseBlockDef(QXmlStreamReader *xml, QObject *parent)
 {
-    QXmlStreamAttributes attr = xml->attributes();
-
     // ctreate parameter
-    QString name = "";
-    if (attr.hasAttribute("name")) name = attr.value("name").toString().trimmed();
-    ParameterInt *param = new ParameterInt(name, parent);
+    ParameterInt *param = new ParameterInt(xml->attributes().value("name").toString(), parent);
 
-    // check public
-    if (attr.hasAttribute("isPublic")) {
-        QString ispublic = attr.value("isPublic").toString().trimmed().toLower();
-        param->setPublic(ispublic == "yes" || ispublic == "true" || ispublic == "1");
-    }
+    while (xml->readNextStartElement()) {
 
-    // read default
-    if (attr.hasAttribute("default")) {
-        QString def = attr.value("default").toString().trimmed();
-        param->setDefaultValue(def);
-    }
+        // read min
+        if (xml->name() == "Min") {
+            QString t = xml->readElementText(QXmlStreamReader::SkipChildElements);
+            bool ok;
+            int i = t.toInt(&ok);
+            if (ok) param->setMinimum(i);
+        }
 
-    // parse definitions
-    if (!xml->isEndElement()) {
-        while (xml->readNextStartElement()) {
-            QString xmlTag = xml->name().toString().toLower();
+        // read max
+        else if (xml->name() == "Max") {
+            QString t = xml->readElementText(QXmlStreamReader::SkipChildElements);
+            bool ok;
+            int i = t.toInt(&ok);
+            if (ok) param->setMaximum(i);
+        }
 
-            // read min
-            if (xmlTag == "min") {
-                QString t = xml->readElementText(QXmlStreamReader::SkipChildElements);
-                bool ok;
-                int i = t.toInt(&ok);
-                if (ok) param->setMinimum(i);
-            }
-
-            // read max
-            else if (xmlTag == "max") {
-                QString t = xml->readElementText(QXmlStreamReader::SkipChildElements);
-                bool ok;
-                int i = t.toInt(&ok);
-                if (ok) param->setMaximum(i);
-            }
-
-            else {
-                xml->skipCurrentElement();
-            }
+        else {
+            xml->skipCurrentElement();
         }
     }
 

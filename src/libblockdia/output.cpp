@@ -18,24 +18,19 @@ void libblockdia::Output::setName(QString name)
     }
 }
 
-libblockdia::Output *libblockdia::Output::parseBlockDef(QXmlStreamReader *xml, QObject *parent)
+void libblockdia::Output::parseBlockDef(QXmlStreamReader *xml, QObject *parent)
 {
-    Output *outp = Q_NULLPTR;
+    Q_ASSERT(xml->isStartElement() && xml->name() == "Outputs");
 
-    // check for correct start tag
-    if (xml->name().toString().toLower() == "output") {
+    while (xml->readNextStartElement()) {
 
-        // check for name attribute
-        QString name = "";
-        QXmlStreamAttributes attr = xml->attributes();
-        if (attr.hasAttribute("name")) name = attr.value("name").toString().trimmed();
+        if (xml->name() == "Output") {
+            QString name = "";
+            QXmlStreamAttributes attr = xml->attributes();
+            if (attr.hasAttribute("name")) name = attr.value("name").toString().trimmed();
+            new Output(name, parent);
+       }
 
-        // create new input
-        outp = new Output(name, parent);
+        xml->skipCurrentElement();
     }
-
-    // finish parsing current element
-    xml->skipCurrentElement();
-
-    return outp;
 }

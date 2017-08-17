@@ -45,9 +45,8 @@ public:
      * In every case the XML parser is set to after the current element (parent or next child).
      * @param xml The current xml parser
      * @param parent The parent Block object
-     * @return A new defined Input object or Q_NULLPTR
      */
-    static Input *parseBlockDef(QXmlStreamReader *xml, QObject *parent);
+    static void parseBlockDef(QXmlStreamReader *xml, QObject *parent);
 
 
 
