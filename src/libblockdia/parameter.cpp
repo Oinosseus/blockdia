@@ -3,6 +3,7 @@
 #include <QDebug>
 #include "parameterint.h"
 #include "parameterstr.h"
+#include "parameterenum.h"
 
 libblockdia::Parameter::Parameter(const QString &name, QObject *parent) : QObject(parent)
 {
@@ -51,6 +52,11 @@ void libblockdia::Parameter::parseBlockDef(QXmlStreamReader *xml, QObject *paren
        // create string parameter
        else if (xml->name() == "ParameterStr") {
            param = ParameterStr::parseBlockDef(xml, parent);
+       }
+
+       // create enum parameter
+       else if (xml->name() == "ParameterEnum") {
+           param = ParameterEnum::parseBlockDef(xml, parent);
        }
 
        // unknown type

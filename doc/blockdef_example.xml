@@ -14,7 +14,15 @@
             <Min>0</Min>
             <Max>15</Max>
         </ParameterInt>
-        <ParameterStr name="Param4" isPublic="true" default="" />
+        <ParameterStr name="Param3" isPublic="true" default="" />
+        <ParameterEnum name="Param4" default="C">
+            <EnumItems>
+                <Item name="A" />
+                <Item name="B" />
+                <Item name="C" />
+                <Item name="D" />
+            </EnumItems>
+        </ParameterEnum>
     </Parameters>
 
     <Inputs>

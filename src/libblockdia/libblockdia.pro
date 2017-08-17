@@ -54,6 +54,7 @@ SOURCES +=  \
             viewblock.cpp \
             viewblockeditor.cpp \
             parameter.cpp \
+            parameterenum.cpp \
             parameterint.cpp \
             parameterstr.cpp \
             input.cpp \
@@ -76,6 +77,7 @@ HEADERS +=  ../../include/libglobals.h \
             ../../include/viewblock.h \
             ../../include/viewblockeditor.h \
             ../../include/parameter.h \
+            ../../include/parameterenum.h \
             ../../include/parameterint.h \
             ../../include/parameterstr.h \
             ../../include/input.h \
