@@ -18,6 +18,10 @@
             <Min>-1</Min>
             <Max>15</Max>
         </ParameterInt>
+        <ParameterStr name="Param4" isPublic="true" default="">
+            <Min>-1</Min>
+            <Max>15</Max>
+        </ParameterStr>
     </Parameters>
 
     <Inputs>

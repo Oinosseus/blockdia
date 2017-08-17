@@ -2,6 +2,7 @@
 
 #include <QDebug>
 #include "parameterint.h"
+#include "parameterstr.h"
 
 libblockdia::Parameter::Parameter(const QString &name, QObject *parent) : QObject(parent)
 {
@@ -36,10 +37,16 @@ void libblockdia::Parameter::setPublic(bool isPublic)
 libblockdia::Parameter *libblockdia::Parameter::parseBlockDef(QXmlStreamReader *xml, QObject *parent)
 {
     Parameter *param = Q_NULLPTR;
+    QString tagName = xml->name().toString().toLower();
 
     // ParamterInt
-    if (xml->name().toString().toLower() == "parameterint") {
+    if (tagName == "parameterint") {
         param = ParameterInt::parseBlockDef(xml, parent);
+    }
+
+    // ParamterStr
+    if (tagName == "parameterstr") {
+        param = ParameterStr::parseBlockDef(xml, parent);
     }
 
     // unknown type

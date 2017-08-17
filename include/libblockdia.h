@@ -27,6 +27,7 @@ namespace libblockdia {
 #include <output.h>
 #include <parameter.h>
 #include <parameterint.h>
+#include <parameterstr.h>
 #include <block.h>
 
 // block graphic classes

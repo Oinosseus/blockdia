@@ -55,6 +55,7 @@ SOURCES +=  \
             viewblockeditor.cpp \
             parameter.cpp \
             parameterint.cpp \
+            parameterstr.cpp \
             input.cpp \
             output.cpp \
             graphicitemblockheader.cpp \
@@ -75,6 +76,7 @@ HEADERS +=  ../../include/libglobals.h \
             ../../include/viewblockeditor.h \
             ../../include/parameter.h \
             ../../include/parameterint.h \
+            ../../include/parameterstr.h \
             ../../include/input.h \
             ../../include/output.h \
             ../../include/graphicitemblockheader.h \
