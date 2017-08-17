@@ -326,7 +326,9 @@ void libblockdia::GraphicItemBlock::contextMenuEvent(QGraphicsSceneContextMenuEv
 
     // create menu - parameter add
     QMenu menuAddParam("Add Parameter");
-    QAction *actionParameterAddInt = menuAddParam.addAction("Integer Parameter");
+    QAction *actionParameterAddInt  = menuAddParam.addAction("Integer Parameter");
+    QAction *actionParameterAddStr  = menuAddParam.addAction("String Parameter");
+    QAction *actionParameterAddEnum = menuAddParam.addAction("Enum arameter");
 
     // create menu - main
     QMenu menu;
@@ -394,9 +396,19 @@ void libblockdia::GraphicItemBlock::contextMenuEvent(QGraphicsSceneContextMenuEv
         dialog.exec();
     }
 
-    // add pramter
+    // add pramter int
     else if (action == actionParameterAddInt) {
         new ParameterInt("new parameter", this->block);
+    }
+
+    // add pramter str
+    else if (action == actionParameterAddStr) {
+        new ParameterStr("new parameter", this->block);
+    }
+
+    // add pramter enum
+    else if (action == actionParameterAddEnum) {
+        new ParameterEnum("new parameter", this->block);
     }
 
     // edit parameter
