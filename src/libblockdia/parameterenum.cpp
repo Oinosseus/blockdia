@@ -58,6 +58,21 @@ bool libblockdia::ParameterEnum::addEnumItem(const QString &item)
     }
 }
 
+QStringList libblockdia::ParameterEnum::enumItems()
+{
+    return this->_enumItems;
+}
+
+bool libblockdia::ParameterEnum::setEnumItems(QStringList items)
+{
+    this->_enumItems = items;
+    if (!this->_enumItems.contains(this->_defaultValue)) {
+        if (this->_enumItems.size() > 0) this->_defaultValue = this->_enumItems[0];
+        else this->_defaultValue = "";
+    }
+    return true;
+}
+
 libblockdia::ParameterEnum *libblockdia::ParameterEnum::parseBlockDef(QXmlStreamReader *xml, QObject *parent)
 {
     Q_ASSERT(xml->isStartElement() && xml->name() == "ParameterEnum");

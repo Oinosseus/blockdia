@@ -60,6 +60,17 @@ public:
     bool addEnumItem(const QString &item);
 
     /**
+     * @return The list odf allowed values.
+     */
+    QStringList enumItems();
+
+    /**
+     * @param items Setting a new list of allowed items
+     * @return True if the list could be set
+     */
+    bool setEnumItems(QStringList items);
+
+    /**
      * @details Parsing a XML stram for an parameter
      * The XML stream is parsed from the current element for an parameter definition.
      * In every case the XML parser is set to after the current element (parent or next child).

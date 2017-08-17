@@ -68,7 +68,8 @@ SOURCES +=  \
             dialogeditinput.cpp \
             dialogeditoutput.cpp \
             dialogeditparameterint.cpp \
-            dialogeditparameterstr.cpp
+            dialogeditparameterstr.cpp \
+            dialogeditparameterenum.cpp
 
 HEADERS +=  ../../include/libglobals.h \
             ../../include/libblockdia.h \
@@ -91,6 +92,7 @@ HEADERS +=  ../../include/libglobals.h \
             ../../include/dialogeditinput.h \
             ../../include/dialogeditoutput.h \
             ../../include/dialogeditparameterint.h \
+            ../../include/dialogeditparameterenum.h \
             ../../include/dialogeditparameterstr.h
 
 unix {
