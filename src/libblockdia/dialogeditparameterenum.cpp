@@ -10,6 +10,7 @@
 libblockdia::DialogEditParameterEnum::DialogEditParameterEnum(ParameterEnum *param, QWidget *parent) : QDialog(parent)
 {
     // setup configuration
+    this->setWindowTitle("Edit Enum - " + param->name());
     this->param = param;
     this->setSizeGripEnabled(true);
     connect(this, SIGNAL(accepted()), this, SLOT(slotWriteData()));

@@ -9,6 +9,7 @@
 libblockdia::DialogEditParameterStr::DialogEditParameterStr(ParameterStr *param, QWidget *parent) : QDialog(parent)
 {
     // setup configuration
+    this->setWindowTitle("Edit String - " + param->name());
     this->param = param;
     this->setSizeGripEnabled(true);
     connect(this, SIGNAL(accepted()), this, SLOT(slotWriteData()));
