@@ -121,8 +121,11 @@ void MainWindow::slotActionNewBlock()
 
 void MainWindow::slotActionSave()
 {
-    // get objects
+    // get tab widget
     QTabWidget *tw = (QTabWidget *) this->centralWidget();
+    if (tw->count() == 0) return;
+
+    // get objects
     int currentIndex = tw->currentIndex();
     libblockdia::ViewBlockEditor *editor = static_cast<libblockdia::ViewBlockEditor*>(tw->currentWidget());
     libblockdia::Block *block = editor->block();
