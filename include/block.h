@@ -171,8 +171,9 @@ signals:
 
     /**
      * @details Is emitted when any contained data has been changed.
+     * @param block A reference to the changed block.
      */
-    void signalSomethingChanged();
+    void signalSomethingChanged(libblockdia::Block *block);
 
 public slots:
 
@@ -191,7 +192,7 @@ private:
     GraphicItemBlock *giBlock;
 
 private slots:
-    void slotSomethingChanged();
+    void slotUpdateGraphicItem();
     void slotUpdateChildObjects();
 };
 

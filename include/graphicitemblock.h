@@ -38,8 +38,10 @@ public:
     explicit GraphicItemBlock(Block *block, QGraphicsItem *parent=Q_NULLPTR);
     QRectF boundingRect() const;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
-    void updateData();
     QMenu *contextMenu();
+
+public slots:
+    void updateData();
 
 private:
     void hoverEnterEvent(QGraphicsSceneHoverEvent *e);

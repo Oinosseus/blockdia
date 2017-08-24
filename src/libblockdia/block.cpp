@@ -14,7 +14,7 @@ libblockdia::Block::Block(QObject *parent) : QObject(parent)
     this->_InstanceName = "";
     this->_Color        = QColor("#fff");
     this->giBlock       = new GraphicItemBlock(this);
-    connect(this, SIGNAL(signalSomethingChanged()), this, SLOT(slotSomethingChanged()));
+    connect(this, SIGNAL(signalSomethingChanged(libblockdia::Block*)), this, SLOT(slotUpdateGraphicItem()));
 }
 
 
@@ -28,7 +28,7 @@ void libblockdia::Block::setTypeId(const QString &id)
 {
     if (id != this->_TypeId) {
         this->_TypeId = id;
-        emit signalSomethingChanged();
+        emit signalSomethingChanged(this);
     }
 }
 
@@ -41,7 +41,7 @@ void libblockdia::Block::setTypeName(const QString &name)
 {
     if (name != this->_TypeName) {
         this->_TypeName = name;
-        emit signalSomethingChanged();
+        emit signalSomethingChanged(this);
     }
 }
 
@@ -55,7 +55,7 @@ void libblockdia::Block::setInstanceId(const QString &id)
 {
     if (id != this->_InstanceId) {
         this->_InstanceId = id;
-        emit signalSomethingChanged();
+        emit signalSomethingChanged(this);
     }
 }
 
@@ -68,7 +68,7 @@ void libblockdia::Block::setInstanceName(const QString &name)
 {
     if (name != this->_InstanceName) {
         this->_InstanceName = name;
-        emit signalSomethingChanged();
+        emit signalSomethingChanged(this);
     }
 }
 
@@ -237,7 +237,7 @@ void libblockdia::Block::parseBlockDefVersion1(QXmlStreamReader *xml, libblockdi
     }
 }
 
-void libblockdia::Block::slotSomethingChanged()
+void libblockdia::Block::slotUpdateGraphicItem()
 {
     this->giBlock->updateData();
 }
@@ -262,7 +262,7 @@ void libblockdia::Block::slotUpdateChildObjects()
             Parameter *child = (Parameter *) listChildren.at(i);
             if (this->parametersList.count(child) == 0) {
                 this->parametersList.append(child);
-                connect(child, SIGNAL(somethingHasChanged()), this, SLOT(slotSomethingChanged()));
+                connect(child, SIGNAL(somethingHasChanged()), this, SLOT(slotUpdateGraphicItem()));
                 emitSomethignChanged = true;
             }
         }
@@ -272,7 +272,7 @@ void libblockdia::Block::slotUpdateChildObjects()
             Input *child = (Input *) listChildren.at(i);
             if (this->inputsList.count(child) == 0) {
                 this->inputsList.append(child);
-                connect(child, SIGNAL(somethingHasChanged()), this, SLOT(slotSomethingChanged()));
+                connect(child, SIGNAL(somethingHasChanged()), this, SLOT(slotUpdateGraphicItem()));
                 emitSomethignChanged = true;
             }
         }
@@ -282,7 +282,7 @@ void libblockdia::Block::slotUpdateChildObjects()
             Output *child = (Output *) listChildren.at(i);
             if (this->outputsList.count(child) == 0) {
                 this->outputsList.append(child);
-                connect(child, SIGNAL(somethingHasChanged()), this, SLOT(slotSomethingChanged()));
+                connect(child, SIGNAL(somethingHasChanged()), this, SLOT(slotUpdateGraphicItem()));
                 emitSomethignChanged = true;
             }
         }
@@ -318,6 +318,6 @@ void libblockdia::Block::slotUpdateChildObjects()
 
     // emit singal
     if (emitSomethignChanged) {
-        emit signalSomethingChanged();
+        emit signalSomethingChanged(this);
     }
 }

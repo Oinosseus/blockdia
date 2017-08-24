@@ -14,13 +14,15 @@ class LIBBLOCKDIASHARED_EXPORT ViewBlockEditor : public QGraphicsView
     Q_OBJECT
 public:
     explicit ViewBlockEditor(Block *block, QWidget *parent = 0);
+    Block *block();
+
 
 signals:
 
 public slots:
 
 private:
-    Block *block;
+    Block *_block;
     QGraphicsItem *giTest;
     int testCounter;
 };

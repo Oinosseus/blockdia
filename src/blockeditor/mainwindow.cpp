@@ -9,8 +9,6 @@
 #include <QFile>
 #include <QMessageBox>
 
-#include <libblockdia.h>
-
 #include <blockbrowser.h>
 
 
@@ -81,27 +79,59 @@ void MainWindow::slotFileOpen(QString filePath)
         return;
     }
 
+    // Ignore the first change signal for just created block
+    // Because instantiating the block causes the signal.
+    this->ignoreChangedBlocks.append(block);
+
     // open new tab for block
     QTabWidget *tw = (QTabWidget *) this->centralWidget();
     int index = tw->addTab(new libblockdia::ViewBlockEditor(block), block->typeId());
     tw->setCurrentIndex(index);
+
+    // catch changes inside the block
+    connect(block, SIGNAL(signalSomethingChanged(libblockdia::Block*)), this, SLOT(slotBlockChanged(libblockdia::Block*)));
 }
 
 void MainWindow::slotActionNewBlock()
 {
-    // create new block editor
+    // create new block
     libblockdia::Block *block = new libblockdia::Block(this);
     block->setTypeName("New Block Type *");
     block->setTypeId("NBT");
+
+    // create new block editor
     libblockdia::ViewBlockEditor *bEditor = new libblockdia::ViewBlockEditor(block);
 
     // add block editor to central widget
     QTabWidget *tw = (QTabWidget *) this->centralWidget();
     int index = tw->addTab(bEditor, block->typeId() + "*");
     tw->setCurrentIndex(index);
+
+    // catch changes inside the block
+    connect(block, SIGNAL(signalSomethingChanged(libblockdia::Block*)), this, SLOT(slotBlockChanged(libblockdia::Block*)));
 }
 
 void MainWindow::slotActionQuit()
 {
     this->close();
+}
+
+void MainWindow::slotBlockChanged(libblockdia::Block *block)
+{
+    // check if the block was just created
+    // In this case ignore the change signal
+    // because it is emitted because of instantiating the block
+    if (this->ignoreChangedBlocks.contains(block)) {
+        this->ignoreChangedBlocks.removeAll(block);
+        return;
+    }
+
+    // add astresik to tab name if it contains unsaved changes
+    QTabWidget *tw = (QTabWidget *) this->centralWidget();
+    for (int i=0; i < tw->count(); ++i) {
+        libblockdia::ViewBlockEditor *editor = static_cast<libblockdia::ViewBlockEditor*>(tw->widget(i));
+        if (editor->block() == block) {
+            tw->setTabText(i, block->typeId() + "*");
+        }
+    }
 }
