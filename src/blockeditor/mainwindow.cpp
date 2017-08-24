@@ -30,6 +30,12 @@ MainWindow::MainWindow(QWidget *parent)
     actSave->setShortcut(Qt::Key_S | Qt::CTRL);
     connect(actSave, SIGNAL(triggered(bool)), this, SLOT(slotActionSave()));
 
+    // action - save as
+    QAction *actSaveAs = new QAction("save block as", this);
+    menuFile->addAction(actSaveAs);
+    actSaveAs->setShortcut(Qt::Key_S | Qt::CTRL | Qt::SHIFT);
+    connect(actSaveAs, SIGNAL(triggered(bool)), this, SLOT(slotActionSaveAs()));
+
     // action - quit
     QAction *actQuit = new QAction("quit", this);
     menuFile->addAction(actQuit);
@@ -143,6 +149,50 @@ void MainWindow::slotActionSave()
         QString fileName = QFileDialog::getSaveFileName(this, "Save Block", this->blockBrowser->currentRootPath(), "XML (*.xml)");
         this->openFilePathHash[block] = fileName;
         f = new QFile(fileName);
+    }
+
+    // check if file is valid
+    if (!f || !f->open(QIODevice::WriteOnly | QIODevice::Text)) {
+        QMessageBox::critical(this, "Error", "Cannot open file for writing!");
+    }
+
+    // export block
+    block->exportBlockDef(f);
+
+    // close file
+    if (f) {
+        f->close();
+        f->deleteLater();
+        f = Q_NULLPTR;
+    }
+
+    // update tab text
+    tw->setTabText(currentIndex, block->typeId());
+}
+
+void MainWindow::slotActionSaveAs()
+{
+    THIS IS THE CURRENT WORKING LOCATION
+
+    // get tab widget
+    QTabWidget *tw = (QTabWidget *) this->centralWidget();
+    if (tw->count() == 0) return;
+
+    // get objects
+    int currentIndex = tw->currentIndex();
+    libblockdia::ViewBlockEditor *editor = static_cast<libblockdia::ViewBlockEditor*>(tw->currentWidget());
+    libblockdia::Block *block = editor->block();
+
+    QFile *f = Q_NULLPTR;
+
+    // open file dialog
+    QString fileName = QFileDialog::getSaveFileName(this, "Save Block", this->blockBrowser->currentRootPath(), "XML (*.xml)");
+    this->openFilePathHash[block] = fileName;
+    f = new QFile(fileName);
+
+    // file path is already known
+    if (this->openFilePathHash.contains(block)) {
+        f = new QFile(this->openFilePathHash[block]);
     }
 
     // check if file is valid

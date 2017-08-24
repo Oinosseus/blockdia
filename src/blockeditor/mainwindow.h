@@ -27,6 +27,7 @@ private slots:
     void slotFileOpen(QString filePath);
     void slotActionNewBlock();
     void slotActionSave();
+    void slotActionSaveAs();
     void slotActionQuit();
     void slotBlockChanged(libblockdia::Block *block);
 };
