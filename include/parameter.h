@@ -95,6 +95,14 @@ public:
      */
     static void parseBlockDef(QXmlStreamReader *xml, QObject *parent);
 
+    /**
+     * @details Exporting to an xml stream
+     * @param xml The current xml writer
+     * @return True on success
+     */
+    virtual bool exportBlockDef(QXmlStreamWriter *xml) = 0;
+
+
 signals:
     /**
      * @details This signal is emitted whenever a value has changed.

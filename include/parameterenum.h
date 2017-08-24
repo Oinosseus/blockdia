@@ -80,6 +80,13 @@ public:
      */
     static ParameterEnum *parseBlockDef(QXmlStreamReader *xml, QObject *parent);
 
+    /**
+     * @details Exporting to an xml stream
+     * @param xml The current xml writer
+     * @return True on success
+     */
+    bool exportBlockDef(QXmlStreamWriter *xml);
+
 
 private:
     QString _value;

@@ -101,3 +101,26 @@ libblockdia::ParameterEnum *libblockdia::ParameterEnum::parseBlockDef(QXmlStream
 
     return param;
 }
+
+bool libblockdia::ParameterEnum::exportBlockDef(QXmlStreamWriter *xml)
+{
+    xml->writeStartElement("ParameterEnum");
+
+    // parameter attributes
+    xml->writeAttribute("name", this->name());
+    if (this->isPublic()) xml->writeAttribute("isPublic", "true");
+    xml->writeAttribute("default", this->strDefaultValue());
+
+    // specific sub elements
+    xml->writeStartElement("EnumItems");
+    for (int i=0; i < this->enumItems().size(); ++i) {
+        xml->writeStartElement("Item");
+        xml->writeAttribute("name", this->enumItems().at(i));
+        xml->writeEndElement();
+    }
+    xml->writeEndElement();
+
+    xml->writeEndElement();
+    return xml->hasError();
+
+}

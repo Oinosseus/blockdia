@@ -150,6 +150,23 @@ libblockdia::ParameterInt *libblockdia::ParameterInt::parseBlockDef(QXmlStreamRe
     return param;
 }
 
+bool libblockdia::ParameterInt::exportBlockDef(QXmlStreamWriter *xml)
+{
+    xml->writeStartElement("ParameterInt");
+
+    // parameter attributes
+    xml->writeAttribute("name", this->name());
+    if (this->isPublic()) xml->writeAttribute("isPublic", "true");
+    xml->writeAttribute("default", this->strDefaultValue());
+
+    // specific sub elements
+    xml->writeTextElement("Min", QString::number(this->minimum()));
+    xml->writeTextElement("Max", QString::number(this->maximum()));
+
+    xml->writeEndElement();
+    return xml->hasError();
+}
+
 void libblockdia::ParameterInt::setMaximum(int max)
 {
     if (this->_maximum != max) {

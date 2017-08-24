@@ -34,3 +34,11 @@ void libblockdia::Output::parseBlockDef(QXmlStreamReader *xml, QObject *parent)
         xml->skipCurrentElement();
     }
 }
+
+bool libblockdia::Output::exportBlockDef(QXmlStreamWriter *xml)
+{
+    xml->writeStartElement("Output");
+    xml->writeAttribute("name", this->name());
+    xml->writeEndElement();
+    return xml->hasError();
+}

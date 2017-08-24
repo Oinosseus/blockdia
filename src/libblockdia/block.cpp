@@ -4,6 +4,7 @@
 #include <QMetaClassInfo>
 #include <QObjectList>
 #include <QXmlStreamReader>
+#include <QXmlStreamWriter>
 
 libblockdia::Block::Block(QObject *parent) : QObject(parent)
 {
@@ -182,6 +183,48 @@ libblockdia::Block *libblockdia::Block::parseBlockDef(QIODevice *dev, libblockdi
 
 bool libblockdia::Block::exportBlockDef(QIODevice *dev)
 {
+    QXmlStreamWriter xml(dev);
+    xml.setAutoFormatting(true);
+    xml.writeStartDocument();
+
+    // start block element
+    xml.writeStartElement("BlockDef");
+    xml.writeAttribute("version", "1");
+
+        // type name
+        xml.writeTextElement("TypeName", this->typeName());
+
+        // type id
+        xml.writeTextElement("TypeId", this->typeId());
+
+        // color
+        xml.writeTextElement("Color", this->color().name());
+
+        // parameter
+        xml.writeStartElement("Parameters");
+        for (int i=0; i < this->parametersList.size(); ++i) {
+            this->parametersList.at(i)->exportBlockDef(&xml);
+        }
+        xml.writeEndElement();
+
+        // inputs
+        xml.writeStartElement("Inputs");
+        for (int i=0; i < this->inputsList.size(); ++i) {
+            this->inputsList.at(i)->exportBlockDef(&xml);
+        }
+        xml.writeEndElement();
+
+        // outputs
+        xml.writeStartElement("Outputs");
+        for (int i=0; i< this->outputsList.size(); ++i) {
+            this->outputsList.at(i)->exportBlockDef(&xml);
+        }
+        xml.writeEndElement();
+
+    // end block element
+    xml.writeEndElement();
+
+    xml.writeEndDocument();
     return false;
 }
 

@@ -5,6 +5,7 @@
 
 #include <QObject>
 #include <QXmlStreamReader>
+#include <QXmlStreamWriter>
 
 namespace  libblockdia {
 
@@ -48,6 +49,12 @@ public:
      */
     static void parseBlockDef(QXmlStreamReader *xml, QObject *parent);
 
+    /**
+     * @details Exporting to an xml stream
+     * @param xml The current xml writer
+     * @return True on success
+     */
+    bool exportBlockDef(QXmlStreamWriter *xml);
 
 
 signals:

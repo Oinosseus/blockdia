@@ -39,3 +39,16 @@ libblockdia::ParameterStr *libblockdia::ParameterStr::parseBlockDef(QXmlStreamRe
     xml->skipCurrentElement();
     return param;
 }
+
+bool libblockdia::ParameterStr::exportBlockDef(QXmlStreamWriter *xml)
+{
+    xml->writeStartElement("ParameterStr");
+
+    // parameter attributes
+    xml->writeAttribute("name", this->name());
+    if (this->isPublic()) xml->writeAttribute("isPublic", "true");
+    xml->writeAttribute("default", this->strDefaultValue());
+
+    xml->writeEndElement();
+    return xml->hasError();
+}
