@@ -76,7 +76,7 @@ void libblockdia::Parameter::parseBlockDef(QXmlStreamReader *xml, QObject *paren
 
             // default
            if (atrr.hasAttribute("default")) {
-                QString v = atrr.value("default").toString().trimmed().toLower();
+                QString v = atrr.value("default").toString().trimmed();
                 param->setDefaultValue(v);
            }
        }
