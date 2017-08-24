@@ -180,6 +180,11 @@ libblockdia::Block *libblockdia::Block::parseBlockDef(QIODevice *dev, libblockdi
     return block;
 }
 
+bool libblockdia::Block::exportBlockDef(QIODevice *dev)
+{
+    return false;
+}
+
 void libblockdia::Block::childEvent(QChildEvent *e)
 {
     Q_UNUSED(e)

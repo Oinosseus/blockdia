@@ -8,8 +8,7 @@
 #include <QMenu>
 #include <QFile>
 #include <QMessageBox>
-
-#include <blockbrowser.h>
+#include <QFileDialog>
 
 
 MainWindow::MainWindow(QWidget *parent)
@@ -25,6 +24,12 @@ MainWindow::MainWindow(QWidget *parent)
     actNewBlock->setShortcut(Qt::Key_N | Qt::CTRL);
     connect(actNewBlock, SIGNAL(triggered(bool)), this, SLOT(slotActionNewBlock()));
 
+    // action - save
+    QAction *actSave = new QAction("save block", this);
+    menuFile->addAction(actSave);
+    actSave->setShortcut(Qt::Key_S | Qt::CTRL);
+    connect(actSave, SIGNAL(triggered(bool)), this, SLOT(slotActionSave()));
+
     // action - quit
     QAction *actQuit = new QAction("quit", this);
     menuFile->addAction(actQuit);
@@ -36,14 +41,14 @@ MainWindow::MainWindow(QWidget *parent)
     this->setCentralWidget(this->widgetMain);
 
     // block browser
-    BlockBrowser *browser = new BlockBrowser(this);
-    connect(browser, SIGNAL(signalFileOpen(QString)), this, SLOT(slotFileOpen(QString)));
+    this->blockBrowser = new BlockBrowser(this);
+    connect(this->blockBrowser, SIGNAL(signalFileOpen(QString)), this, SLOT(slotFileOpen(QString)));
 
     // block browser dock
     QDockWidget *dock = new QDockWidget("", this);
     dock->setObjectName("BlockBrowser");
     dock->setAllowedAreas(Qt::LeftDockWidgetArea);
-    dock->setWidget(browser);
+    dock->setWidget(this->blockBrowser);
     dock->setFloating(false);
     dock->setFeatures(QDockWidget::NoDockWidgetFeatures);
     this->addDockWidget(Qt::LeftDockWidgetArea, dock);    
@@ -79,6 +84,9 @@ void MainWindow::slotFileOpen(QString filePath)
         return;
     }
 
+    // remember opened file
+    this->openFilePathHash[block] = filePath;
+
     // Ignore the first change signal for just created block
     // Because instantiating the block causes the signal.
     this->ignoreChangedBlocks.append(block);
@@ -109,6 +117,48 @@ void MainWindow::slotActionNewBlock()
 
     // catch changes inside the block
     connect(block, SIGNAL(signalSomethingChanged(libblockdia::Block*)), this, SLOT(slotBlockChanged(libblockdia::Block*)));
+}
+
+void MainWindow::slotActionSave()
+{
+    // get objects
+    QTabWidget *tw = (QTabWidget *) this->centralWidget();
+    int currentIndex = tw->currentIndex();
+    libblockdia::ViewBlockEditor *editor = static_cast<libblockdia::ViewBlockEditor*>(tw->currentWidget());
+    libblockdia::Block *block = editor->block();
+
+
+    QFile *f = Q_NULLPTR;
+
+    // file path is already known
+    if (this->openFilePathHash.contains(block)) {
+        f = new QFile(this->openFilePathHash[block]);
+    }
+
+    // open file dialog
+    else {
+        QString fileName = QFileDialog::getSaveFileName(this, "Save Block", this->blockBrowser->currentRootPath(), "XML (*.xml)");
+        this->openFilePathHash[block] = fileName;
+        f = new QFile(fileName);
+    }
+
+    // check if file is valid
+    if (!f || !f->open(QIODevice::WriteOnly | QIODevice::Text)) {
+        QMessageBox::critical(this, "Error", "Cannot open file for writing!");
+    }
+
+    // export block
+    block->exportBlockDef(f);
+
+    // close file
+    if (f) {
+        f->close();
+        f->deleteLater();
+        f = Q_NULLPTR;
+    }
+
+    // update tab text
+    tw->setTabText(currentIndex, block->typeId());
 }
 
 void MainWindow::slotActionQuit()

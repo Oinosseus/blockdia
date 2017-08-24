@@ -4,8 +4,10 @@
 #include <QMainWindow>
 #include <QTabWidget>
 #include <QList>
+#include <QHash>
 
 #include <libblockdia.h>
+#include <blockbrowser.h>
 
 class MainWindow : public QMainWindow
 {
@@ -17,11 +19,14 @@ public:
 
 private:
     QTabWidget *widgetMain;
-    QList<libblockdia::Block*> justCreatedBlocks;
+    BlockBrowser *blockBrowser;
+    QList<libblockdia::Block*> ignoreChangedBlocks;
+    QHash<libblockdia::Block*, QString> openFilePathHash;
 
 private slots:
     void slotFileOpen(QString filePath);
     void slotActionNewBlock();
+    void slotActionSave();
     void slotActionQuit();
     void slotBlockChanged(libblockdia::Block *block);
 };

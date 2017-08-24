@@ -165,6 +165,13 @@ public:
      */
     static Block *parseBlockDef(QIODevice *dev, Block *block = Q_NULLPTR);
 
+    /**
+     * @details Export a block definition into an xml structure
+     * @param dev The device to write the data to (eg. QFile)
+     * @return True on success.
+     */
+    bool exportBlockDef(QIODevice *dev);
+
 
 
 signals:
