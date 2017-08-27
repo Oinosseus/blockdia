@@ -6,23 +6,23 @@
     <Color>#aea</Color>
 
     <Parameters>
-        <ParameterInt name="Param Int 1" isPublic="0" default="50">
+        <Parameter type="int"  name="Param Int 1" isPublic="0" default="50">
             <Min>0</Min>
             <Max>100</Max>
-        </ParameterInt>
-        <ParameterInt name="Param Int 2" isPublic="No" default="15">
+        </Parameter>
+        <Parameter type="int" name="Param Int 2" isPublic="No" default="15">
             <Min>0</Min>
             <Max>15</Max>
-        </ParameterInt>
-        <ParameterStr name="Param String" isPublic="true" default="" />
-        <ParameterEnum name="Param Enum" default="C">
+        </Parameter>
+        <Parameter type="str" name="Param String" isPublic="true" default="" />
+        <Parameter type="enum" name="Param Enum" default="C">
             <EnumItems>
                 <Item name="A" />
                 <Item name="B" />
                 <Item name="C" />
                 <Item name="D" />
             </EnumItems>
-        </ParameterEnum>
+        </Parameter>
     </Parameters>
 
     <Inputs>
