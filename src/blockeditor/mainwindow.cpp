@@ -172,8 +172,6 @@ void MainWindow::slotActionSave()
 
 void MainWindow::slotActionSaveAs()
 {
-    THIS IS THE CURRENT WORKING LOCATION
-
     // get tab widget
     QTabWidget *tw = (QTabWidget *) this->centralWidget();
     if (tw->count() == 0) return;
@@ -186,7 +184,7 @@ void MainWindow::slotActionSaveAs()
     QFile *f = Q_NULLPTR;
 
     // open file dialog
-    QString fileName = QFileDialog::getSaveFileName(this, "Save Block", this->blockBrowser->currentRootPath(), "XML (*.xml)");
+    QString fileName = QFileDialog::getSaveFileName(this, "Save Block As", this->blockBrowser->currentRootPath(), "XML (*.xml)");
     this->openFilePathHash[block] = fileName;
     f = new QFile(fileName);
 
@@ -209,6 +207,9 @@ void MainWindow::slotActionSaveAs()
         f->deleteLater();
         f = Q_NULLPTR;
     }
+
+    // remember file path
+    this->openFilePathHash[block] = fileName;
 
     // update tab text
     tw->setTabText(currentIndex, block->typeId());
