@@ -31,6 +31,7 @@ private slots:
     void slotActionSaveAs();
     void slotActionQuit();
     void slotActionClose();
+    void slotActionViewZoomDefault();
     void slotBlockChanged(libblockdia::Block *block);
 };
 

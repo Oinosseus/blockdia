@@ -14,6 +14,11 @@
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
 {
+
+    // ========================================================================
+    //                                   File Menu
+    // ========================================================================
+
     // menu - file
     QMenu *menuFile = new QMenu("File", this);
     this->menuBar()->addMenu(menuFile);
@@ -47,6 +52,26 @@ MainWindow::MainWindow(QWidget *parent)
     menuFile->addAction(actQuit);
     actQuit->setShortcut(Qt::Key_Q | Qt::CTRL);
     connect(actQuit, SIGNAL(triggered(bool)), this, SLOT(slotActionQuit()));
+
+
+    // ========================================================================
+    //                                   View Menu
+    // ========================================================================
+
+    // menu - view
+    QMenu *menuView = new QMenu("View", this);
+    this->menuBar()->addMenu(menuView);
+
+    // action - zoom default
+    QAction *actViewZoomDefault = new QAction("zoom default", this);
+    menuView->addAction(actViewZoomDefault);
+    actViewZoomDefault->setShortcut(Qt::Key_0 | Qt::CTRL);
+    connect(actViewZoomDefault, SIGNAL(triggered(bool)), this, SLOT(slotActionViewZoomDefault()));
+
+
+    // ========================================================================
+    //                                   Sub Widgets
+    // ========================================================================
 
     // central widget
     this->widgetMain = new QTabWidget(this);
@@ -280,6 +305,19 @@ void MainWindow::slotActionClose()
     block->deleteLater();
     editor->deleteLater();
     tw->removeTab(currentIndex);
+}
+
+void MainWindow::slotActionViewZoomDefault()
+{
+    // get tab widget
+    QTabWidget *tw = (QTabWidget *) this->centralWidget();
+    if (tw->count() == 0) return;
+
+    // get objects
+    libblockdia::ViewBlockEditor *editor = static_cast<libblockdia::ViewBlockEditor*>(tw->currentWidget());
+
+    // reset transformation
+    editor->setTransform(QTransform());
 }
 
 void MainWindow::slotBlockChanged(libblockdia::Block *block)
