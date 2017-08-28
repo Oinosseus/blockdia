@@ -22,3 +22,23 @@ libblockdia::Block *libblockdia::ViewBlockEditor::block()
 {
     return this->_block;
 }
+
+void libblockdia::ViewBlockEditor::wheelEvent(QWheelEvent *e)
+{
+    // zoom if CTRL was pressed
+    if (e->modifiers() & Qt::ControlModifier) {
+
+        // zoom in
+        if (e->angleDelta().x() < 0) {
+            this->scale(1.1, 1.1);
+        }
+
+        // zoom out
+        else if (e->angleDelta().x() > 0){
+            this->scale(0.9, 0.9);
+        }
+
+    } else {
+        e->ignore();
+    }
+}
