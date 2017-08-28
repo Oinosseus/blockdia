@@ -22,6 +22,7 @@ private:
     BlockBrowser *blockBrowser;
     QList<libblockdia::Block*> ignoreChangedBlocks;
     QHash<libblockdia::Block*, QString> openFilePathHash;
+    QList<libblockdia::Block*> unsavedBlocks;
 
 private slots:
     void slotFileOpen(QString filePath);
@@ -29,6 +30,7 @@ private slots:
     void slotActionSave();
     void slotActionSaveAs();
     void slotActionQuit();
+    void slotActionClose();
     void slotBlockChanged(libblockdia::Block *block);
 };
 

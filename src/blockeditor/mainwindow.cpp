@@ -36,6 +36,12 @@ MainWindow::MainWindow(QWidget *parent)
     actSaveAs->setShortcut(Qt::Key_S | Qt::CTRL | Qt::SHIFT);
     connect(actSaveAs, SIGNAL(triggered(bool)), this, SLOT(slotActionSaveAs()));
 
+    // action - close
+    QAction *actClose = new QAction("close block", this);
+    menuFile->addAction(actClose);
+    actClose->setShortcut(Qt::Key_W | Qt::CTRL);
+    connect(actClose, SIGNAL(triggered(bool)), this, SLOT(slotActionClose()));
+
     // action - quit
     QAction *actQuit = new QAction("quit", this);
     menuFile->addAction(actQuit);
@@ -122,6 +128,7 @@ void MainWindow::slotActionNewBlock()
     tw->setCurrentIndex(index);
 
     // catch changes inside the block
+    this->unsavedBlocks.append(block);
     connect(block, SIGNAL(signalSomethingChanged(libblockdia::Block*)), this, SLOT(slotBlockChanged(libblockdia::Block*)));
 }
 
@@ -154,10 +161,14 @@ void MainWindow::slotActionSave()
     // check if file is valid
     if (!f || !f->open(QIODevice::WriteOnly | QIODevice::Text)) {
         QMessageBox::critical(this, "Error", "Cannot open file for writing!");
+        return;
     }
 
     // export block
     block->exportBlockDef(f);
+
+    // catch unsaved blocks
+    this->unsavedBlocks.removeAll(block);
 
     // close file
     if (f) {
@@ -196,10 +207,14 @@ void MainWindow::slotActionSaveAs()
     // check if file is valid
     if (!f || !f->open(QIODevice::WriteOnly | QIODevice::Text)) {
         QMessageBox::critical(this, "Error", "Cannot open file for writing!");
+        return;
     }
 
     // export block
     block->exportBlockDef(f);
+
+    // catch unsaved blocks
+    this->unsavedBlocks.removeAll(block);
 
     // close file
     if (f) {
@@ -220,6 +235,53 @@ void MainWindow::slotActionQuit()
     this->close();
 }
 
+void MainWindow::slotActionClose()
+{
+    // get tab widget
+    QTabWidget *tw = (QTabWidget *) this->centralWidget();
+    if (tw->count() == 0) return;
+
+    // get objects
+    int currentIndex = tw->currentIndex();
+    libblockdia::ViewBlockEditor *editor = static_cast<libblockdia::ViewBlockEditor*>(tw->currentWidget());
+    libblockdia::Block *block = editor->block();
+
+    // catch unsaved blocks
+    if (this->unsavedBlocks.contains(block)) {
+        QMessageBox::StandardButton reply = QMessageBox::question(this, "Unsaved Block", "Save data before closing the block?", QMessageBox::Save | QMessageBox::Discard | QMessageBox::Cancel);
+
+        // save before closing
+        if (reply == QMessageBox::Save) {
+
+            // call save as
+            this->slotActionSaveAs();
+
+            // abort operation if still unsaved
+            if (this->unsavedBlocks.contains(block)) return;
+        }
+
+        // close without saving
+        else if (reply == QMessageBox::Discard) {
+            // do nothing in this case
+        }
+
+        // abort close action
+        else {
+            return;
+        }
+
+    }
+
+    // forget current file and block
+    if (this->openFilePathHash.contains(block)) this->openFilePathHash.remove(block);
+    this->unsavedBlocks.removeAll(block);
+
+    // delete block
+    block->deleteLater();
+    editor->deleteLater();
+    tw->removeTab(currentIndex);
+}
+
 void MainWindow::slotBlockChanged(libblockdia::Block *block)
 {
     // check if the block was just created
@@ -230,12 +292,15 @@ void MainWindow::slotBlockChanged(libblockdia::Block *block)
         return;
     }
 
+    // catch unsaved changed
+    if (!this->unsavedBlocks.contains(block)) this->unsavedBlocks.append(block);
+
     // add astresik to tab name if it contains unsaved changes
     QTabWidget *tw = (QTabWidget *) this->centralWidget();
     for (int i=0; i < tw->count(); ++i) {
         libblockdia::ViewBlockEditor *editor = static_cast<libblockdia::ViewBlockEditor*>(tw->widget(i));
         if (editor->block() == block) {
-            tw->setTabText(i, block->typeId() + "*");
+            tw->setTabText(i, block->typeId() + " *");
         }
     }
 }
