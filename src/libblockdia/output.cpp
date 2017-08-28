@@ -31,7 +31,7 @@ void libblockdia::Output::parseBlockDef(QXmlStreamReader *xml, QObject *parent)
             new Output(name, parent);
        }
 
-        xml->skipCurrentElement();
+       xml->skipCurrentElement();
     }
 }
 

@@ -1,5 +1,6 @@
 #include "parameterint.h"
 #include <limits.h>
+#include <QDebug>
 
 libblockdia::ParameterInt::ParameterInt(const QString &name, QObject *parent) : Parameter(name, parent)
 {
@@ -119,11 +120,8 @@ QString libblockdia::ParameterInt::allowedValues()
     return QString::number(this->_minimum) + " .. " + QString::number(this->_maximum);
 }
 
-libblockdia::ParameterInt *libblockdia::ParameterInt::parseBlockDef(QXmlStreamReader *xml, QObject *parent)
+bool libblockdia::ParameterInt::importParamDef(QXmlStreamReader *xml)
 {
-    // ctreate parameter
-    ParameterInt *param = new ParameterInt(xml->attributes().value("name").toString(), parent);
-
     while (xml->readNextStartElement()) {
 
         // read min
@@ -131,7 +129,7 @@ libblockdia::ParameterInt *libblockdia::ParameterInt::parseBlockDef(QXmlStreamRe
             QString t = xml->readElementText(QXmlStreamReader::SkipChildElements);
             bool ok;
             int i = t.toInt(&ok);
-            if (ok) param->setMinimum(i);
+            if (ok) this->setMinimum(i);
         }
 
         // read max
@@ -139,31 +137,24 @@ libblockdia::ParameterInt *libblockdia::ParameterInt::parseBlockDef(QXmlStreamRe
             QString t = xml->readElementText(QXmlStreamReader::SkipChildElements);
             bool ok;
             int i = t.toInt(&ok);
-            if (ok) param->setMaximum(i);
+            if (ok) this->setMaximum(i);
         }
 
         else {
             xml->skipCurrentElement();
+            qWarning() << "ERROR Parsing XML: unknown element (at line" << xml->lineNumber() << ")";
         }
+
     }
 
-    return param;
+    return xml->hasError();
 }
 
-bool libblockdia::ParameterInt::exportBlockDef(QXmlStreamWriter *xml)
+bool libblockdia::ParameterInt::exportParamDef(QXmlStreamWriter *xml)
 {
-    xml->writeStartElement("ParameterInt");
-
-    // parameter attributes
-    xml->writeAttribute("name", this->name());
-    if (this->isPublic()) xml->writeAttribute("isPublic", "true");
-    xml->writeAttribute("default", this->strDefaultValue());
-
     // specific sub elements
     xml->writeTextElement("Min", QString::number(this->minimum()));
     xml->writeTextElement("Max", QString::number(this->maximum()));
-
-    xml->writeEndElement();
     return xml->hasError();
 }
 

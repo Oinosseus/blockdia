@@ -1,4 +1,5 @@
 #include "parameterenum.h"
+#include <QDebug>
 #include <limits.h>
 
 libblockdia::ParameterEnum::ParameterEnum(const QString &name, QObject *parent) : Parameter(name, parent)
@@ -73,13 +74,8 @@ bool libblockdia::ParameterEnum::setEnumItems(QStringList items)
     return true;
 }
 
-libblockdia::ParameterEnum *libblockdia::ParameterEnum::parseBlockDef(QXmlStreamReader *xml, QObject *parent)
+bool libblockdia::ParameterEnum::importParamDef(QXmlStreamReader *xml)
 {
-    Q_ASSERT(xml->isStartElement() && xml->name() == "ParameterEnum");
-
-    // ctreate parameter
-    ParameterEnum *param = new ParameterEnum(xml->attributes().value("name").toString(), parent);
-
     while (xml->readNextStartElement()) {
         if (xml->name() == "EnumItems") {
 
@@ -88,30 +84,25 @@ libblockdia::ParameterEnum *libblockdia::ParameterEnum::parseBlockDef(QXmlStream
 
                     // append new item
                     if (xml->name() == "Item") {
-                        param->addEnumItem(xml->attributes().value("name").toString());
+                        this->addEnumItem(xml->attributes().value("name").toString());
+                    } else {
+                        qWarning() << "ERROR Parsing XML: unknown element (at line" << xml->lineNumber() << ")";
                     }
 
                     xml->skipCurrentElement();
                 }
 
         } else {
+            qWarning() << "ERROR Parsing XML: unknown element (at line" << xml->lineNumber() << ")";
             xml->skipCurrentElement();
         }
     }
 
-    return param;
+    return xml->hasError();
 }
 
-bool libblockdia::ParameterEnum::exportBlockDef(QXmlStreamWriter *xml)
+bool libblockdia::ParameterEnum::exportParamDef(QXmlStreamWriter *xml)
 {
-    xml->writeStartElement("ParameterEnum");
-
-    // parameter attributes
-    xml->writeAttribute("name", this->name());
-    if (this->isPublic()) xml->writeAttribute("isPublic", "true");
-    xml->writeAttribute("default", this->strDefaultValue());
-
-    // specific sub elements
     xml->writeStartElement("EnumItems");
     for (int i=0; i < this->enumItems().size(); ++i) {
         xml->writeStartElement("Item");
@@ -119,8 +110,5 @@ bool libblockdia::ParameterEnum::exportBlockDef(QXmlStreamWriter *xml)
         xml->writeEndElement();
     }
     xml->writeEndElement();
-
-    xml->writeEndElement();
     return xml->hasError();
-
 }
