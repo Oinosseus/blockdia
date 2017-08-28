@@ -22,8 +22,6 @@ void libblockdia::GraphicItemParameter::updateData()
         txt = paramList.at(this->_parameterIndex)->name();
         txt += " = ";
         txt += paramList.at(this->_parameterIndex)->strValue();
-        if (paramList.at(this->_parameterIndex)->isPublic()) txt += " (public)";
-        else txt += " (private)";
     }
 
     // update text
