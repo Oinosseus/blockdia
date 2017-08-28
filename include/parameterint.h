@@ -115,7 +115,7 @@ public:
      * @param xml The current xml writer
      * @return True on success
      */
-    bool exportBlockDef(QXmlStreamWriter *xml);
+    bool exportParamDef(QXmlStreamWriter *xml);
 
 private:
     int _minimum;

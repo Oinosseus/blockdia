@@ -87,27 +87,38 @@ public:
     virtual QString allowedValues() = 0;
 
     /**
-     * @details Parsing a XML stram for parameter definition.
+     * @details Parsing a XML stram for parameters
+     * The XML stream is parsed from the current element for an parameter definition.
+     * In every case the XML parser is set to after the current element (parent or next child).
+     * @param xml The current xml parser
+     * @param parent The parent Block object
+     */
+    static void importBlockDef(QXmlStreamReader *xml, QObject *parent);
+
+    /**
+     * @details This function imports parameter specific data from an xml stream.
+     * It must be implemented by every subclass.
+     * This is automatically called during importBlockDef()
      * @param xml The current xml parser
      * @return True if parsing was successful
      */
     virtual bool importParamDef(QXmlStreamReader *xml) = 0;
 
     /**
-     * @details Parsing a XML stram for an parameter
-     * The XML stream is parsed from the current element for an parameter definition.
-     * In every case the XML parser is set to after the current element (parent or next child).
-     * @param xml The current xml parser
-     * @param parent The parent Block object
-     */
-    static void parseBlockDef(QXmlStreamReader *xml, QObject *parent);
-
-    /**
      * @details Exporting to an xml stream
      * @param xml The current xml writer
      * @return True on success
      */
-    virtual bool exportBlockDef(QXmlStreamWriter *xml) = 0;
+    bool exportBlockDef(QXmlStreamWriter *xml);
+
+    /**
+     * @details This function export parameter specific data into an xml file.
+     * It must be implemented by every subclass.
+     * This is automatically called during exportBlockDef()
+     * @param xml The current xml writer
+     * @return True on success
+     */
+    virtual bool exportParamDef(QXmlStreamWriter *xml) = 0;
 
 
 signals:

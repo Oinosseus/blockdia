@@ -275,7 +275,7 @@ void libblockdia::Block::parseBlockDefVersion1(QXmlStreamReader *xml, libblockdi
 
         // check for parameters
         else if (xml->name() == "Parameters") {
-            Parameter::parseBlockDef(xml, block);
+            Parameter::importBlockDef(xml, block);
         }
 
         // unknown tag

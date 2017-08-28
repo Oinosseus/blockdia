@@ -35,7 +35,7 @@ void libblockdia::Parameter::setPublic(bool isPublic)
     if (emitSignal) emit somethingHasChanged();
 }
 
-void libblockdia::Parameter::parseBlockDef(QXmlStreamReader *xml, QObject *parent)
+void libblockdia::Parameter::importBlockDef(QXmlStreamReader *xml, QObject *parent)
 {
     Q_ASSERT(xml->isStartElement() && xml->name() == "Parameters");
 
@@ -80,4 +80,32 @@ void libblockdia::Parameter::parseBlockDef(QXmlStreamReader *xml, QObject *paren
             }
         }
     }
+}
+
+bool libblockdia::Parameter::exportBlockDef(QXmlStreamWriter *xml)
+{
+    // begin parameter export
+    xml->writeStartElement("Parameter");
+
+    // type attribute
+    QString classname = this->metaObject()->className();
+    if (classname == "libblockdia::ParameterInt") {
+        xml->writeAttribute("type", "int");
+    } else if (classname == "libblockdia::ParameterStr") {
+        xml->writeAttribute("type", "str");
+    } else if (classname == "libblockdia::ParameterEnum") {
+        xml->writeAttribute("type", "enum");
+    }
+
+    // standard attributes
+    xml->writeAttribute("name", this->name());
+    if (this->isPublic()) xml->writeAttribute("isPublic", "yes");
+    xml->writeAttribute("default", this->strDefaultValue());
+
+    // export parameter specific data
+    this->exportParamDef(xml);
+
+    // finish the parameter export
+    xml->writeEndElement();
+    return xml->hasError();
 }
