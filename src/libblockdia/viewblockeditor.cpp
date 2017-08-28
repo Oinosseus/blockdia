@@ -29,13 +29,13 @@ void libblockdia::ViewBlockEditor::wheelEvent(QWheelEvent *e)
     if (e->modifiers() & Qt::ControlModifier) {
 
         // zoom in
-        if (e->angleDelta().x() < 0) {
-            this->scale(1.1, 1.1);
+        if (e->angleDelta().y() > 0) {
+            this->scale(1.07, 1.07);
         }
 
         // zoom out
-        else if (e->angleDelta().x() > 0){
-            this->scale(0.9, 0.9);
+        else if (e->angleDelta().y() < 0){
+            this->scale(0.93, 0.93);
         }
 
     } else {
