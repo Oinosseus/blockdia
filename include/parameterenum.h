@@ -71,14 +71,11 @@ public:
     bool setEnumItems(QStringList items);
 
     /**
-     * @details Parsing a XML stram for an parameter
-     * The XML stream is parsed from the current element for an parameter definition.
-     * In every case the XML parser is set to after the current element (parent or next child).
+     * @details Parsing a XML stram for parameter definition.
      * @param xml The current xml parser
-     * @param parent The parent Block object
-     * @return A new defined Output object or Q_NULLPTR
+     * @return True if parsing was successful
      */
-    static ParameterEnum *parseBlockDef(QXmlStreamReader *xml, QObject *parent);
+    bool importParamDef(QXmlStreamReader *xml);
 
     /**
      * @details Exporting to an xml stream

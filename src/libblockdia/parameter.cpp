@@ -41,44 +41,43 @@ void libblockdia::Parameter::parseBlockDef(QXmlStreamReader *xml, QObject *paren
 
     while (xml->readNextStartElement()) {
 
-        Parameter *param = Q_NULLPTR;
-        QXmlStreamAttributes atrr = xml->attributes();
+        QXmlStreamAttributes attr = xml->attributes();
 
-       // create integer parameter
-       if (xml->name() == "ParameterInt") {
-           param = ParameterInt::parseBlockDef(xml, parent);
-       }
+        if (attr.hasAttribute("type")) {
 
-       // create string parameter
-       else if (xml->name() == "ParameterStr") {
-           param = ParameterStr::parseBlockDef(xml, parent);
-       }
+            Parameter *param = Q_NULLPTR;
+            QString type = attr.value("type").toString().trimmed();
+            QString name = (attr.hasAttribute("name")) ? attr.value("name").toString() : "";
 
-       // create enum parameter
-       else if (xml->name() == "ParameterEnum") {
-           param = ParameterEnum::parseBlockDef(xml, parent);
-       }
+            // create parameter
+            if (type == "int") {
+                param = new ParameterInt(name, parent);
+                param->importParamDef(xml);
+            } else if (type == "enum") {
+                param = new ParameterEnum(name, parent);
+                param->importParamDef(xml);
+            } else if (type == "str") {
+                param = new ParameterStr(name, parent);
+                param->importParamDef(xml);
+            } else {
+                qWarning() << "ERROR Parsing XML: unknown parameter type (at line" << xml->lineNumber() << ")";
+                xml->skipCurrentElement();
+            }
 
-       // unknown type
-       else {
-           xml->skipCurrentElement();
-       }
+            // set values for parameter
+            if (param) {
+                // public
+                if (attr.hasAttribute("isPublic")) {
+                     QString v = attr.value("isPublic").toString().trimmed().toLower();
+                     param->setPublic(v == "yes" || v == "true" || v == "1");
+                }
 
-
-       // set attribute
-       if (param) {
-
-           // public
-           if (atrr.hasAttribute("isPublic")) {
-                QString v = atrr.value("isPublic").toString().trimmed().toLower();
-                param->setPublic(v == "yes" || v == "true" || v == "1");
-           }
-
-            // default
-           if (atrr.hasAttribute("default")) {
-                QString v = atrr.value("default").toString().trimmed();
-                param->setDefaultValue(v);
-           }
-       }
+                 // default
+                if (attr.hasAttribute("default")) {
+                     QString v = attr.value("default").toString().trimmed();
+                     param->setDefaultValue(v);
+                }
+            }
+        }
     }
 }

@@ -87,6 +87,13 @@ public:
     virtual QString allowedValues() = 0;
 
     /**
+     * @details Parsing a XML stram for parameter definition.
+     * @param xml The current xml parser
+     * @return True if parsing was successful
+     */
+    virtual bool importParamDef(QXmlStreamReader *xml) = 0;
+
+    /**
      * @details Parsing a XML stram for an parameter
      * The XML stream is parsed from the current element for an parameter definition.
      * In every case the XML parser is set to after the current element (parent or next child).
