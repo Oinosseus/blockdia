@@ -1,5 +1,20 @@
 # blockdia
-Qt widget for I/O block diagrams
+
+A library for abstract visualization of data processing.
+
+All steps of the dataprocessing are shown as separate blocks.
+These blocks can be connected together through Inputs and Outputs.
+Every block can have public and private parameters assigned.
+
+The library does not include any functions behind the blocks.
+It only provides classes (based on the Qt framework) for easy visulazitation.  
+Blocks can be created, edited and exported as "block definition" (XML).
+Diagrams (flow charts) can be created, edited and exported as "process definition" (XML).
+
+The idea is that external data processing systems provide functionality
+that can be abstracted as block definitions
+and can be configured by importing the process definition.
+
 
 # Build Prerequisites
 
