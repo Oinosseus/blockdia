@@ -236,7 +236,8 @@ void MainWindow::slotActionSaveAs()
     QFile *f = Q_NULLPTR;
 
     // open file dialog
-    QString fileName = QFileDialog::getSaveFileName(this, "Save Block As", this->blockBrowser->currentRootPath(), "XML (*.xml)");
+    QString defaultPath = (this->openFilePathHash.contains(block)) ? this->openFilePathHash[block] : this->blockBrowser->currentRootPath();
+    QString fileName = QFileDialog::getSaveFileName(this, "Save Block As", defaultPath, "XML (*.xml)");
     this->openFilePathHash[block] = fileName;
     f = new QFile(fileName);
 
