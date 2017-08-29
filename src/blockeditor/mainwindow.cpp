@@ -106,6 +106,23 @@ MainWindow::~MainWindow()
 
 void MainWindow::slotFileOpen(QString filePath)
 {
+    QTabWidget *tw = (QTabWidget *) this->centralWidget();
+
+    // check if file is already open
+    // in this case set it as current tab and abort opening
+    QList<libblockdia::Block*> openBlocks = this->openFilePathHash.keys();
+    for (int ib=0; ib < openBlocks.size(); ++ib) {
+        if (this->openFilePathHash[openBlocks.at(ib)] == filePath) {
+            for (int iv = 0; iv < tw->count(); ++iv) {
+                if (static_cast<libblockdia::ViewBlockEditor*>(tw->widget(iv))->block() == openBlocks.at(ib)) {
+                    tw->setCurrentIndex(iv);
+                    break;
+                }
+            }
+            return;
+        }
+    }
+
     // open file
     QFile f(filePath);
     if (!f.open(QIODevice::ReadOnly | QIODevice::Text)) {
@@ -129,7 +146,6 @@ void MainWindow::slotFileOpen(QString filePath)
     this->ignoreChangedBlocks.append(block);
 
     // open new tab for block
-    QTabWidget *tw = (QTabWidget *) this->centralWidget();
     int index = tw->addTab(new libblockdia::ViewBlockEditor(block), block->typeId());
     tw->setCurrentIndex(index);
 
