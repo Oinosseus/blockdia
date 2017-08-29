@@ -238,13 +238,7 @@ void MainWindow::slotActionSaveAs()
     // open file dialog
     QString defaultPath = (this->openFilePathHash.contains(block)) ? this->openFilePathHash[block] : this->blockBrowser->currentRootPath();
     QString fileName = QFileDialog::getSaveFileName(this, "Save Block As", defaultPath, "XML (*.xml)");
-    this->openFilePathHash[block] = fileName;
     f = new QFile(fileName);
-
-    // file path is already known
-    if (this->openFilePathHash.contains(block)) {
-        f = new QFile(this->openFilePathHash[block]);
-    }
 
     // check if file is valid
     if (!f || !f->open(QIODevice::WriteOnly | QIODevice::Text)) {
@@ -255,7 +249,8 @@ void MainWindow::slotActionSaveAs()
     // export block
     block->exportBlockDef(f);
 
-    // catch unsaved blocks
+    // remember state
+    this->openFilePathHash[block] = fileName;
     this->unsavedBlocks.removeAll(block);
 
     // close file
