@@ -414,13 +414,13 @@ void libblockdia::GraphicItemBlock::contextMenuEvent(QGraphicsSceneContextMenuEv
     // edit parameter
     else if (action == actionParameterEdit) {
         QString paramType = param->metaObject()->className();
-        if (paramType == "libblockdia::ParameterInt") {
+        if (paramType == "libblockdia::BlockParameterInt") {
             DialogEditParameterInt dialog((BlockParameterInt *) param);
             dialog.exec();
-        } else if (paramType == "libblockdia::ParameterStr") {
+        } else if (paramType == "libblockdia::BlockParameterStr") {
             DialogEditParameterStr dialog((BlockParameterStr *) param);
             dialog.exec();
-        } else if (paramType == "libblockdia::ParameterEnum") {
+        } else if (paramType == "libblockdia::BlockParameterEnum") {
             DialogEditParameterEnum dialog((BlockParameterEnum *) param);
             dialog.exec();
         }
