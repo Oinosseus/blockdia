@@ -53,12 +53,6 @@ SOURCES +=  \
             graphicitemblock.cpp \
             viewblock.cpp \
             viewblockeditor.cpp \
-            parameter.cpp \
-            parameterenum.cpp \
-            parameterint.cpp \
-            parameterstr.cpp \
-            input.cpp \
-            output.cpp \
             graphicitemblockheader.cpp \
             graphicitemtextbox.cpp \
             graphicitemparameter.cpp \
@@ -69,7 +63,13 @@ SOURCES +=  \
             dialogeditoutput.cpp \
             dialogeditparameterint.cpp \
             dialogeditparameterstr.cpp \
-            dialogeditparameterenum.cpp
+            dialogeditparameterenum.cpp \
+    blockinput.cpp \
+    blockoutput.cpp \
+    blockparameter.cpp \
+    blockparameterenum.cpp \
+    blockparameterint.cpp \
+    blockparameterstr.cpp
 
 HEADERS +=  ../../include/libglobals.h \
             ../../include/libblockdia.h \
@@ -77,12 +77,6 @@ HEADERS +=  ../../include/libglobals.h \
             ../../include/graphicitemblock.h \
             ../../include/viewblock.h \
             ../../include/viewblockeditor.h \
-            ../../include/parameter.h \
-            ../../include/parameterenum.h \
-            ../../include/parameterint.h \
-            ../../include/parameterstr.h \
-            ../../include/input.h \
-            ../../include/output.h \
             ../../include/graphicitemblockheader.h \
             ../../include/graphicitemtextbox.h \            
             ../../include/graphicitemparameter.h \
@@ -93,7 +87,13 @@ HEADERS +=  ../../include/libglobals.h \
             ../../include/dialogeditoutput.h \
             ../../include/dialogeditparameterint.h \
             ../../include/dialogeditparameterenum.h \
-            ../../include/dialogeditparameterstr.h
+            ../../include/dialogeditparameterstr.h \
+    ../../include/blockinput.h \
+    ../../include/blockoutput.h \
+    ../../include/blockparameter.h \
+    ../../include/blockparameterenum.h \
+    ../../include/blockparameterint.h \
+    ../../include/blockparameterstr.h
 
 unix {
     target.path = /usr/lib

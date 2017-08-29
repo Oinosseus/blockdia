@@ -5,7 +5,7 @@
 #include <QLineEdit>
 #include <QCheckBox>
 
-#include <parameterstr.h>
+#include <blockparameterstr.h>
 
 namespace libblockdia {
 
@@ -13,14 +13,14 @@ class DialogEditParameterStr : public QDialog
 {
     Q_OBJECT
 public:
-    explicit DialogEditParameterStr(ParameterStr *param, QWidget *parent = nullptr);
+    explicit DialogEditParameterStr(BlockParameterStr *param, QWidget *parent = nullptr);
 
 signals:
 
 public slots:
 
 private:
-    ParameterStr *param;
+    BlockParameterStr *param;
     QLineEdit lineEditName;
     QCheckBox checkPublic;
     QLineEdit lineEditDefault;

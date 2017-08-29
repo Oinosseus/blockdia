@@ -1,19 +1,19 @@
-#include "parameterenum.h"
+#include "blockparameterenum.h"
 #include <QDebug>
 #include <limits.h>
 
-libblockdia::ParameterEnum::ParameterEnum(const QString &name, QObject *parent) : Parameter(name, parent)
+libblockdia::BlockParameterEnum::BlockParameterEnum(const QString &name, QObject *parent) : BlockParameter(name, parent)
 {
     this->_value = "";
     this->_defaultValue = this->_value;
 }
 
-QString libblockdia::ParameterEnum::strDefaultValue()
+QString libblockdia::BlockParameterEnum::strDefaultValue()
 {
     return this->_defaultValue;
 }
 
-bool libblockdia::ParameterEnum::setDefaultValue(QString value)
+bool libblockdia::BlockParameterEnum::setDefaultValue(QString value)
 {
     if (this->_enumItems.contains(value)) {
         this->_defaultValue = value;
@@ -23,7 +23,7 @@ bool libblockdia::ParameterEnum::setDefaultValue(QString value)
     }
 }
 
-bool libblockdia::ParameterEnum::setValue(QString value)
+bool libblockdia::BlockParameterEnum::setValue(QString value)
 {
     if (this->_enumItems.contains(value)) {
         this->_value= value;
@@ -33,12 +33,12 @@ bool libblockdia::ParameterEnum::setValue(QString value)
     }
 }
 
-QString libblockdia::ParameterEnum::strValue()
+QString libblockdia::BlockParameterEnum::strValue()
 {
     return this->_value;
 }
 
-QString libblockdia::ParameterEnum::allowedValues()
+QString libblockdia::BlockParameterEnum::allowedValues()
 {
     QString values = "";
     for (int i=0; i < this->_enumItems.size(); ++i) {
@@ -49,7 +49,7 @@ QString libblockdia::ParameterEnum::allowedValues()
     return values;
 }
 
-bool libblockdia::ParameterEnum::addEnumItem(const QString &item)
+bool libblockdia::BlockParameterEnum::addEnumItem(const QString &item)
 {
     if (this->_enumItems.contains(item)) {
         return false;
@@ -59,12 +59,12 @@ bool libblockdia::ParameterEnum::addEnumItem(const QString &item)
     }
 }
 
-QStringList libblockdia::ParameterEnum::enumItems()
+QStringList libblockdia::BlockParameterEnum::enumItems()
 {
     return this->_enumItems;
 }
 
-bool libblockdia::ParameterEnum::setEnumItems(QStringList items)
+bool libblockdia::BlockParameterEnum::setEnumItems(QStringList items)
 {
     this->_enumItems = items;
     if (!this->_enumItems.contains(this->_defaultValue)) {
@@ -74,7 +74,7 @@ bool libblockdia::ParameterEnum::setEnumItems(QStringList items)
     return true;
 }
 
-bool libblockdia::ParameterEnum::importParamDef(QXmlStreamReader *xml)
+bool libblockdia::BlockParameterEnum::importParamDef(QXmlStreamReader *xml)
 {
     while (xml->readNextStartElement()) {
         if (xml->name() == "EnumItems") {
@@ -101,7 +101,7 @@ bool libblockdia::ParameterEnum::importParamDef(QXmlStreamReader *xml)
     return xml->hasError();
 }
 
-bool libblockdia::ParameterEnum::exportParamDef(QXmlStreamWriter *xml)
+bool libblockdia::BlockParameterEnum::exportParamDef(QXmlStreamWriter *xml)
 {
     xml->writeStartElement("EnumItems");
     for (int i=0; i < this->enumItems().size(); ++i) {

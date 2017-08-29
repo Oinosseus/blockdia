@@ -1,15 +1,16 @@
-#ifndef BDPARAMETERSTR_H
-#define BDPARAMETERSTR_H
+#ifndef BDPARAMETERENUM_H
+#define BDPARAMETERENUM_H
 
 #include "libglobals.h"
-#include <parameter.h>
+#include <blockparameter.h>
 
 namespace libblockdia {
 
 /**
- * @brief A string parameter.
+ * @brief An integer parameter.
+ * Integer parameters have an minimum and maximum allowed value.
  */
-class LIBBLOCKDIASHARED_EXPORT ParameterStr : public Parameter
+class LIBBLOCKDIASHARED_EXPORT BlockParameterEnum : public BlockParameter
 {
     Q_OBJECT
 
@@ -20,7 +21,7 @@ public:
      * @param parent The block this parameter belogns to.
      * @param name The name for the parameter
      */
-    ParameterStr(const QString &name, QObject *parent = 0);
+    BlockParameterEnum(const QString &name, QObject *parent = 0);
 
     /**
      * @return The default value as string representation
@@ -52,6 +53,24 @@ public:
     QString allowedValues();
 
     /**
+     * @details Only added items can be set as default or as value.
+     * @param item Adding an item.
+     * @return True if the item did not already exist
+     */
+    bool addEnumItem(const QString &item);
+
+    /**
+     * @return The list odf allowed values.
+     */
+    QStringList enumItems();
+
+    /**
+     * @param items Setting a new list of allowed items
+     * @return True if the list could be set
+     */
+    bool setEnumItems(QStringList items);
+
+    /**
      * @details Parsing a XML stram for parameter definition.
      * @param xml The current xml parser
      * @return True if parsing was successful
@@ -69,9 +88,10 @@ public:
 private:
     QString _value;
     QString _defaultValue;
+    QStringList _enumItems;
 
 };
 
 } // namespace bd
 
-#endif // BDPARAMETERSTR_H
+#endif // BDPARAMETERENUM_H

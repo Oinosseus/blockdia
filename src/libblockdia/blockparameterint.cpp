@@ -1,8 +1,8 @@
-#include "parameterint.h"
+#include "blockparameterint.h"
 #include <limits.h>
 #include <QDebug>
 
-libblockdia::ParameterInt::ParameterInt(const QString &name, QObject *parent) : Parameter(name, parent)
+libblockdia::BlockParameterInt::BlockParameterInt(const QString &name, QObject *parent) : BlockParameter(name, parent)
 {
     this->_minimum = INT_MIN;
     this->_maximum = INT_MAX;
@@ -10,12 +10,12 @@ libblockdia::ParameterInt::ParameterInt(const QString &name, QObject *parent) : 
     this->_defaultValue = this->_value;
 }
 
-int libblockdia::ParameterInt::minimum()
+int libblockdia::BlockParameterInt::minimum()
 {
     return this->_minimum;
 }
 
-void libblockdia::ParameterInt::setMinimum(int min)
+void libblockdia::BlockParameterInt::setMinimum(int min)
 {
     if (this->_minimum != min) {
         this->_minimum = min;
@@ -24,27 +24,27 @@ void libblockdia::ParameterInt::setMinimum(int min)
     }
 }
 
-int libblockdia::ParameterInt::maximum()
+int libblockdia::BlockParameterInt::maximum()
 {
     return this->_maximum;
 }
 
-int libblockdia::ParameterInt::value()
+int libblockdia::BlockParameterInt::value()
 {
     return this->_value;
 }
 
-QString libblockdia::ParameterInt::strDefaultValue()
+QString libblockdia::BlockParameterInt::strDefaultValue()
 {
     return QString::number(this->_defaultValue);
 }
 
-int libblockdia::ParameterInt::defaultValue()
+int libblockdia::BlockParameterInt::defaultValue()
 {
     return this->_defaultValue;
 }
 
-bool libblockdia::ParameterInt::setDefaultValue(QString value)
+bool libblockdia::BlockParameterInt::setDefaultValue(QString value)
 {
     bool ok;
     int ivalue = value.toInt(&ok);
@@ -52,7 +52,7 @@ bool libblockdia::ParameterInt::setDefaultValue(QString value)
     return ok;
 }
 
-bool libblockdia::ParameterInt::setDefaultValue(int value)
+bool libblockdia::BlockParameterInt::setDefaultValue(int value)
 {
     bool ret = true;
 
@@ -77,7 +77,7 @@ bool libblockdia::ParameterInt::setDefaultValue(int value)
     return ret;
 }
 
-bool libblockdia::ParameterInt::setValue(int value)
+bool libblockdia::BlockParameterInt::setValue(int value)
 {
     bool ret = true;
 
@@ -102,7 +102,7 @@ bool libblockdia::ParameterInt::setValue(int value)
     return ret;
 }
 
-bool libblockdia::ParameterInt::setValue(QString value)
+bool libblockdia::BlockParameterInt::setValue(QString value)
 {
     bool ret = true;
     int intval = value.toInt(&ret);
@@ -110,17 +110,17 @@ bool libblockdia::ParameterInt::setValue(QString value)
     return ret;
 }
 
-QString libblockdia::ParameterInt::strValue()
+QString libblockdia::BlockParameterInt::strValue()
 {
     return QString::number(this->_value);
 }
 
-QString libblockdia::ParameterInt::allowedValues()
+QString libblockdia::BlockParameterInt::allowedValues()
 {
     return QString::number(this->_minimum) + " .. " + QString::number(this->_maximum);
 }
 
-bool libblockdia::ParameterInt::importParamDef(QXmlStreamReader *xml)
+bool libblockdia::BlockParameterInt::importParamDef(QXmlStreamReader *xml)
 {
     while (xml->readNextStartElement()) {
 
@@ -150,7 +150,7 @@ bool libblockdia::ParameterInt::importParamDef(QXmlStreamReader *xml)
     return xml->hasError();
 }
 
-bool libblockdia::ParameterInt::exportParamDef(QXmlStreamWriter *xml)
+bool libblockdia::BlockParameterInt::exportParamDef(QXmlStreamWriter *xml)
 {
     // specific sub elements
     xml->writeTextElement("Min", QString::number(this->minimum()));
@@ -158,7 +158,7 @@ bool libblockdia::ParameterInt::exportParamDef(QXmlStreamWriter *xml)
     return xml->hasError();
 }
 
-void libblockdia::ParameterInt::setMaximum(int max)
+void libblockdia::BlockParameterInt::setMaximum(int max)
 {
     if (this->_maximum != max) {
         this->_maximum = max;

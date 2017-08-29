@@ -2,7 +2,7 @@
 #define BDPARAMETERINT_H
 
 #include "libglobals.h"
-#include <parameter.h>
+#include <blockparameter.h>
 
 namespace libblockdia {
 
@@ -10,7 +10,7 @@ namespace libblockdia {
  * @brief An integer parameter.
  * Integer parameters have an minimum and maximum allowed value.
  */
-class LIBBLOCKDIASHARED_EXPORT ParameterInt : public Parameter
+class LIBBLOCKDIASHARED_EXPORT BlockParameterInt : public BlockParameter
 {
     Q_OBJECT
 
@@ -21,7 +21,7 @@ public:
      * @param parent The block this parameter belogns to.
      * @param name The name for the parameter
      */
-    ParameterInt(const QString &name, QObject *parent = 0);
+    BlockParameterInt(const QString &name, QObject *parent = 0);
 
     /**
      * @details The minimum allowed parameter value

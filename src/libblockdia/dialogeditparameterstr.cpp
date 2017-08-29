@@ -6,7 +6,7 @@
 #include <QLabel>
 #include <QDialogButtonBox>
 
-libblockdia::DialogEditParameterStr::DialogEditParameterStr(ParameterStr *param, QWidget *parent) : QDialog(parent)
+libblockdia::DialogEditParameterStr::DialogEditParameterStr(BlockParameterStr *param, QWidget *parent) : QDialog(parent)
 {
     // setup configuration
     this->setWindowTitle("Edit String - " + param->name());

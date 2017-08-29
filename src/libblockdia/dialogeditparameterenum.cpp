@@ -7,7 +7,7 @@
 #include <QDialogButtonBox>
 #include <QStringList>
 
-libblockdia::DialogEditParameterEnum::DialogEditParameterEnum(ParameterEnum *param, QWidget *parent) : QDialog(parent)
+libblockdia::DialogEditParameterEnum::DialogEditParameterEnum(BlockParameterEnum *param, QWidget *parent) : QDialog(parent)
 {
     // setup configuration
     this->setWindowTitle("Edit Enum - " + param->name());

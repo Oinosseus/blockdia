@@ -6,9 +6,9 @@
 #include <QDebug>
 #include <QAction>
 
-#include <parameterint.h>
-#include <input.h>
-#include <output.h>
+#include <blockparameterint.h>
+#include <blockinput.h>
+#include <blockoutput.h>
 #include <dialogeditheader.h>
 #include <dialogeditinput.h>
 #include <dialogeditoutput.h>
@@ -69,9 +69,9 @@ void libblockdia::GraphicItemBlock::updateData()
     qreal heightMaximum = 0;
 
     // get block information
-    QList<Input *> blockInputList = this->block->getInputs();
-    QList<Output *> blockOutputsList = this->block->getOutputs();
-    QList<Parameter *> blockParameters = this->block->getParameters();
+    QList<BlockInput *> blockInputList = this->block->getInputs();
+    QList<BlockOutput *> blockOutputsList = this->block->getOutputs();
+    QList<BlockParameter *> blockParameters = this->block->getParameters();
     int countPublicParams = 0;
     int countPrivateParams = 0;
     for (int i=0; i < blockParameters.size(); ++i) {
@@ -252,9 +252,9 @@ void libblockdia::GraphicItemBlock::hoverLeaveEvent(QGraphicsSceneHoverEvent *e)
 
 void libblockdia::GraphicItemBlock::contextMenuEvent(QGraphicsSceneContextMenuEvent *e)
 {
-    Parameter *param = Q_NULLPTR;
-    Input *input = Q_NULLPTR;
-    Output *output = Q_NULLPTR;
+    BlockParameter *param = Q_NULLPTR;
+    BlockInput *input = Q_NULLPTR;
+    BlockOutput *output = Q_NULLPTR;
 
 
     // ------------------------------------------------------------------------
@@ -268,7 +268,7 @@ void libblockdia::GraphicItemBlock::contextMenuEvent(QGraphicsSceneContextMenuEv
             if (item->isMouseHovered()) {
                 int idx = item->parameterIndex();
                 if (idx >= 0) {
-                    QList<Parameter *> listParams = this->block->getParameters();
+                    QList<BlockParameter *> listParams = this->block->getParameters();
                     if (idx < listParams.size()) {
                         param = listParams.at(idx);
                         break;
@@ -283,7 +283,7 @@ void libblockdia::GraphicItemBlock::contextMenuEvent(QGraphicsSceneContextMenuEv
             if (item->isMouseHovered()) {
                 int idx = item->parameterIndex();
                 if (idx >= 0) {
-                    QList<Parameter *> listParams = this->block->getParameters();
+                    QList<BlockParameter *> listParams = this->block->getParameters();
                     if (idx < listParams.size()) {
                         param = listParams.at(idx);
                         break;
@@ -300,7 +300,7 @@ void libblockdia::GraphicItemBlock::contextMenuEvent(QGraphicsSceneContextMenuEv
             if (p.first->isMouseHovered()) {
                 int idx = p.first->inputIndex();
                 if (idx >= 0) {
-                    QList<Input *> l = this->block->getInputs();
+                    QList<BlockInput *> l = this->block->getInputs();
                     if (idx < l.size()) {
                         input = l.at(idx);
                         break;
@@ -309,7 +309,7 @@ void libblockdia::GraphicItemBlock::contextMenuEvent(QGraphicsSceneContextMenuEv
             } else if (p.second->isMouseHovered()) {
                 int idx = p.second->outputIndex();
                 if (idx >= 0) {
-                    QList<Output *> l = this->block->getOutputs();
+                    QList<BlockOutput *> l = this->block->getOutputs();
                     if (idx < l.size()) {
                         output = l.at(idx);
                         break;
@@ -398,30 +398,30 @@ void libblockdia::GraphicItemBlock::contextMenuEvent(QGraphicsSceneContextMenuEv
 
     // add pramter int
     else if (action == actionParameterAddInt) {
-        new ParameterInt("new parameter", this->block);
+        new BlockParameterInt("new parameter", this->block);
     }
 
     // add pramter str
     else if (action == actionParameterAddStr) {
-        new ParameterStr("new parameter", this->block);
+        new BlockParameterStr("new parameter", this->block);
     }
 
     // add pramter enum
     else if (action == actionParameterAddEnum) {
-        new ParameterEnum("new parameter", this->block);
+        new BlockParameterEnum("new parameter", this->block);
     }
 
     // edit parameter
     else if (action == actionParameterEdit) {
         QString paramType = param->metaObject()->className();
         if (paramType == "libblockdia::ParameterInt") {
-            DialogEditParameterInt dialog((ParameterInt *) param);
+            DialogEditParameterInt dialog((BlockParameterInt *) param);
             dialog.exec();
         } else if (paramType == "libblockdia::ParameterStr") {
-            DialogEditParameterStr dialog((ParameterStr *) param);
+            DialogEditParameterStr dialog((BlockParameterStr *) param);
             dialog.exec();
         } else if (paramType == "libblockdia::ParameterEnum") {
-            DialogEditParameterEnum dialog((ParameterEnum *) param);
+            DialogEditParameterEnum dialog((BlockParameterEnum *) param);
             dialog.exec();
         }
     }
@@ -443,7 +443,7 @@ void libblockdia::GraphicItemBlock::contextMenuEvent(QGraphicsSceneContextMenuEv
 
     // add input
     else if (action == actionInputAdd) {
-        new Input("new input", this->block);
+        new BlockInput("new input", this->block);
     }
 
     // edit input
@@ -459,7 +459,7 @@ void libblockdia::GraphicItemBlock::contextMenuEvent(QGraphicsSceneContextMenuEv
 
     // add output
     else if (action == actionOutputAdd) {
-        new Output("new output", this->block);
+        new BlockOutput("new output", this->block);
     }
 
     // edit output

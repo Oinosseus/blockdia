@@ -1,41 +1,41 @@
-#include "parameter.h"
+#include "blockparameter.h"
 
 #include <QDebug>
-#include "parameterint.h"
-#include "parameterstr.h"
-#include "parameterenum.h"
+#include "blockparameterint.h"
+#include "blockparameterstr.h"
+#include "blockparameterenum.h"
 
-libblockdia::Parameter::Parameter(const QString &name, QObject *parent) : QObject(parent)
+libblockdia::BlockParameter::BlockParameter(const QString &name, QObject *parent) : QObject(parent)
 {
     this->_name = name;
     this->_isPublic = false;
 }
 
-QString libblockdia::Parameter::name()
+QString libblockdia::BlockParameter::name()
 {
     return this->_name;
 }
 
-void libblockdia::Parameter::setName(QString name)
+void libblockdia::BlockParameter::setName(QString name)
 {
     bool emitSignal = this->_name != name;
     this->_name = name;
     if (emitSignal) emit somethingHasChanged();
 }
 
-bool libblockdia::Parameter::isPublic()
+bool libblockdia::BlockParameter::isPublic()
 {
     return this->_isPublic;
 }
 
-void libblockdia::Parameter::setPublic(bool isPublic)
+void libblockdia::BlockParameter::setPublic(bool isPublic)
 {
     bool emitSignal = this->_isPublic != isPublic;
     this->_isPublic = isPublic;
     if (emitSignal) emit somethingHasChanged();
 }
 
-void libblockdia::Parameter::importBlockDef(QXmlStreamReader *xml, QObject *parent)
+void libblockdia::BlockParameter::importBlockDef(QXmlStreamReader *xml, QObject *parent)
 {
     Q_ASSERT(xml->isStartElement() && xml->name() == "Parameters");
 
@@ -45,19 +45,19 @@ void libblockdia::Parameter::importBlockDef(QXmlStreamReader *xml, QObject *pare
 
         if (attr.hasAttribute("type")) {
 
-            Parameter *param = Q_NULLPTR;
+            BlockParameter *param = Q_NULLPTR;
             QString type = attr.value("type").toString().trimmed();
             QString name = (attr.hasAttribute("name")) ? attr.value("name").toString() : "";
 
             // create parameter
             if (type == "int") {
-                param = new ParameterInt(name, parent);
+                param = new BlockParameterInt(name, parent);
                 param->importParamDef(xml);
             } else if (type == "enum") {
-                param = new ParameterEnum(name, parent);
+                param = new BlockParameterEnum(name, parent);
                 param->importParamDef(xml);
             } else if (type == "str") {
-                param = new ParameterStr(name, parent);
+                param = new BlockParameterStr(name, parent);
                 param->importParamDef(xml);
             } else {
                 qWarning() << "ERROR Parsing XML: unknown parameter type (at line" << xml->lineNumber() << ")";
@@ -82,18 +82,18 @@ void libblockdia::Parameter::importBlockDef(QXmlStreamReader *xml, QObject *pare
     }
 }
 
-bool libblockdia::Parameter::exportBlockDef(QXmlStreamWriter *xml)
+bool libblockdia::BlockParameter::exportBlockDef(QXmlStreamWriter *xml)
 {
     // begin parameter export
     xml->writeStartElement("Parameter");
 
     // type attribute
     QString classname = this->metaObject()->className();
-    if (classname == "libblockdia::ParameterInt") {
+    if (classname == "libblockdia::BlockParameterInt") {
         xml->writeAttribute("type", "int");
-    } else if (classname == "libblockdia::ParameterStr") {
+    } else if (classname == "libblockdia::BlockParameterStr") {
         xml->writeAttribute("type", "str");
-    } else if (classname == "libblockdia::ParameterEnum") {
+    } else if (classname == "libblockdia::BlockParameterEnum") {
         xml->writeAttribute("type", "enum");
     }
 

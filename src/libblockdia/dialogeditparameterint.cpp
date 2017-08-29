@@ -6,7 +6,7 @@
 #include <QLabel>
 #include <QDialogButtonBox>
 
-libblockdia::DialogEditParameterInt::DialogEditParameterInt(ParameterInt *param, QWidget *parent) : QDialog(parent)
+libblockdia::DialogEditParameterInt::DialogEditParameterInt(BlockParameterInt *param, QWidget *parent) : QDialog(parent)
 {
     // setup configuration
     this->setWindowTitle("Edit Integer - " + param->name());

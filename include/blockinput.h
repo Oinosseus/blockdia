@@ -14,7 +14,7 @@ namespace  libblockdia {
  * Input objects represent inputs for Blocks.
  * Input objects can be connected to exactely one output.
  */
-class LIBBLOCKDIASHARED_EXPORT Input : public QObject
+class LIBBLOCKDIASHARED_EXPORT BlockInput : public QObject
 {
     Q_OBJECT
 public:
@@ -23,7 +23,7 @@ public:
      * @details Constructing an Input
      * @param name The name for the input
      */
-    explicit Input(const QString &name, QObject *parent = 0);
+    explicit BlockInput(const QString &name, QObject *parent = 0);
 
     /**
      * @details The name of the input

@@ -4,7 +4,7 @@
 #include <QDialog>
 #include <QLineEdit>
 
-#include <output.h>
+#include <blockoutput.h>
 
 namespace libblockdia {
 
@@ -12,14 +12,14 @@ class DialogEditOutput : public QDialog
 {
     Q_OBJECT
 public:
-    explicit DialogEditOutput(Output *output, QWidget *parent = nullptr);
+    explicit DialogEditOutput(BlockOutput *output, QWidget *parent = nullptr);
 
 signals:
 
 public slots:
 
 private:
-    Output *output;
+    BlockOutput *output;
     QLineEdit lineEditName;
 
 private slots:

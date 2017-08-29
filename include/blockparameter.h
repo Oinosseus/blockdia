@@ -15,7 +15,7 @@ class Block;
 /**
  * @brief Common base class (interface) for paramerters.
  */
-class LIBBLOCKDIASHARED_EXPORT Parameter : public QObject
+class LIBBLOCKDIASHARED_EXPORT BlockParameter : public QObject
 {
     Q_OBJECT
 
@@ -26,7 +26,7 @@ public:
      * @param name The name for the parameter
      * @param parent The parent Block for the parameter (the parameter is automatically attached to the Block)
      */
-    explicit Parameter(const QString &name, QObject *parent = 0);
+    explicit BlockParameter(const QString &name, QObject *parent = 0);
 
     /**
      * @details The name of the parameter

@@ -1,17 +1,17 @@
-#include "input.h"
+#include "blockinput.h"
 #include <QDebug>
 
-libblockdia::Input::Input(const QString &name, QObject *parent) : QObject(parent)
+libblockdia::BlockInput::BlockInput(const QString &name, QObject *parent) : QObject(parent)
 {
     this->_name = name;
 }
 
-QString libblockdia::Input::name()
+QString libblockdia::BlockInput::name()
 {
     return this->_name;
 }
 
-void libblockdia::Input::setName(QString name)
+void libblockdia::BlockInput::setName(QString name)
 {
     if (this->_name != name) {
         this->_name = name;
@@ -19,7 +19,7 @@ void libblockdia::Input::setName(QString name)
     }
 }
 
-void libblockdia::Input::parseBlockDef(QXmlStreamReader *xml, QObject *parent)
+void libblockdia::BlockInput::parseBlockDef(QXmlStreamReader *xml, QObject *parent)
 {
     Q_ASSERT(xml->isStartElement() && xml->name() == "Inputs");
 
@@ -29,14 +29,14 @@ void libblockdia::Input::parseBlockDef(QXmlStreamReader *xml, QObject *parent)
             QString name = "";
             QXmlStreamAttributes attr = xml->attributes();
             if (attr.hasAttribute("name")) name = attr.value("name").toString().trimmed();
-            new Input(name, parent);
+            new BlockInput(name, parent);
         }
 
         xml->skipCurrentElement();
     }
 }
 
-bool libblockdia::Input::exportBlockDef(QXmlStreamWriter *xml)
+bool libblockdia::BlockInput::exportBlockDef(QXmlStreamWriter *xml)
 {
     xml->writeStartElement("Input");
     xml->writeAttribute("name", this->name());

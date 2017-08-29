@@ -15,7 +15,7 @@ libblockdia::GraphicItemParameter::GraphicItemParameter(Block *block, int parame
 void libblockdia::GraphicItemParameter::updateData()
 {
     QString txt;
-    QList<Parameter *> paramList = this->block->getParameters();
+    QList<BlockParameter *> paramList = this->block->getParameters();
 
     // get parameter data
     if (this->_parameterIndex >= 0 && this->_parameterIndex <= paramList.size()) {

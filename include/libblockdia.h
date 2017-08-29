@@ -23,12 +23,12 @@ namespace libblockdia {
 
 
 // block data classes
-#include <input.h>
-#include <output.h>
-#include <parameter.h>
-#include <parameterint.h>
-#include <parameterstr.h>
-#include <parameterenum.h>
+#include <blockinput.h>
+#include <blockoutput.h>
+#include <blockparameter.h>
+#include <blockparameterint.h>
+#include <blockparameterstr.h>
+#include <blockparameterenum.h>
 #include <block.h>
 
 // block graphic classes

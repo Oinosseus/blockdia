@@ -12,7 +12,7 @@ libblockdia::GraphicItemInput::GraphicItemInput(Block *block, int inputIndex, QG
 void libblockdia::GraphicItemInput::updateData()
 {
     QString txt;
-    QList<Input *> inputsList = this->block->getInputs();
+    QList<BlockInput *> inputsList = this->block->getInputs();
 
     // get input data
     if (this->_inputIndex >= 0 && this->_inputIndex < inputsList.size()) {

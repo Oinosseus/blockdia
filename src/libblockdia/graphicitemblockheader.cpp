@@ -7,9 +7,9 @@
 #include <QAction>
 #include <QMenu>
 
-#include <parameterint.h>
-#include <input.h>
-#include <output.h>
+#include <blockparameterint.h>
+#include <blockinput.h>
+#include <blockoutput.h>
 
 libblockdia::GraphicItemBlockHeader::GraphicItemBlockHeader(Block *block, QGraphicsItem *parent) : GraphicItemTextBox(parent)
 {

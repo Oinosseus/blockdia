@@ -5,7 +5,7 @@
 #include <QLineEdit>
 #include <QCheckBox>
 
-#include <parameterint.h>
+#include <blockparameterint.h>
 
 namespace libblockdia {
 
@@ -13,14 +13,14 @@ class DialogEditParameterInt : public QDialog
 {
     Q_OBJECT
 public:
-    explicit DialogEditParameterInt(ParameterInt *param, QWidget *parent = nullptr);
+    explicit DialogEditParameterInt(BlockParameterInt *param, QWidget *parent = nullptr);
 
 signals:
 
 public slots:
 
 private:
-    ParameterInt *param;
+    BlockParameterInt *param;
     QLineEdit lineEditName;
     QCheckBox checkPublic;
     QLineEdit lineEditMin;

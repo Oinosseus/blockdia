@@ -83,14 +83,14 @@ void libblockdia::Block::setColor(QColor color)
     this->_Color = color;
 }
 
-QList<libblockdia::Parameter *> libblockdia::Block::getParameters()
+QList<libblockdia::BlockParameter *> libblockdia::Block::getParameters()
 {
     return this->parametersList;
 }
 
-libblockdia::Parameter *libblockdia::Block::getParameter(const QString name)
+libblockdia::BlockParameter *libblockdia::Block::getParameter(const QString name)
 {
-    Parameter *ret = Q_NULLPTR;
+    BlockParameter *ret = Q_NULLPTR;
 
     // find parameter by name
     for (int i = 0; i < this->parametersList.size(); ++i) {
@@ -103,14 +103,14 @@ libblockdia::Parameter *libblockdia::Block::getParameter(const QString name)
     return ret;
 }
 
-QList<libblockdia::Input *> libblockdia::Block::getInputs()
+QList<libblockdia::BlockInput *> libblockdia::Block::getInputs()
 {
     return this->inputsList;
 }
 
-libblockdia::Input *libblockdia::Block::getInput(const QString name)
+libblockdia::BlockInput *libblockdia::Block::getInput(const QString name)
 {
-    Input *ret = Q_NULLPTR;
+    BlockInput *ret = Q_NULLPTR;
 
     // find input by name
     for (int i = 0; i < this->inputsList.size(); ++i) {
@@ -123,14 +123,14 @@ libblockdia::Input *libblockdia::Block::getInput(const QString name)
     return ret;
 }
 
-QList<libblockdia::Output *> libblockdia::Block::getOutputs()
+QList<libblockdia::BlockOutput *> libblockdia::Block::getOutputs()
 {
     return this->outputsList;
 }
 
-libblockdia::Output *libblockdia::Block::getOutput(const QString name)
+libblockdia::BlockOutput *libblockdia::Block::getOutput(const QString name)
 {
-    Output *ret = NULL;
+    BlockOutput *ret = NULL;
 
     // find input by name
     for (int i = 0; i < this->outputsList.size(); ++i) {
@@ -265,17 +265,17 @@ void libblockdia::Block::parseBlockDefVersion1(QXmlStreamReader *xml, libblockdi
 
         // check for inputs
         else if (xml->name() == "Inputs") {
-            Input::parseBlockDef(xml, block);
+            BlockInput::parseBlockDef(xml, block);
         }
 
         // check for outputs
         else if (xml->name() == "Outputs") {
-            Output::parseBlockDef(xml, block);
+            BlockOutput::parseBlockDef(xml, block);
         }
 
         // check for parameters
         else if (xml->name() == "Parameters") {
-            Parameter::importBlockDef(xml, block);
+            BlockParameter::importBlockDef(xml, block);
         }
 
         // unknown tag
@@ -306,8 +306,8 @@ void libblockdia::Block::slotUpdateChildObjects()
         QString childSuperClass = listChildren.at(i)->metaObject()->superClass()->className();
 
         // check for new parameters
-        if (childSuperClass == "libblockdia::Parameter") {
-            Parameter *child = (Parameter *) listChildren.at(i);
+        if (childSuperClass == "libblockdia::BlockParameter") {
+            BlockParameter *child = (BlockParameter *) listChildren.at(i);
             if (this->parametersList.count(child) == 0) {
                 this->parametersList.append(child);
                 connect(child, SIGNAL(somethingHasChanged()), this, SLOT(slotUpdateGraphicItem()));
@@ -316,8 +316,8 @@ void libblockdia::Block::slotUpdateChildObjects()
         }
 
         // check for new inputs
-        else if (childClass == "libblockdia::Input") {
-            Input *child = (Input *) listChildren.at(i);
+        else if (childClass == "libblockdia::BlockInput") {
+            BlockInput *child = (BlockInput *) listChildren.at(i);
             if (this->inputsList.count(child) == 0) {
                 this->inputsList.append(child);
                 connect(child, SIGNAL(somethingHasChanged()), this, SLOT(slotUpdateGraphicItem()));
@@ -326,8 +326,8 @@ void libblockdia::Block::slotUpdateChildObjects()
         }
 
         // check for new outputs
-        else if (childClass == "libblockdia::Output") {
-            Output *child = (Output *) listChildren.at(i);
+        else if (childClass == "libblockdia::BlockOutput") {
+            BlockOutput *child = (BlockOutput *) listChildren.at(i);
             if (this->outputsList.count(child) == 0) {
                 this->outputsList.append(child);
                 connect(child, SIGNAL(somethingHasChanged()), this, SLOT(slotUpdateGraphicItem()));

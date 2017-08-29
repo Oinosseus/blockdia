@@ -5,7 +5,7 @@
 #include <QLabel>
 #include <QDialogButtonBox>
 
-libblockdia::DialogEditOutput::DialogEditOutput(Output *output, QWidget *parent) : QDialog(parent)
+libblockdia::DialogEditOutput::DialogEditOutput(BlockOutput *output, QWidget *parent) : QDialog(parent)
 {
     // setup configuration
     this->output = output;

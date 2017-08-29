@@ -13,7 +13,7 @@ namespace  libblockdia {
  * Output objects represent inputs for Blocks.
  * Output objects can be connected to multiple inputs.
  */
-class LIBBLOCKDIASHARED_EXPORT Output : public QObject
+class LIBBLOCKDIASHARED_EXPORT BlockOutput : public QObject
 {
     Q_OBJECT
 public:
@@ -24,7 +24,7 @@ public:
      * @param name The name for the output
      * @param parent The parent block, this output belongs to.
      */
-    explicit Output(const QString &name, QObject *parent = 0);
+    explicit BlockOutput(const QString &name, QObject *parent = 0);
 
     /**
      * @details The name of the output

@@ -11,7 +11,7 @@ libblockdia::GraphicItemOutput::GraphicItemOutput(Block *block, int outputIndex,
 void libblockdia::GraphicItemOutput::updateData()
 {
     QString txt;
-    QList<Output *> outputsList = this->block->getOutputs();
+    QList<BlockOutput *> outputsList = this->block->getOutputs();
 
     // get output data
     if (this->_outputIndex >= 0 && this->_outputIndex < outputsList.size()) {

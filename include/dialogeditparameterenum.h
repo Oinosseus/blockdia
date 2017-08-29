@@ -6,7 +6,7 @@
 #include <QCheckBox>
 #include <QPlainTextEdit>
 
-#include <parameterenum.h>
+#include <blockparameterenum.h>
 
 namespace libblockdia {
 
@@ -14,14 +14,14 @@ class DialogEditParameterEnum : public QDialog
 {
     Q_OBJECT
 public:
-    explicit DialogEditParameterEnum(ParameterEnum *param, QWidget *parent = nullptr);
+    explicit DialogEditParameterEnum(BlockParameterEnum *param, QWidget *parent = nullptr);
 
 signals:
 
 public slots:
 
 private:
-    ParameterEnum *param;
+    BlockParameterEnum *param;
     QLineEdit lineEditName;
     QCheckBox checkPublic;
     QLineEdit lineEditDefault;

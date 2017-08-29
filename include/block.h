@@ -12,18 +12,18 @@
 #include <QTimer>
 #include <QIODevice>
 
-#include <parameter.h>
-#include <input.h>
-#include <output.h>
+#include <blockparameter.h>
+#include <blockinput.h>
+#include <blockoutput.h>
 #include <graphicitemblock.h>
 
 namespace libblockdia {
 
 // forward declarations
 class GraphicItemBlock;
-class Parameter;
-class Input;
-class Output;
+class BlockParameter;
+class BlockInput;
+class BlockOutput;
 
 /**
  * @brief Data storage class for a block representation.
@@ -110,38 +110,38 @@ public:
     /**
      * @return A list of all parameters
      */
-    QList<Parameter *> getParameters();
+    QList<BlockParameter *> getParameters();
 
     /**
      * @details Get a certain parameter
      * @param name The name of the parameter.
      * @return Returns a pointer to the parameter or NULL if no the parameter could be found.
      */
-    Parameter *getParameter(const QString name);
+    BlockParameter *getParameter(const QString name);
 
     /**
      * @return A list of all inputs
      */
-    QList<Input *> getInputs();
+    QList<BlockInput *> getInputs();
 
     /**
      * @details Get a certain input
      * @param name The name of the input.
      * @return Returns a pointer to the input or NULL if the input could not be found.
      */
-    Input *getInput(const QString name);
+    BlockInput *getInput(const QString name);
 
     /**
      * @return A list of all outputs
      */
-    QList<Output *> getOutputs();
+    QList<BlockOutput *> getOutputs();
 
     /**
      * @details Get a certain output
      * @param name The name of the output.
      * @return Returns a pointer to the output or NULL if the output could not be found.
      */
-    Output *getOutput(const QString name);
+    BlockOutput *getOutput(const QString name);
 
     /**
      * @return The corresponding QGraphicsItem object
@@ -193,9 +193,9 @@ private:
     QString _InstanceId;
     QString _InstanceName;
     QColor  _Color;
-    QList<Parameter *> parametersList;
-    QList<Input *> inputsList;
-    QList<Output *> outputsList;
+    QList<BlockParameter *> parametersList;
+    QList<BlockInput *> inputsList;
+    QList<BlockOutput *> outputsList;
     GraphicItemBlock *giBlock;
 
 private slots:
