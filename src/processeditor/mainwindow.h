@@ -2,6 +2,8 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QString>
+#include "processbrowser.h"
 
 class MainWindow : public QMainWindow
 {
@@ -12,8 +14,11 @@ public:
 
 private:
     QTabWidget *widgetMain;
+    ProcessBrowser *processBrowser;
 
 private slots:
+    void slotFileOpen(QString filePath);
+    void slotActionQuit();
 };
 
 #endif // MAINWINDOW_H
