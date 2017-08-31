@@ -25,8 +25,6 @@ public slots:
 private:
     void wheelEvent(QWheelEvent *e);
     Block *_block;
-    QGraphicsItem *giTest;
-    int testCounter;
 };
 
 } // namespace bd
