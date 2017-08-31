@@ -31,10 +31,12 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES +=  main.cpp \
             mainwindow.cpp \
-    processbrowser.cpp
+    processbrowser.cpp \
+    blocklibbrowser.cpp
 
 HEADERS +=  mainwindow.h \
-    processbrowser.h
+    processbrowser.h \
+    blocklibbrowser.h
 
 
 # include library
